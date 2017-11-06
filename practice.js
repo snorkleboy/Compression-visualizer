@@ -20,45 +20,39 @@ function Movable(position, velocity=[0,0], charge=1,mass=20, size=10){
         let dpx=(this.position[0]-obj.position[0]);
         let dpy=(this.position[1]-obj.position[1]);
         let dist=Math.sqrt(dpx*dpx+dpy*dpy)
-        // console.log (dpx+ "    "  +dpy);
-        if (dpx===0){
-            dp=1
+        if (dist<1){
+            dist=1; 
         }
-        if (dpy===0){
-            dpy=1
+        forceT=(100) * (dc)/ (dist*dist);
+        if (forceT>50) {
+            forceT=50;
         }
-        forceT=(10000) * (dc)/ (dist*dist);
-        // if (forceT>100) {
-        //     forceT=100;
-        // }
-        // if (forceT<-100) {
-        //     forceT=-100;
-        // }
+        if (forceT<-50) {
+            forceT=-50;
+        }
         
-        force[0]=forceT*Math.sin(dpx/dist)
-        //  if (dpx>0){ force[0] *= -1}
-        force[1]=forceT*Math.sin(dpy/dist);
-        // console.log("position:  " + this.position)
-        // console.log("total force:   "+forceT)
-        // console.log("force vectors:    "+force)
-        
-        //  if (dpy<0){ force[1] *= -1}
+        force[0]+=forceT*Math.sin(dpx/dist)
+        force[1]+=forceT*Math.sin(dpy/dist);
+
     
             // secretsauceforce
-            //  if (Math.abs(dpx) < this.size && Math.abs(dpy)< this.size){
+            //  if (dist<5){
 
-            //      this.velocity[0]*=-.5;
-            //      this.velocity[1]*=-.5;
+            //     force[0]-=10*forceT*Math.sin(dpx/dist)/dist;
+            //     force[1]-=10*forceT*Math.sin(dpy/dist)/dist;
+                
             //  }
         //  console.log(this.position + "   " + force)
         return (force);
         
     }
     Movable.prototype.applyForce= function(force){
+        speed=Math.sqrt(this.velocity[0]*this.velocity[0]+this.velocity[1]*this.velocity[1])
+        speedFac= speed;
         this.velocity[0]+=force[0]/this.mass;
         this.velocity[1]+=force[1]/this.mass;
-        
-    
+        this.velocity[0]*=.99;
+        this.velocity[1]*=.99;
     }
     Movable.prototype.move= function(delta){
         this.position[0] += this.velocity[0]*delta;
@@ -95,21 +89,14 @@ function Movable(position, velocity=[0,0], charge=1,mass=20, size=10){
     }
 document.addEventListener("DOMContentLoaded", function(){
 
-
-
     function init() {  
         this.step=1;
         this.time = new Date();
         this.objArr=[]
-         for(let i=0;i<5;i++){
-             this.objArr.push( new Movable( [Math.random()*100,Math.random()*100] , [0,0] ,-1));
+         for(let i=0;i<3;i++){
              this.objArr.push( new Movable( [Math.random()*100,Math.random()*100] , [0,0] ,1));
-             
+             this.objArr.push( new Movable( [Math.random()*100,Math.random()*100] , [0,0] ,-1));
          }
-        // this.objArr.push( new Movable( [Math.random()*100,Math.random()*100] , [0,0] ,-1));
-        // this.objArr.push( new Movable( [Math.random()*100,Math.random()*100] , [0,0] ,1));
-
-        // console.log(objArr[0].charge)
         this.canvas = document.getElementById('mycanvas');
         this.canvas.width=500;
         this.canvas.height=500;
@@ -121,26 +108,17 @@ document.addEventListener("DOMContentLoaded", function(){
         let deltat = this.time;
         this.time= new Date();
 
-        deltat=35/(this.time.getTime()-deltat.getTime());
-        // console.log(deltat);
-        
-        
+        deltat=500/(this.time.getTime()-deltat.getTime());
+         console.log(deltat);
+
       ctx.globalCompositeOperation = 'destination-over';
-    
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
-      ctx.strokeStyle = 'rgba(0, 153, 255, 0.4)';
+
       ctx.clearRect(0, 0, 500, 500);
       ctx.save();
       
-    //   console.log("obj0 pos:  " + objArr[0].position);
-    //   console.log("obj0 vel:  " + objArr[0].velocity);
-    //   console.log("obj1 pos:  " + objArr[1].position);
-    //   console.log("obj1 vel:  " + objArr[1].velocity);
-      
-
          objArr.forEach(function (el, i){
              el.drawMe(ctx);             
-             nobjarr=objArr.slice(0,i).concat(objArr.slice(i+1,objArr.length))
+             let nobjarr=objArr.slice(0,i).concat(objArr.slice(i+1,objArr.length))
              el.updateFromList(nobjarr,deltat);             
          })
 
