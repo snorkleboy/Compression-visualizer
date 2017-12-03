@@ -11,30 +11,36 @@ class ImageReader{
         ctx.drawImage(img,0,0);
         this.imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-        // resultCtx.putImageData(this.imageData, 0, 0);
+        resultCtx.putImageData(this.imageData, 0, 0);
 
         this.menuColor = document.getElementById('menu-color');
 
         canvas.addEventListener('mousemove', handleMouseMove(ctx,this.menuColor).bind(this));
 
-        console.log("here");
-        this.iterateThroughColors(this.imageData, resultCtx,(10));
+        const niaveButton = document.getElementById('niave');
+        niaveButton.addEventListener('click', (e)=>{
+            const inY = parseInt(document.getElementById('niaveInputX').value);
+            const inX = parseInt(document.getElementById('niaveInputY').value);
+            console.log("x,y", inY, inX, { x: inX || 1, y: inY || 1 });
+            this.iterateThroughColors(this.imageData, resultCtx, { x: inX || 1, y: inY || 1 });
+        });
+        
     }
 
     iterateThroughColors(imagedata, ctx, blockSize) {
         console.log("there", imagedata, ctx);
         const data = imagedata.data;
-        for (let y = 0; y < imagedata.height; y = y + (blockSize)){
-            for (let x = 0; x < imagedata.width * 4; x = x + (blockSize)){
+        for (let y = 0; y < imagedata.height; y = y + (blockSize.y)){
+            for (let x = 0; x < imagedata.width * 4; x = x + (blockSize.x)){
                 const i = ((y*imagedata.width) + x)*4;
-                console.log('x,y,i,data', { x: x, y: y },i, data[x + imagedata.width * 4 * y]);
+                // console.log('x,y,i,data', { x: x, y: y },i, data[x + imagedata.width * 4 * y]);
 
 
                 ctx.fillStyle = 'rgba(' + data[i] + ', ' + data[i+1] +
                  ', ' + data[i+2] + ', ' + (data[i+3]) + ')';
 
                 
-                ctx.fillRect(x, y, blockSize, blockSize);
+                ctx.fillRect(x, y, blockSize.x, blockSize.y);
 
                 // ctx.fillStyle = 'black';
                 // ctx.fillRect(x,y,(200),(1));
