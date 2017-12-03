@@ -6,3 +6,13 @@
 .container{
     display: flex;
 }
+
+.niaveOptions{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.niaveOptions input{
+    display: flex;
+}

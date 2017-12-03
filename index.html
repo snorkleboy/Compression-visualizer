@@ -9,12 +9,14 @@
     <div class='container'>
       <div class="canvas-container">
         <canvas id="originalCanvass" width="600" height="600" ></canvas>
-
-          <input id='niaveInputX' type="text">x</input>
-          <input id='niaveInputY' type="text">y</input>
-          <input id='niaveInputExpand' type="text">expandType(1-4), is defauly</input>
-          <input id='niaveInputExpandam' type="text">how much to expand by, default is 1</input>
-          <button id='niave'> niave compression</button>
+          <br></br>
+          <label class='niaveOptions'> compression
+           <label>blocksize x (default is 10)<input id='niaveInputX' type="text"></input></label>
+            <label>blocksize y(defualt is 10)<input id='niaveInputY' type="text"></input></label>
+            <label>expandType(1-4), is default<input id='niaveInputExpand' type="text"></input></label>
+            <label>how much to expand by, default is 1<input id='niaveInputExpandval' type="text"></input></label>
+            <button id='niave'> niave compression</button>
+          </label>
 
         
         <canvas id="result" width="600" height="600" ></canvas>

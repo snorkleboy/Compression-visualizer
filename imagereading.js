@@ -24,18 +24,19 @@ class ImageReader{
             const inY = parseInt(document.getElementById('niaveInputX').value);
             const inX = parseInt(document.getElementById('niaveInputY').value);
             let expand = parseInt(document.getElementById('niaveInputExpand').value);
+            const exval = parseFloat(document.getElementById('niaveInputExpandval').value);
 
-            console.log("x,y,e", inY, inX, { x: inX || 1, y: inY || 1 }, expand);
+            console.log("x,y,e", inY, inX, { x: inX || 10, y: inY || 10 }, expand);
             if (expand>4 || expand<1){
                 expand = 1;
             }
            
-            this.NiaveCompress(this.imageData, resultCtx, { x: inX || 1, y: inY || 1 }, expand||1, dirtyExpand || 1);
+            this.NiaveCompress(this.imageData, resultCtx, { x: inX || 10, y: inY || 10 }, expand || 1, exval || 1);
         });
         
     }
 
-    NiaveCompress(imagedata, ctx, blockSize,expand) {
+    NiaveCompress(imagedata, ctx, blockSize,expand, exval) {
         ctx.clearRect(0, 0, imagedata.width, imagedata.height);
         console.log("there", imagedata, ctx);
         const data = imagedata.data;
@@ -51,9 +52,9 @@ class ImageReader{
                 if (expand===1){
                     // console.log('expand1', expand)
                     ctx.fillRect(x, y, blockSize.x, blockSize.y);
-                    ctx.fillStyle = 'black';
-                    ctx.fillRect(x, y, blockSize.x, 1);
-                    ctx.fillRect(x, y, 1, blockSize.y);
+                    // ctx.fillStyle = 'black';
+                    // ctx.fillRect(x, y, blockSize.x, 1);
+                    // ctx.fillRect(x, y, 1, blockSize.y);
                 
                 //doesnt expand, fillrect of 1x1 (single pixel) of color as defined above into an image blocksize smaller.
                 //ie if you have a blocksize of 2 the result will be an image half the size
@@ -64,13 +65,14 @@ class ImageReader{
                  //doesnt expand, but uses the same x, y coordinate of original image
                 // this basically shows which pixel is being selected for each block
                 }else if (expand===3){
-                    ctx.fillRect(x, y, 2, 2);
-                //expands by making a circle of radius=the averge of blocksize.x and blocksize.y, fills with color defined above
+                    ctx.fillRect(x, y, exval, exval);
+                //expands by making a circle of radius=the averge of blocksize.x and blocksize.y, fills with color defined above.
+                //the optional expandValue attribute changes how much less than the average the circle is filled by, so larget value means saller circle
                 }else if (expand===4){
                     // console.log('expand3', expand)
                     
                     ctx.beginPath();
-                    ctx.arc(x, y, (blockSize.x+blockSize.y)/4, 0, 2 * Math.PI, false);
+                    ctx.arc(x, y, (blockSize.x + blockSize.y) / (2 * exval), 0, 2 * Math.PI, false);
                     ctx.fill();
                 }
 
