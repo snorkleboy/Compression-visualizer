@@ -16,24 +16,34 @@
           <input name='imageUrl' id='imageUrlInput' type="text" value='https://i.imgur.com/drGvplW.jpg' />
           <input id='imageUrlSubmit' type="submit" value='submit' />
         </label>
-        <div class='colors'>
-          <div id="menu-color" style="width:200px;height:50px;float:left"></div>
-          <div id='colorpick' style="width:200px;height:50px;float:left"></div>
-        </div>
-        <div class='canvas-holder'>
-          <canvas id="originalCanvass" width="600" height="600" ></canvas>
-          <canvas id="result" width="600" height="600"></canvas>
-        </div>
+        <div class='options'>
+          <div class='colors'>
+            <div id="menu-color" style="width:200px;height:50px;float:left"></div>
+            <div id='colorpick' style="width:200px;height:50px;float:left"></div>
+          </div>
           <br></br>
-          <label class='niaveOptions'> compression
-           <label>blocksize x (default is 10)<input id='niaveInputX' type="text"></input></label>
+          <label class='options'> Block Commpress
+            <label>blocksize x (default is 10)<input id='niaveInputX' type="text"></input></label>
             <label>blocksize y(defualt is 10)<input id='niaveInputY' type="text"></input></label>
             <label>expandType(1-4),1 is default<input id='niaveInputExpand' type="text"></input></label>
             <label>how much to expand by, default is 1<input id='niaveInputExpandval' type="text"></input></label>
             <button id='niave'> niave compression</button>
           </label>
+          <label class='options'> Quad Tree Simple
+            <label>blockSize (default is 25)<input id='quadTreeBlockSize' type="text"></input> </label>
+            <label>Circles or Squares (default is square)<input id='quadTreeCircle' type="text"></input> </label>
+            <button id='quadtree'> quadtree compression</button>
+          </label>
           <br></br>
-              
+        </div>
+
+        <div class='canvas-holder'>
+          <canvas id="result" width="1200" height="1200"></canvas>
+          <canvas id="originalCanvass" width="1200" height="1200" ></canvas>
+          
+        </div>
+
+                      
       </div>
 
         <div id="download" style="width:200px;height:50px;float:left"></div>
