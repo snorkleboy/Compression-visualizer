@@ -23,8 +23,7 @@ class ImageReader{
         // resultCtx.drawImage(originalCanvass, 0, 0);
 
         ///
-        //get pixel data from original image and put into this.imageData
-        this.imageData = ctx.getImageData(0, 0, originalCanvass.width, originalCanvass.height);
+        
 
         ///
         //setup color picker
@@ -33,20 +32,24 @@ class ImageReader{
 
         ///
         //setup niaveCommression button and handler
-        //on click gets value of inputs, validates them, and calls niave compress of this.imageData, resultCtx, and input
+        //on click gets imageData, value of inputs, validates input, and the calls niave compress of this.imageData, resultCtx, and input
         const niaveButton = document.getElementById('niave');
         niaveButton.addEventListener('click', (e) => {
+            //
+            //get pixel data from original image and put into this.imageData
+            this.imageData = ctx.getImageData(0, 0, originalCanvass.width, originalCanvass.height);
+
             ///
             //get inputs
 
-            let inY = parseInt(document.getElementById('niaveInputX').value);
-            let inX = parseInt(document.getElementById('niaveInputY').value);
+            let inX = parseInt(document.getElementById('niaveInputX').value);
+            let inY = parseInt(document.getElementById('niaveInputY').value);
             let expand = parseInt(document.getElementById('niaveInputExpand').value);
             let exval = parseFloat(document.getElementById('niaveInputExpandval').value);
             
             //
             //validations
-            console.log("x,y,e", inY, inX, { x: inX || 10, y: inY || 10 }, expand);
+            // console.log("x,y,e", inY, inX, { x: inX || 10, y: inY || 10 }, expand);
             if (expand>4 || expand<1){
                 expand = 1;
             }
@@ -62,8 +65,18 @@ class ImageReader{
 
     NiaveCompress(imagedata, ctx, blockSize,expand, exval) {
         ctx.clearRect(0, 0, imagedata.width, imagedata.height);
-        console.log("there", imagedata, ctx);
+        // console.log("niavecompress", imagedata, ctx);
+
+        //set/reset canvas width and height by blocksize. 
         const data = imagedata.data;
+        if (expand === 2){
+            ctx.canvas.width = imagedata.width / blockSize.x;
+            ctx.canvas.height = imagedata.height / blockSize.y;
+        }else{
+            ctx.canvas.width = imagedata.width;
+            ctx.canvas.height = imagedata.height;
+        }
+
         for (let y = 0; y < imagedata.height; y = y + (blockSize.y)){
             for (let x = 0; x < imagedata.width * 4; x = x + (blockSize.x)){
                 const i = ((y*imagedata.width) + x)*4;
@@ -83,7 +96,7 @@ class ImageReader{
                 //doesnt expand, fillrect of 1x1 (single pixel) of color as defined above into an image blocksize smaller.
                 //ie if you have a blocksize of 2 the result will be an image half the size
                 }else if (expand===2){
-                    // console.log('expand2', expand)
+                    
                     ctx.fillRect(x/blockSize.x, y/blockSize.y, 1, 1);
 
                  //doesnt expand, but uses the same x, y coordinate of original image
@@ -92,9 +105,7 @@ class ImageReader{
                     ctx.fillRect(x, y, exval, exval);
                 //expands by making a circle of radius=the averge of blocksize.x and blocksize.y, fills with color defined above.
                 //the optional expandValue attribute changes how much less than the average the circle is filled by, so larget value means saller circle
-                }else if (expand===4){
-                    // console.log('expand3', expand)
-                    
+                }else if (expand===4){     
                     ctx.beginPath();
                     ctx.arc(x, y, (blockSize.x + blockSize.y) / (2 * exval), 0, 2 * Math.PI, false);
                     ctx.fill();

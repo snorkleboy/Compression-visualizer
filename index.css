@@ -16,3 +16,7 @@
 .niaveOptions input{
     display: flex;
 }
+
+canvas{
+    width: fit-content;
+}
