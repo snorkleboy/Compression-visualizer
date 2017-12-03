@@ -1,50 +1,80 @@
 
 class ImageReader{
     constructor(img){
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
+        const originalCanvass = document.getElementById('originalCanvass');
+        const ctx = originalCanvass.getContext('2d');
         const resultCanvas = document.getElementById('result');
         const resultCtx = resultCanvas.getContext('2d');
         ctx.imageSmoothingEnabled = false;
         resultCtx.imageSmoothingEnabled = false;
         
         ctx.drawImage(img,0,0);
-        this.imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        // this.imageData = ctx.getImageData(0, 0, originalCanvass.width, originalCanvass.height);
 
-        resultCtx.putImageData(this.imageData, 0, 0);
+        // resultCtx.drawImage(originalCanvass, 0, 0);
 
         this.menuColor = document.getElementById('menu-color');
 
-        canvas.addEventListener('mousemove', handleMouseMove(ctx,this.menuColor).bind(this));
+        originalCanvass.addEventListener('mousemove', handleMouseMove(ctx,this.menuColor).bind(this));
 
         const niaveButton = document.getElementById('niave');
         niaveButton.addEventListener('click', (e)=>{
+            // console.log("this", this);
+            this.imageData = ctx.getImageData(0, 0, originalCanvass.width, originalCanvass.height);
             const inY = parseInt(document.getElementById('niaveInputX').value);
             const inX = parseInt(document.getElementById('niaveInputY').value);
-            console.log("x,y", inY, inX, { x: inX || 1, y: inY || 1 });
-            this.iterateThroughColors(this.imageData, resultCtx, { x: inX || 1, y: inY || 1 });
+            let expand = parseInt(document.getElementById('niaveInputExpand').value);
+
+            console.log("x,y,e", inY, inX, { x: inX || 1, y: inY || 1 }, expand);
+            if (expand>4 || expand<1){
+                expand = 1;
+            }
+           
+            this.NiaveCompress(this.imageData, resultCtx, { x: inX || 1, y: inY || 1 }, expand||1, dirtyExpand || 1);
         });
         
     }
 
-    iterateThroughColors(imagedata, ctx, blockSize) {
+    NiaveCompress(imagedata, ctx, blockSize,expand) {
+        ctx.clearRect(0, 0, imagedata.width, imagedata.height);
         console.log("there", imagedata, ctx);
         const data = imagedata.data;
         for (let y = 0; y < imagedata.height; y = y + (blockSize.y)){
             for (let x = 0; x < imagedata.width * 4; x = x + (blockSize.x)){
                 const i = ((y*imagedata.width) + x)*4;
                 // console.log('x,y,i,data', { x: x, y: y },i, data[x + imagedata.width * 4 * y]);
-
-
                 ctx.fillStyle = 'rgba(' + data[i] + ', ' + data[i+1] +
                  ', ' + data[i+2] + ', ' + (data[i+3]) + ')';
 
+                //standard mode, fillrect of blocksize to color. color is set above to the top left pixel of block
+                // defined by x*blocksize,y*blocksize
+                if (expand===1){
+                    // console.log('expand1', expand)
+                    ctx.fillRect(x, y, blockSize.x, blockSize.y);
+                    ctx.fillStyle = 'black';
+                    ctx.fillRect(x, y, blockSize.x, 1);
+                    ctx.fillRect(x, y, 1, blockSize.y);
                 
-                ctx.fillRect(x, y, blockSize.x, blockSize.y);
+                //doesnt expand, fillrect of 1x1 (single pixel) of color as defined above into an image blocksize smaller.
+                //ie if you have a blocksize of 2 the result will be an image half the size
+                }else if (expand===2){
+                    // console.log('expand2', expand)
+                    ctx.fillRect(x/blockSize.x, y/blockSize.y, 1, 1);
 
-                // ctx.fillStyle = 'black';
-                // ctx.fillRect(x,y,(200),(1));
-                // ctx.fillRect(x,y,(1),(200));
+                 //doesnt expand, but uses the same x, y coordinate of original image
+                // this basically shows which pixel is being selected for each block
+                }else if (expand===3){
+                    ctx.fillRect(x, y, 2, 2);
+                //expands by making a circle of radius=the averge of blocksize.x and blocksize.y, fills with color defined above
+                }else if (expand===4){
+                    // console.log('expand3', expand)
+                    
+                    ctx.beginPath();
+                    ctx.arc(x, y, (blockSize.x+blockSize.y)/4, 0, 2 * Math.PI, false);
+                    ctx.fill();
+                }
+
+                
             }
 
         }
@@ -52,7 +82,7 @@ class ImageReader{
 
 }
 
-
+function handleNiaveCompress(){}
 
 function handleMouseMove(ctx, element){
     return ((event) => {
@@ -66,8 +96,8 @@ function handleMouseMove(ctx, element){
         element.textContent = rgba;
     });
 }
-// const imagedata = canvas.toDataURL('/myimage');
-// makeDownload(imagedata, 'download');
+
+
 function makeDownload(imageData, element){
     const dlLinkDiv = document.getElementById(element);
     const link = document.createElement('a');
