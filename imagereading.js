@@ -177,15 +177,18 @@ function makeDownload(imageData, element){
 
 //bound is {x:,y:,width:,height:} in pixels(4 index values per pixel);
 function QuadtreeContainer(imageData, context){
-    console.log("here");
+    
+    this.that = 5;
+    console.log("here", this);
     const devisions = 0;
     const pixelArray = imageData.data;
     const initialBounds = {x:0,y:0,width:imageData.width, height:imageData.height};
-    Quadtree(initialBounds,1,1);    
+ 
     function Quadtree(bounds, maxDevisions,level) {
-        const mpX = bounds.x + bounds.width/2;
-        const mpY = bounds.y + bounds.height/2;
-        const i = ((mpY * imageData.width) + mpX) * 4; 
+        this.bounds = bounds;
+        this.mpX = bounds.x + bounds.width/2;
+        this.mpY = bounds.y + bounds.height/2;
+        const i = ((this.mpY * imageData.width) + this.mpX) * 4; 
         this.Color = 0;
         this.variance = 0;
         this.level = level || 0;
@@ -195,7 +198,39 @@ function QuadtreeContainer(imageData, context){
             ', ' + pixelArray[i + 2] + ', ' + (pixelArray[i + 3]) + ')';
         context.clearRect(bounds.x, bounds.y, bounds.width, bounds.height);
         context.fillRect(bounds.x,bounds.y,bounds.width,bounds.height);
+        console.log(this);
     }
+    Quadtree.prototype.split = function (){
+        this.nodes[0]=Quadtree({
+            x:this.bounds.x,
+            y:this.bounds.y,
+            width:this.bounds.width/2,
+            height:this.bounds.height/2
+        },2,2);
+
+        this.nodes[1] = Quadtree({
+            x: this.mpX,
+            y: this.bounds.y,
+            width: this.bounds.width / 2,
+            height: this.bounds.height / 2
+        }, 2, 2);
+        this.nodes[2] = Quadtree({
+            x: this.bounds.x,
+            y: this.bounds.y + this.mpY,
+            width: this.bounds.width / 2,
+            height: this.bounds.height / 2
+        }, 2, 2);
+        this.nodes[3] = Quadtree({
+            x: this.bounds.x + this.mpX,
+            y: this.bounds.y + this.mpY,
+            width: this.bounds.width / 2,
+            height: this.bounds.height / 2
+        }, 2, 2);
+    };  
+
+    let a = new Quadtree(initialBounds, 1, 1);
+    console.log(a);
+    a.split(); 
 
 
 }
