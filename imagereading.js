@@ -17,7 +17,7 @@ class ImageReader{
     constructor(img){
         ///
         //get convass and result canvas and contexts
-        const originalCanvass = document.getElementById('originalCanvass');
+        const originalCanvass = document.getElementById('originalCanvas');
         const ctx = originalCanvass.getContext('2d');
         const resultCanvas = document.getElementById('result');
         const resultCtx = resultCanvas.getContext('2d');
@@ -27,14 +27,18 @@ class ImageReader{
         resultCtx.imageSmoothingEnabled = false;
         ///
         //draw original image
-        ctx.drawImage(img,0,0,img.width,img.height,0,0,originalCanvass.width, originalCanvass.height);
+        resultCtx.drawImage(img,0,0,img.width,img.height,0,0,originalCanvass.width, originalCanvass.height);
         ///
-        //draw original image onto result canvass
+        // draw original image onto result canvass
         // resultCtx.drawImage(originalCanvass, 0, 0);
         ///
         //setup color picker
         const menuColor = document.getElementById('menu-color');
         resultCanvas.addEventListener('mousemove', handleMouseMove(resultCtx,menuColor).bind(this));
+        ///
+        //setup clearbutton
+        const clearButton = document.getElementById('clear');
+        clearButton.addEventListener('click', e => resultCtx.clearRect(0, 0, resultCanvas.width, resultCanvas.height));
         ///
         //setup niaveCommression button and handler
         //on click gets imageData, value of inputs, validates input, and the calls niave compress of this.imageData, resultCtx, and input
@@ -42,7 +46,7 @@ class ImageReader{
         niaveButton.addEventListener('click', (e) => {
             //
             //get pixel data from original image and put into this.imageData
-            const imageData = ctx.getImageData(0, 0, originalCanvass.width, originalCanvass.height);
+            const imageData = resultCtx.getImageData(0, 0, originalCanvass.width, originalCanvass.height);
             ///
             //get inputs
             let inX = parseInt(document.getElementById('niaveInputX').value);
@@ -59,14 +63,14 @@ class ImageReader{
             ///
             //call compression
             console.log("x,y,e", inY, inX, { x: inX || 10, y: inY || 10 }, expand);
-            resultCtx.clearRect(0, 0, resultCanvas.width, resultCanvas.height);
+            
             NiaveCompress(imageData, resultCtx, { x: inX || 10, y: inY || 10 }, expand || 1, exval || 1);
         });
         
         console.log("start");
         //quad tree testing
         const quadTreeSimpleButton = document.getElementById('quadtree');
-        const imageData = ctx.getImageData(0, 0, originalCanvass.width, originalCanvass.height);
+        const imageData = resultCtx.getImageData(0, 0, originalCanvass.width, originalCanvass.height);
         quadTreeSimpleButton.addEventListener('click', handleQuadTreeClick(imageData, resultCtx));
 
     }
