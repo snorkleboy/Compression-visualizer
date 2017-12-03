@@ -185,19 +185,24 @@ function QuadtreeContainer(imageData, context){
     const initialBounds = {x:0,y:0,width:imageData.width, height:imageData.height};
  
     function Quadtree(bounds,level) {
+        // console.log('quadcon', pixelArray);
+
         this.bounds = bounds;
-        this.mpX = bounds.x + bounds.width/2;
-        this.mpY = bounds.y + bounds.height/2;
-        this.i4 = ((this.mpY * imageData.width) + this.mpX) * 4; 
-        this.Color = 0;
+        this.nextWidth = Math.round(this.bounds.width / 2);
+        this.nextHeight = Math.round(this.bounds.height / 2);
+        this.mpX = bounds.x + Math.round(bounds.width/2);
+        this.mpY = bounds.y + Math.round(bounds.height/2);
+        const i4 = (this.mpY * imageData.width * 4) + this.mpX * 4; 
+
+        
+        this.color = 'rgba(' + pixelArray[i4] + ', ' + pixelArray[i4 + 1] +
+            ', ' + pixelArray[i4 + 2] + ', ' + (pixelArray[i4 + 3]) + ')';
         this.variance = 0;
         this.level = level || 0;
         this.bounds = bounds;
         this.nodes = [];
-        this.nextWidth = this.bounds.width / 2;
-        this.nextHeight = this.bounds.height / 2;
-        context.fillStyle = 'rgba(' + pixelArray[this.i4] + ', ' + pixelArray[this.i4 + 1] +
-            ', ' + pixelArray[this.i4 + 2] + ', ' + (pixelArray[this.i4 + 3]) + ')';
+        
+        context.fillStyle = this.color;
         context.clearRect(bounds.x, bounds.y, bounds.width, bounds.height);
         context.fillRect(bounds.x,bounds.y,bounds.width,bounds.height);
         console.log(this);
@@ -229,15 +234,15 @@ function QuadtreeContainer(imageData, context){
             width: this.nextWidth,
             height: this.nextHeight,
             x: this.bounds.x,
-            y: this.bounds.y + this.mpY,
+            y: this.mpY,
             
         }, this.level+1);
 
         this.nodes[3] = new Quadtree({
             width: this.nextWidth,
             height: this.nextHeight,
-            x: this.bounds.x + this.mpX,
-            y: this.bounds.y + this.mpY,
+            x: this.mpX,
+            y: this.mpY,
             
         }, this.level+1);
 
@@ -254,12 +259,13 @@ function QuadtreeContainer(imageData, context){
         console.log('rec split', this);
         QuadNode.split().nodes.forEach( function(node){
 
-            if (node.nextWidth > 10 ) node.recusiveSplit(node);
+            if (node.nextWidth > 25 ) node.recusiveSplit(node);
         });
     };
     let a = new Quadtree(initialBounds);
     console.log(a);
     a.recusiveSplit(a); 
+    // a.split();
     // a.splitChildren();
 
     
