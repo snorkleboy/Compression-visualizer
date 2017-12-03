@@ -69,9 +69,6 @@ class ImageReader{
         const imageData = ctx.getImageData(0, 0, originalCanvass.width, originalCanvass.height);
         quadTreeSimpleButton.addEventListener('click', handleQuadTreeClick(imageData, resultCtx));
 
-
-       
-        // QuadtreeContainer(this.imageData,resultCtx);
     }
 
 }
@@ -102,7 +99,13 @@ function makeDownload(imageData, element){
 
 function handleQuadTreeClick(imageData, context){
     return (e) => {
-        new QuadtreeContainer(imageData,context);
+        e.preventDefault();
+        const blockSize = parseInt(document.getElementById('quadTreeBlockSize').value);
+        const circleBool = document.getElementById('quadTreeCircle').checked;
+        console.log('blocksize', blockSize);
+        console.log('circlebool', circleBool);
+        console.log('handleclickQUad', blockSize, circleBool);
+        new QuadtreeContainer(imageData, context, blockSize, circleBool);
     };
 }
 
@@ -187,10 +190,15 @@ function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
 
 
 //bound is {x:,y:,width:,height:} in pixels(4 index values per pixel);
-function QuadtreeContainer(imageData, context){
+function QuadtreeContainer(imageData, context, blockSize, circleBool){
     
-    this.that = 5;
-    // console.log("here", this);
+    const timeOutes = [];
+
+    const stopButton = document.getElementById('stopQuads');
+    stopButton.addEventListener('click', () => timeOutes.forEach( (to=>clearTimeout(to)) ));
+    
+    console.log('qtc',  circleBool, blockSize, imageData, context);
+    
     const devisions = 0;
     const pixelArray = imageData.data;
     const initialBounds = {x:0,y:0,width:imageData.width, height:imageData.height};
@@ -214,18 +222,19 @@ function QuadtreeContainer(imageData, context){
         this.nodes = [];
         
         context.fillStyle = this.color;
+        if (circleBool){
+            context.beginPath();
+            context.arc(this.mpX, this.mpY, (bounds.width), 0, 2 * Math.PI, false);
+            context.clearRect(bounds.x, bounds.y, bounds.width, bounds.height);
+            context.fill();
+        }else{
 
-        context.beginPath();
-        context.arc(this.mpX, this.mpY, (bounds.width), 0, 2 * Math.PI, false);
-        context.fill();
-
-        context.clearRect(bounds.x, bounds.y, bounds.width, bounds.height);
-        context.fillRect(bounds.x,bounds.y,bounds.width,bounds.height);
-        // console.log(this);
+            context.clearRect(bounds.x, bounds.y, bounds.width, bounds.height);
+            context.fillRect(bounds.x,bounds.y,bounds.width,bounds.height);
+        }
+        
 
 
-        ///if (width <= 1 || height <= 1 ) it is a single pixel and should not try to make more nodes...
-        // probaby should figure omething out before I start getting color error
     }
     Quadtree.prototype.calcColorVar = function () {
 
@@ -277,18 +286,12 @@ function QuadtreeContainer(imageData, context){
     Quadtree.prototype.recusiveSplit = function(QuadNode) {
         // console.log('rec split', this);
         QuadNode.split().nodes.forEach( function(node, index){
-            if (node.nextWidth > 2 ) setTimeout(()=>node.recusiveSplit(node),(node.level*index)*300);
+            if (node.nextWidth > blockSize) timeOutes.push(setTimeout(()=>node.recusiveSplit(node),(node.level*index)*300));
         });
     };
     let a = new Quadtree(initialBounds);
-    console.log(a);
+    // console.log(a);
     a.recusiveSplit(a); 
     // a.split();
     // a.splitChildren();
-
-    
-
-    
-
-
 }
