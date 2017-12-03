@@ -1,36 +1,47 @@
 <html>
+
   <head>
     <title>Canvas Practice</title>
+
     <link rel="stylesheet" href="index.css">
     
   </head>
 
   <body>
+    
     <div class='container'>
-        <label>image url
-          <input name='imageUrl' id='imageUrlInput' type="text" value='https://i.imgur.com/8zNVLr6.jpg'/>
-          <input id ='imageUrlSubmit' type="submit" value='submit'/>
-        </label>
+        
       <div class="canvas-container">
-        <canvas id="originalCanvass" width="600" height="600" ></canvas>
+        <label>image url
+          <input name='imageUrl' id='imageUrlInput' type="text" value='https://i.imgur.com/8zNVLr6.jpg' />
+          <input id='imageUrlSubmit' type="submit" value='submit' />
+        </label>
+        <div class='colors'>
+          <div id="menu-color" style="width:200px;height:50px;float:left"></div>
+          <div id='colorpick' style="width:200px;height:50px;float:left"></div>
+        </div>
+        <div class='canvas-holder'>
+          <canvas id="originalCanvass" width="600" height="600" ></canvas>
+          <canvas id="result" width="600" height="600"></canvas>
+        </div>
           <br></br>
           <label class='niaveOptions'> compression
            <label>blocksize x (default is 10)<input id='niaveInputX' type="text"></input></label>
             <label>blocksize y(defualt is 10)<input id='niaveInputY' type="text"></input></label>
-            <label>expandType(1-4), is default<input id='niaveInputExpand' type="text"></input></label>
+            <label>expandType(1-4),1 is default<input id='niaveInputExpand' type="text"></input></label>
             <label>how much to expand by, default is 1<input id='niaveInputExpandval' type="text"></input></label>
             <button id='niave'> niave compression</button>
           </label>
           <br></br>
-        <canvas id="result" width="600" height="600" ></canvas>
+              
       </div>
-      <div class='colors'>
-        <div id="menu-color" style="width:200px;height:50px;float:left"></div>
-        <div id='colorpick' style="width:200px;height:50px;float:left"></div>
-      </div>
+
         <div id="download" style="width:200px;height:50px;float:left"></div>
       </div>
     </div>
+    <svg id='svgOne' width="600" height="600">
+     
+    </svg>
     <script type="application/javascript" src="imagereading.js"></script>
   </body>
 </html>

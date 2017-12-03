@@ -1,6 +1,10 @@
 .canvas-container{
     display: flex;
     flex-direction: column;
+    align-items: center;
+}
+.canvas-holder{
+    display: flex;
 }
 
 .container{
@@ -18,5 +22,6 @@
 }
 
 canvas{
+    height: fit-content;
     width: fit-content;
 }
