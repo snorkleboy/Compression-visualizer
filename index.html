@@ -1,10 +1,23 @@
 <html>
   <head>
     <title>Canvas Practice</title>
+    <link rel="stylesheet" href="index.css">
+    
   </head>
 
   <body>
-    <canvas id="mycanvas"></canvas>
-    <script type="application/javascript" src="practice.js"></script>
+    <div class='container'>
+      <div class="canvas-container">
+        <canvas id="canvas" width="600" height="600" ></canvas>
+        <canvas id="result" width="600" height="600" ></canvas>
+      </div>
+      <div class='colors'>
+        <div id="menu-color" style="width:200px;height:50px;float:left"></div>
+        <div id='colorpick' style="width:200px;height:50px;float:left"></div>
+      </div>
+        <div id="download" style="width:200px;height:50px;float:left"></div>
+      </div>
+    </div>
+    <script type="application/javascript" src="imagereading.js"></script>
   </body>
 </html>

@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function(){
         this.canvas = document.getElementById('mycanvas');
         this.canvas.width=500;
         this.canvas.height=500;
-        this.ctx = canvas.getContext('2d');
+        this.ctx = this.canvas.getContext('2d');
       window.requestAnimationFrame(draw.bind(this));
     }
     
