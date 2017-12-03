@@ -1,4 +1,18 @@
 
+document.addEventListener("DOMContentLoaded", function () {
+    const imgForm = document.getElementById('imageUrlSubmit');
+    console.log(imgForm);
+    imgForm.addEventListener('click', function(event){
+        event.preventDefault();
+        const imgURl = document.getElementById('imageUrlInput').value;
+        const img = new Image();
+        img.src = imgURl;
+        console.log('img',imgURl, img);
+        img.crossOrigin = "";
+        img.onload = () => new ImageReader(img);
+    });
+    
+});
 class ImageReader{
     constructor(img){
         ///
@@ -146,9 +160,3 @@ function makeDownload(imageData, element){
 
 
 
-document.addEventListener("DOMContentLoaded", function(){
-    const img = new Image();
-    img.src = 'http://i.imgur.com/8zNVLr6.jpg';
-    img.crossOrigin = "";
-    img.onload = ()=> new ImageReader(img);
-});

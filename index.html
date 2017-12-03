@@ -7,6 +7,10 @@
 
   <body>
     <div class='container'>
+        <label>image url
+          <input name='imageUrl' id='imageUrlInput' type="text" value='https://i.imgur.com/8zNVLr6.jpg'/>
+          <input id ='imageUrlSubmit' type="submit" value='submit'/>
+        </label>
       <div class="canvas-container">
         <canvas id="originalCanvass" width="600" height="600" ></canvas>
           <br></br>
@@ -17,8 +21,7 @@
             <label>how much to expand by, default is 1<input id='niaveInputExpandval' type="text"></input></label>
             <button id='niave'> niave compression</button>
           </label>
-
-        
+          <br></br>
         <canvas id="result" width="600" height="600" ></canvas>
       </div>
       <div class='colors'>
