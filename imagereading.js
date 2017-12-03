@@ -184,53 +184,87 @@ function QuadtreeContainer(imageData, context){
     const pixelArray = imageData.data;
     const initialBounds = {x:0,y:0,width:imageData.width, height:imageData.height};
  
-    function Quadtree(bounds, maxDevisions,level) {
+    function Quadtree(bounds,level) {
         this.bounds = bounds;
         this.mpX = bounds.x + bounds.width/2;
         this.mpY = bounds.y + bounds.height/2;
-        const i = ((this.mpY * imageData.width) + this.mpX) * 4; 
+        this.i4 = ((this.mpY * imageData.width) + this.mpX) * 4; 
         this.Color = 0;
         this.variance = 0;
         this.level = level || 0;
         this.bounds = bounds;
         this.nodes = [];
-        context.fillStyle = 'rgba(' + pixelArray[i] + ', ' + pixelArray[i + 1] +
-            ', ' + pixelArray[i + 2] + ', ' + (pixelArray[i + 3]) + ')';
+        this.nextWidth = this.bounds.width / 2;
+        this.nextHeight = this.bounds.height / 2;
+        context.fillStyle = 'rgba(' + pixelArray[this.i4] + ', ' + pixelArray[this.i4 + 1] +
+            ', ' + pixelArray[this.i4 + 2] + ', ' + (pixelArray[this.i4 + 3]) + ')';
         context.clearRect(bounds.x, bounds.y, bounds.width, bounds.height);
         context.fillRect(bounds.x,bounds.y,bounds.width,bounds.height);
         console.log(this);
+
+
+        ///if (width <= 1 || height <= 1 ) it is a single pixel and should not try to make more nodes...
+        // probaby should figure omething out before I start getting color error
     }
     Quadtree.prototype.split = function (){
-        this.nodes[0]=Quadtree({
+        console.log("split", this);
+        
+        this.nodes[0]= new Quadtree({
+            width: this.nextWidth,
+            height: this.nextHeight,
             x:this.bounds.x,
             y:this.bounds.y,
-            width:this.bounds.width/2,
-            height:this.bounds.height/2
-        },2,2);
+            
+        },this.level+1);
 
-        this.nodes[1] = Quadtree({
+        this.nodes[1] = new Quadtree({
+            width: this.nextWidth,
+            height: this.nextHeight,
             x: this.mpX,
             y: this.bounds.y,
-            width: this.bounds.width / 2,
-            height: this.bounds.height / 2
-        }, 2, 2);
-        this.nodes[2] = Quadtree({
+            
+        }, this.level+1);
+
+        this.nodes[2] = new Quadtree({
+            width: this.nextWidth,
+            height: this.nextHeight,
             x: this.bounds.x,
             y: this.bounds.y + this.mpY,
-            width: this.bounds.width / 2,
-            height: this.bounds.height / 2
-        }, 2, 2);
-        this.nodes[3] = Quadtree({
+            
+        }, this.level+1);
+
+        this.nodes[3] = new Quadtree({
+            width: this.nextWidth,
+            height: this.nextHeight,
             x: this.bounds.x + this.mpX,
             y: this.bounds.y + this.mpY,
-            width: this.bounds.width / 2,
-            height: this.bounds.height / 2
-        }, 2, 2);
-    };  
+            
+        }, this.level+1);
 
-    let a = new Quadtree(initialBounds, 1, 1);
+        console.log('split', this);
+        return this;
+    };  
+    Quadtree.prototype.splitChildren = function () {
+        console.log("splitchildren", this);
+        this.nodes.forEach((quadNode) => {
+            quadNode.split(quadNode);
+        });
+    };
+    Quadtree.prototype.recusiveSplit = function(QuadNode) {
+        console.log('rec split', this);
+        QuadNode.split().nodes.forEach( function(node){
+
+            if (node.nextWidth > 10 ) node.recusiveSplit(node);
+        });
+    };
+    let a = new Quadtree(initialBounds);
     console.log(a);
-    a.split(); 
+    a.recusiveSplit(a); 
+    // a.splitChildren();
+
+    
+
+    
 
 
 }
