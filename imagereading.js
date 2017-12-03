@@ -27,7 +27,7 @@ class ImageReader{
         resultCtx.imageSmoothingEnabled = false;
         ///
         //draw original image
-        ctx.drawImage(img,0,0);
+        ctx.drawImage(img,0,0,img.width,img.height,0,0,originalCanvass.width, originalCanvass.height);
         ///
         //draw original image onto result canvass
         // resultCtx.drawImage(originalCanvass, 0, 0);
@@ -178,7 +178,7 @@ function makeDownload(imageData, element){
 function QuadtreeContainer(imageData, context){
     
     this.that = 5;
-    console.log("here", this);
+    // console.log("here", this);
     const devisions = 0;
     const pixelArray = imageData.data;
     const initialBounds = {x:0,y:0,width:imageData.width, height:imageData.height};
@@ -204,12 +204,15 @@ function QuadtreeContainer(imageData, context){
         context.fillStyle = this.color;
         context.clearRect(bounds.x, bounds.y, bounds.width, bounds.height);
         context.fillRect(bounds.x,bounds.y,bounds.width,bounds.height);
-        console.log(this);
+        // console.log(this);
 
 
         ///if (width <= 1 || height <= 1 ) it is a single pixel and should not try to make more nodes...
         // probaby should figure omething out before I start getting color error
     }
+    Quadtree.prototype.calcColorVar = function () {
+
+    };
     Quadtree.prototype.split = function (){
         // console.log("split", this);
         
@@ -256,8 +259,8 @@ function QuadtreeContainer(imageData, context){
     };
     Quadtree.prototype.recusiveSplit = function(QuadNode) {
         // console.log('rec split', this);
-        QuadNode.split().nodes.forEach( function(node){
-            if (node.nextWidth > 5 ) setTimeout(()=>node.recusiveSplit(node),1000+node.level*500);
+        QuadNode.split().nodes.forEach( function(node, index){
+            if (node.nextWidth > 2 ) setTimeout(()=>node.recusiveSplit(node),(node.level*index)*300);
         });
     };
     let a = new Quadtree(initialBounds);
