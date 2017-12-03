@@ -1,36 +1,60 @@
 
 class ImageReader{
     constructor(img){
+        ///
+        //get convass that the image is loaded into and a blank canvass that I will put result onto
         const originalCanvass = document.getElementById('originalCanvass');
         const ctx = originalCanvass.getContext('2d');
         const resultCanvas = document.getElementById('result');
         const resultCtx = resultCanvas.getContext('2d');
+
+        
+        ///
+        //turn off anti aliasing to see pixels
         ctx.imageSmoothingEnabled = false;
         resultCtx.imageSmoothingEnabled = false;
-        
-        ctx.drawImage(img,0,0);
-        // this.imageData = ctx.getImageData(0, 0, originalCanvass.width, originalCanvass.height);
 
+        ///
+        //draw original image
+        ctx.drawImage(img,0,0);
+        
+        ///
+        //draw original image onto result canvass
         // resultCtx.drawImage(originalCanvass, 0, 0);
 
-        this.menuColor = document.getElementById('menu-color');
+        ///
+        //get pixel data from original image and put into this.imageData
+        this.imageData = ctx.getImageData(0, 0, originalCanvass.width, originalCanvass.height);
 
-        originalCanvass.addEventListener('mousemove', handleMouseMove(ctx,this.menuColor).bind(this));
+        ///
+        //setup color picker
+        const menuColor = document.getElementById('menu-color');
+        originalCanvass.addEventListener('mousemove', handleMouseMove(ctx,menuColor).bind(this));
 
+        ///
+        //setup niaveCommression button and handler
+        //on click gets value of inputs, validates them, and calls niave compress of this.imageData, resultCtx, and input
         const niaveButton = document.getElementById('niave');
-        niaveButton.addEventListener('click', (e)=>{
-            // console.log("this", this);
-            this.imageData = ctx.getImageData(0, 0, originalCanvass.width, originalCanvass.height);
-            const inY = parseInt(document.getElementById('niaveInputX').value);
-            const inX = parseInt(document.getElementById('niaveInputY').value);
-            let expand = parseInt(document.getElementById('niaveInputExpand').value);
-            const exval = parseFloat(document.getElementById('niaveInputExpandval').value);
+        niaveButton.addEventListener('click', (e) => {
+            ///
+            //get inputs
 
+            let inY = parseInt(document.getElementById('niaveInputX').value);
+            let inX = parseInt(document.getElementById('niaveInputY').value);
+            let expand = parseInt(document.getElementById('niaveInputExpand').value);
+            let exval = parseFloat(document.getElementById('niaveInputExpandval').value);
+            
+            //
+            //validations
             console.log("x,y,e", inY, inX, { x: inX || 10, y: inY || 10 }, expand);
             if (expand>4 || expand<1){
                 expand = 1;
             }
+            if (inY < 1)inY = 1;
+            if (inX < 1) inY = 1;
            
+            ///
+            //call compression
             this.NiaveCompress(this.imageData, resultCtx, { x: inX || 10, y: inY || 10 }, expand || 1, exval || 1);
         });
         
@@ -50,8 +74,8 @@ class ImageReader{
                 //standard mode, fillrect of blocksize to color. color is set above to the top left pixel of block
                 // defined by x*blocksize,y*blocksize
                 if (expand===1){
-                    // console.log('expand1', expand)
-                    ctx.fillRect(x, y, blockSize.x, blockSize.y);
+                    // (imagedata.height-y) type stuff to rotate
+                    ctx.fillRect(x,y, blockSize.x, blockSize.y);
                     // ctx.fillStyle = 'black';
                     // ctx.fillRect(x, y, blockSize.x, 1);
                     // ctx.fillRect(x, y, 1, blockSize.y);
