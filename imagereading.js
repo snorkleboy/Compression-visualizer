@@ -110,8 +110,11 @@ function handleQuadTreeClick(imageData, context){
 }
 
 function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
-    // ctx.clearRect(0, 0, imagedata.width, imagedata.height);
-    // console.log("niavecompress", imagedata, ctx);
+    //setup stop button
+    const timeOuts = [];
+    const stopNiaveButton = document.getElementById('stopNiave');
+    stopNiaveButton.addEventListener('click', e => timeOuts.forEach( to => clearTimeout(to) ));
+
     const data = imagedata.data;
     //set/reset canvas width and height by blocksize. 
 
@@ -129,12 +132,12 @@ function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
             myNode.removeChild(myNode.firstChild);
         }
     }
-
+    
 
 
     for (let y = 0; y < imagedata.height; y = y + (blockSize.y)) {
         for (let x = 0; x < imagedata.width; x = x + (blockSize.x)) {
-            const interval = setTimeout(() => {
+            timeOuts.push( setTimeout(() => {
 
                 const i = ((y * imagedata.width) + x) * 4;
                 // console.log('x,y,i,data', { x: x, y: y },i, data[x + imagedata.width * 4 * y]);
@@ -181,7 +184,7 @@ function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
                     rect.setAttributeNS(null, 'fill', ctx.fillStyle);
                     document.getElementById('svgOne').appendChild(rect);
                 }
-            }, 1000 + (x * 10 + y * imagedata.width) / 100);
+            }, 1000 + (x * 10 + y * imagedata.width) / 100));
         }
 
 
@@ -195,7 +198,7 @@ function QuadtreeContainer(imageData, context, blockSize, circleBool){
     const timeOutes = [];
 
     const stopButton = document.getElementById('stopQuads');
-    stopButton.addEventListener('click', () => timeOutes.forEach( (to=>clearTimeout(to)) ));
+    stopButton.addEventListener('click', e => timeOutes.forEach( (to=>clearTimeout(to)) ));
     
     console.log('qtc',  circleBool, blockSize, imageData, context);
     
@@ -212,8 +215,9 @@ function QuadtreeContainer(imageData, context, blockSize, circleBool){
         this.mpX = bounds.x + Math.round(bounds.width/2);
         this.mpY = bounds.y + Math.round(bounds.height/2);
         const i4 = (this.mpY * imageData.width * 4) + this.mpX * 4; 
-
-        
+        //
+        /// maybe refactor following into this.render()?
+        //        
         this.color = 'rgba(' + pixelArray[i4] + ', ' + pixelArray[i4 + 1] +
             ', ' + pixelArray[i4 + 2] + ', ' + (pixelArray[i4 + 3]) + ')';
         this.variance = 0;
