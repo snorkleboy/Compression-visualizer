@@ -94,7 +94,7 @@ class ImageReader{
 
         for (let y = 0; y < imagedata.height; y = y + (blockSize.y)){
             for (let x = 0; x < imagedata.width; x = x + (blockSize.x)){
-                const interval = setInterval( ()=>{
+                const interval = setTimeout( ()=>{
 
                     const i = ((y*imagedata.width) + x)*4;
                     // console.log('x,y,i,data', { x: x, y: y },i, data[x + imagedata.width * 4 * y]);
@@ -140,8 +140,7 @@ class ImageReader{
                         rect.setAttributeNS(null, 'width', 5*blockSize.x);
                         rect.setAttributeNS(null, 'fill', ctx.fillStyle);
                         document.getElementById('svgOne').appendChild(rect);
-                    }
-                    clearInterval(interval);                
+                    }                
                 },1000+(x*10+y*imagedata.width)/100);}
             
 
@@ -212,7 +211,7 @@ function QuadtreeContainer(imageData, context){
         // probaby should figure omething out before I start getting color error
     }
     Quadtree.prototype.split = function (){
-        console.log("split", this);
+        // console.log("split", this);
         
         this.nodes[0]= new Quadtree({
             width: this.nextWidth,
@@ -246,20 +245,19 @@ function QuadtreeContainer(imageData, context){
             
         }, this.level+1);
 
-        console.log('split', this);
+        // console.log('split', this);
         return this;
     };  
     Quadtree.prototype.splitChildren = function () {
-        console.log("splitchildren", this);
+        // console.log("splitchildren", this);
         this.nodes.forEach((quadNode) => {
             quadNode.split(quadNode);
         });
     };
     Quadtree.prototype.recusiveSplit = function(QuadNode) {
-        console.log('rec split', this);
+        // console.log('rec split', this);
         QuadNode.split().nodes.forEach( function(node){
-
-            if (node.nextWidth > 25 ) node.recusiveSplit(node);
+            if (node.nextWidth > 5 ) setTimeout(()=>node.recusiveSplit(node),1000+node.level*500);
         });
     };
     let a = new Quadtree(initialBounds);
