@@ -205,7 +205,7 @@ function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
 
 
 //bound is {x:,y:,width:,height:} in pixels(4 index values per pixel);
-function QuadtreeContainer(imageData, context, blockSize, circleBool, timeoutType='fast'){
+function QuadtreeContainer(imageData, context, blockSize, circleBool, timeoutType ='normal'){
 
      //create stop button
     const timeOutes = [];
@@ -311,7 +311,7 @@ function QuadtreeContainer(imageData, context, blockSize, circleBool, timeoutTyp
         QuadNode.split().nodes.forEach( function(node, index){
             devisions++;
             if (node.nextWidth >= blockSize){
-                if (timeoutType === 'normal'){ timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((devisions)*100)));}
+                if (timeoutType === 'normal'){ timeOutes.push(setTimeout(() => node.recusiveSplit(node), devisions*10));}
                 else if (timeoutType === 'fast') { timeOutes.push(setTimeout(() => node.recusiveSplit(node),10 )); }
                 else if (timeoutType === 'fun') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level * index + devisions) * 10)));}
                 else if (timeoutType === 'fun2') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level * index) * 500))); }
