@@ -10,6 +10,7 @@
 
 .container{
     display: flex;
+    flex-direction: column;
 }
 .originalCanvass{
     

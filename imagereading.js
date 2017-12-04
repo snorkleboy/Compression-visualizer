@@ -17,17 +17,21 @@ class ImageReader{
     constructor(img){
         ///
         //get convass and result canvas and contexts
-        const originalCanvass = document.getElementById('originalCanvas');
-        const ctx = originalCanvass.getContext('2d');
+        
+        // const originalCanvass = document.getElementById('originalCanvas');
+        // const ctx = originalCanvass.getContext('2d');
         const resultCanvas = document.getElementById('result');
         const resultCtx = resultCanvas.getContext('2d');
         ///
         //turn off anti aliasing to see pixels
-        ctx.imageSmoothingEnabled = false;
+
+        // ctx.imageSmoothingEnabled = false;
         resultCtx.imageSmoothingEnabled = false;
         ///
-        //draw original image
-        resultCtx.drawImage(img,0,0,img.width,img.height,0,0,originalCanvass.width, originalCanvass.height);
+        //draw original image and resize canvas to image size. 
+        resultCanvas.width = img.width< 1200 ? img.width : 1200;
+        resultCanvas.height = img.height < 1200 ? img.height : 1200;
+        resultCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, resultCanvas.width, resultCanvas.height);
         ///
         // draw original image onto result canvass
         // resultCtx.drawImage(originalCanvass, 0, 0);
@@ -39,6 +43,9 @@ class ImageReader{
         //setup clearbutton
         const clearButton = document.getElementById('clear');
         clearButton.addEventListener('click', e => resultCtx.clearRect(0, 0, resultCanvas.width, resultCanvas.height));
+
+        const resetButton = document.getElementById('reset');
+        resetButton.addEventListener('click', e => resultCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, resultCanvas.width, resultCanvas.height));
         ///
         //setup niaveCommression button and handler
         //on click gets imageData, value of inputs, validates input, and the calls niave compress of this.imageData, resultCtx, and input
@@ -46,7 +53,7 @@ class ImageReader{
         niaveButton.addEventListener('click', (e) => {
             //
             //get pixel data from original image and put into this.imageData
-            const imageData = resultCtx.getImageData(0, 0, originalCanvass.width, originalCanvass.height);
+            const imageData = resultCtx.getImageData(0, 0, resultCanvas.width, resultCanvas.height);
             ///
             //get inputs
             let inX = parseInt(document.getElementById('niaveInputX').value);
@@ -70,7 +77,7 @@ class ImageReader{
         console.log("start");
         //quad tree testing
         const quadTreeSimpleButton = document.getElementById('quadtree');
-        const imageData = resultCtx.getImageData(0, 0, originalCanvass.width, originalCanvass.height);
+        const imageData = resultCtx.getImageData(0, 0, resultCanvas.width, resultCanvas.height);
         quadTreeSimpleButton.addEventListener('click', handleQuadTreeClick(imageData, resultCtx));
 
     }
@@ -197,7 +204,7 @@ function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
 
 
 //bound is {x:,y:,width:,height:} in pixels(4 index values per pixel);
-function QuadtreeContainer(imageData, context, blockSize, circleBool){
+function QuadtreeContainer(imageData, context, blockSize, circleBool, timeoutType='fast'){
     
     const timeOutes = [];
 
@@ -206,7 +213,7 @@ function QuadtreeContainer(imageData, context, blockSize, circleBool){
     
     console.log('qtc',  circleBool, blockSize, imageData, context);
     
-    const devisions = 0;
+    let devisions = 0;
     const pixelArray = imageData.data;
     const initialBounds = {x:0,y:0,width:imageData.width, height:imageData.height};
  
@@ -294,7 +301,13 @@ function QuadtreeContainer(imageData, context, blockSize, circleBool){
     Quadtree.prototype.recusiveSplit = function(QuadNode) {
         // console.log('rec split', this);
         QuadNode.split().nodes.forEach( function(node, index){
-            if (node.nextWidth > blockSize) timeOutes.push(setTimeout(()=>node.recusiveSplit(node),(node.level*index)*300));
+            devisions++;
+            if (node.nextWidth >= blockSize){
+                if (timeoutType === 'normal'){ timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((devisions)*100)));}
+                else if (timeoutType === 'fast') { timeOutes.push(setTimeout(() => node.recusiveSplit(node),10 )); }
+                else if (timeoutType === 'fun') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level * index + devisions) * 10)));}
+                else if (timeoutType === 'fun2') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level * index) * 500))); }
+            }
         });
     };
     let a = new Quadtree(initialBounds);
