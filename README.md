@@ -1,14 +1,14 @@
-# imageReader- compression art
-
+# [imageReader- compression art](https://imagereader.herokuapp.com/) -live
+![alt text](https://res.cloudinary.com/flyakite/image/upload/v1512363891/download_2_zloy9n.png)
 ### Background and Overview
 
 [A quadTree](https://en.wikipedia.org/wiki/Quadtree) is a kind of data structure where every node has 4 children. They are a kind of expansion of the binary tree where having 4 children makes the Quadtree very useful for partitioning spatially orientated data. They are commonly used in 2 dimensional collision detection and image compression. I will start by going for the latter.
 
-Most niavely a quadTree could be used to simply recursively define areas of the color of pixels at subsequent midpoints. As in the first node is a single pixel of the midpoint of the picture. that nodes four children are the midpoints of the four quadrants of the first node.
+One strategy is to have the first node be a single pixel of the midpoint of the picture thats expanded to be the entire area. that node is then split into four children making up the quadrants of the parent node. You can then generate an an image to an abitrary deph.
 
-A better strategy is to instead of simply splitting up every node until some arbitrary limit is reached, I will have each node calculate how much the average color of pixels varies in its boundary, and use that and its area to come up with a fitness. I will then search for the node that varies the most per area, the idea being that giving that area more partitions will have a stronger affect.
+A better strategy is to instead of simply spliting up every node until some arbitrary limit is reached, I will have each node calculate how much the average color of pixels varies in its boundary, and use that and its area to come up with a fitness score. I will then search for the node that varies the most per area, the idea being that giving that area more partitions will have a stronger affect.
 
-the end resul just be that if, for example, an image was mostly white and had a face somewher in it, the algorythm would mostly skip the white areas and devote the most pixels to the face where color varies more. 
+the end resul just be that if, for example, an image was mostly white and had a face somewher in it, the algorithm would mostly skip the white areas and devote the most pixels to the face where color varies more. 
 
 I will also make it possible for you to click on the canvas being controlled by the quadtree, it will use the coordinates of the mouse to find whithin which node the mouse is over, and split it. 
 
@@ -16,11 +16,11 @@ I will also make it possible for you to click on the canvas being controlled by 
 Image reader will-
   - [x] allow user to pick imageurl and open up an imgageData object from it
   - [x] choose different ways to read that data out in block compression
-   - []choose different ways to run quadtree compression
+  - [ ] choose different ways to run quadtree compression
   - [x] be stoppable
-  - [x]it will be able to split niavely (equally for all children)
-  - []split by user click (it loads up the first node and splits at the (x,y) of a users click
-  - []split by color variance (every node gets a fitness value from color variance and size, split by most variant)
+  - [x] it will be able to split niavely (equally for all children)
+  - [ ] split by user click (it loads up the first node and splits at the (x,y) of a users click
+  - [ ] split by color variance (every node gets a fitness value from color variance and size, split by most variant)
 
 In addition, this project will include:
 
