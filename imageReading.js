@@ -113,11 +113,15 @@ function handleQuadTreeClick(imageData, context){
         e.preventDefault();
         const blockSize = parseInt(document.getElementById('quadTreeBlockSize').value);
         const circleBool = document.getElementById('quadTreeCircle').checked;
+        const traverseType = document.getElementById('QuadTreeTraverse').value;
+
+        if (traverseType > 4 || traverseType < 0) traverseType = 2;
         console.log('blocksize', blockSize);
         console.log('circlebool', circleBool);
         console.log('handleclickQUad', blockSize, circleBool);
-        let tree = null;
-        tree = QuadtreeContainer(imageData, context, blockSize, circleBool);
+        //dereference previously made trees
+    
+        QuadtreeMaker(imageData, context, blockSize, circleBool, traverseType);
     };
 }
 
@@ -205,8 +209,8 @@ function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
 
 
 //bound is {x:,y:,width:,height:} in pixels(4 index values per pixel);
-function QuadtreeContainer(imageData, context, blockSize, circleBool, timeoutType ='normal'){
-
+function QuadtreeMaker(imageData, context, blockSize, circleBool, timeoutType ='fun2'){
+    console.log(timeoutType);
      //create stop button
     const timeOutes = [];
     const stopButton = document.getElementById('stopQuads');
@@ -311,10 +315,10 @@ function QuadtreeContainer(imageData, context, blockSize, circleBool, timeoutTyp
         QuadNode.split().nodes.forEach( function(node, index){
             devisions++;
             if (node.nextWidth >= blockSize){
-                if (timeoutType === 'normal'){ timeOutes.push(setTimeout(() => node.recusiveSplit(node), devisions*10));}
-                else if (timeoutType === 'fast') { timeOutes.push(setTimeout(() => node.recusiveSplit(node),10 )); }
-                else if (timeoutType === 'fun') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level * index + devisions) * 10)));}
-                else if (timeoutType === 'fun2') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level * index) * 500))); }
+                if (timeoutType === '1'){ timeOutes.push(setTimeout(() => node.recusiveSplit(node), devisions*10));}
+                else if (timeoutType === '4') { timeOutes.push(setTimeout(() => node.recusiveSplit(node),10 )); }
+                else if (timeoutType === '3') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level * index) * 100 + devisions/20)));}
+                else if (timeoutType === '2') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level * index) * 500))); }
             }
         });
     };
