@@ -1,0 +1,11 @@
+{
+  "name": "imagereading",
+  "version": "1.0.0",
+  "description": "reads into imageData using built in html5 capabilities and iterates through that pixel data make lower resolution versions of the image using quadtrees and simple array iteration",
+  "main": "imageReading.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Artem Kharshan",
+  "license": "ISC"
+}
