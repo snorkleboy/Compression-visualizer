@@ -14,10 +14,10 @@ I will also make it possible for you to click on the canvas being controlled by 
 
 ### Functionality & MVP  
 Image reader will-
-  -[x] allow user to pick imageurl and open up an imgageData object from it
-  -[x] choose different ways to read that data out in block compression
-   -[]choose different ways to run quadtree compression
-  -[x] be stoppable
+  - [x] allow user to pick imageurl and open up an imgageData object from it
+  - [x] choose different ways to read that data out in block compression
+   - []choose different ways to run quadtree compression
+  - [x] be stoppable
   - [x]it will be able to split niavely (equally for all children)
   - []split by user click (it loads up the first node and splits at the (x,y) of a users click
   - []split by color variance (every node gets a fitness value from color variance and size, split by most variant)
