@@ -1,5 +1,5 @@
-# imageReader- compression art
-
+# [imageReader- compression art](https://imagereader.herokuapp.com/)
+![alt text](https://res.cloudinary.com/flyakite/image/upload/v1512363891/download_2_zloy9n.png)
 ### Background and Overview
 
 [A quadTree](https://en.wikipedia.org/wiki/Quadtree) is a kind of data structure where every node has 4 children. They are a kind of expansion of the binary tree where having 4 children makes the Quadtree very useful for partitioning spatially orientated data. They are commonly used in 2 dimensional collision detection and image compression. I will start by going for the latter.
@@ -16,11 +16,11 @@ I will also make it possible for you to click on the canvas being controlled by 
 Image reader will-
   - [x] allow user to pick imageurl and open up an imgageData object from it
   - [x] choose different ways to read that data out in block compression
-   - []choose different ways to run quadtree compression
+   - [] choose different ways to run quadtree compression
   - [x] be stoppable
-  - [x]it will be able to split niavely (equally for all children)
-  - []split by user click (it loads up the first node and splits at the (x,y) of a users click
-  - []split by color variance (every node gets a fitness value from color variance and size, split by most variant)
+  - [x] it will be able to split niavely (equally for all children)
+  - [] split by user click (it loads up the first node and splits at the (x,y) of a users click
+  - [] split by color variance (every node gets a fitness value from color variance and size, split by most variant)
 
 In addition, this project will include:
 
