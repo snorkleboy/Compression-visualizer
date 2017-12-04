@@ -2,7 +2,7 @@
 
 ### Background and Overview
 
-[https://en.wikipedia.org/wiki/Quadtree](A quadTree) is a kind of data structure where every node has 4 children. They are a kind of expansion of the binary tree where having 4 children makes the Quadtree very useful for partitioning spatially orientated data. They are commonly used in 2 dimensional collision detection and image compression. I will start by going for the latter.
+[A quadTree](https://en.wikipedia.org/wiki/Quadtree) is a kind of data structure where every node has 4 children. They are a kind of expansion of the binary tree where having 4 children makes the Quadtree very useful for partitioning spatially orientated data. They are commonly used in 2 dimensional collision detection and image compression. I will start by going for the latter.
 
 Most niavely a quadTree could be used to simply recursively define areas of the color of pixels at subsequent midpoints. As in the first node is a single pixel of the midpoint of the picture. that nodes four children are the midpoints of the four quadrants of the first node.
 
@@ -45,14 +45,14 @@ index.js - this file is the entry file that starts a server
 ### Implementation Timeline
 
 **Over the weekend**:
-  -[x] open up an imgData object
-  -[x] iterate and ouput pizels
-   -[x] add options
-   -[x] add image loader
-   -[x] load up on heroku
+  - [x] open up an imgData object
+  - [x] iterate and ouput pizels
+   - [x] add options
+   - [x] add image loader
+   - [x] load up on heroku
 - [x] make quadree
-  -[x] be runnable with options
-  -[x] be stoppable
+  - [x] be runnable with options
+  - [x] be stoppable
   - [x]be able to split niavely (equally for all children)
 
 
