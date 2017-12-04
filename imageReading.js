@@ -1,89 +1,79 @@
 
 document.addEventListener("DOMContentLoaded", function () {
+    const imagereader = new ImageReader();
     const imgForm = document.getElementById('imageUrlSubmit');
     console.log(imgForm);
-    imgForm.addEventListener('click', function(event){
+    imgForm.addEventListener('click', function (event) {
         event.preventDefault();
         const imgURl = document.getElementById('imageUrlInput').value;
         const img = new Image();
         img.src = imgURl;
-        console.log('img',imgURl, img);
+        console.log('img', imgURl, img);
         img.crossOrigin = "";
-        img.onload = () => new ImageReader(img);
+        img.onload = () => imagereader.receiveImage(img);
 
     });
-    
 });
 class ImageReader{
-    constructor(img){
-        ///
-        //get convass and result canvas and contexts
-        
-        // const originalCanvass = document.getElementById('originalCanvas');
-        // const ctx = originalCanvass.getContext('2d');
-        const resultCanvas = document.getElementById('result');
-        const resultCtx = resultCanvas.getContext('2d');
-        ///
-        //turn off anti aliasing to see pixels
+    constructor(){
 
-        // ctx.imageSmoothingEnabled = false;
-        resultCtx.imageSmoothingEnabled = false;
-        ///
-        //draw original image and resize canvas to image size. 
-        resultCanvas.width = img.width< 1200 ? img.width : 1200;
-        resultCanvas.height = img.height < 1200 ? img.height : 1200;
-        resultCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, resultCanvas.width, resultCanvas.height);
-        const imageData = resultCtx.getImageData(0, 0, resultCanvas.width, resultCanvas.height);
-        ///
-        // draw original image onto result canvass
-        // resultCtx.drawImage(originalCanvass, 0, 0);
-        ///
+
+    }
+    receiveImage(img){
+
+        this.resultCanvas = document.getElementById('result');
+        //turn off anti aliasing to see pixels
+        this.resultCtx = this.resultCanvas.getContext('2d');
+        this.resultCtx.imageSmoothingEnabled = false;
+        this.resultCanvas.width = img.width > 1200 ? 1200 : img.width;
+        this.resultCanvas.height = img.height > 1200 ? 1200: img.height;
+        this.resultCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height);
+        this.imageData = this.resultCtx.getImageData(0, 0, this.resultCanvas.width, this.resultCanvas.height);
+        this.makeHandlers();
+    }
+    makeHandlers(){
+        console.log('make handlers', this);
         //setup color picker
-        const menuColor = document.getElementById('menu-color');
-        resultCanvas.addEventListener('mousemove', handleMouseMove(resultCtx,menuColor).bind(this));
+        this.menuColor = document.getElementById('menu-color');
+        this.resultCanvas.addEventListener('mousemove', handleMouseMove(this.resultCtx, this.menuColor));
         ///
         //setup clearbutton
-        const clearButton = document.getElementById('clear');
-        clearButton.addEventListener('click', e => resultCtx.clearRect(0, 0, resultCanvas.width, resultCanvas.height));
-
-        const resetButton = document.getElementById('reset');
-        resetButton.addEventListener('click', e => {
-                resultCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, resultCanvas.width, resultCanvas.height)
-                imageData = resultCtx.getImageData(0, 0, resultCanvas.width, resultCanvas.height);
-            }
-        );
+        this.clearButton = document.getElementById('clear');
+        this.clearButton.addEventListener('click', e => this.resultCtx.clearRect(0, 0, this.resultCanvas.width, this.resultCanvas.height));
+        //setup reset button
+        this.resetButton = document.getElementById('reset');
+        this.resetButton.addEventListener('click', e => {
+            this.resultCtx.drawImage(this.img, 0, 0, this.img.width, this.img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height)
+            this.imageData = this.resultCtx.getImageData(0, 0, this.resultCanvas.width, this.resultCanvas.height);
+        });
         ///
         //setup niaveCommression button and handler
-        //on click gets imageData, value of inputs, validates input, and the calls niave compress of this.imageData, resultCtx, and input
-        const niaveButton = document.getElementById('niave');
-        niaveButton.addEventListener('click', (e) => {
-            
+        this.niaveButton = document.getElementById('niave');
+        this.niaveButton.addEventListener('click', (e) => {
+
             ///
             //get inputs
             let inX = parseInt(document.getElementById('niaveInputX').value);
             let inY = parseInt(document.getElementById('niaveInputY').value);
             let expand = parseInt(document.getElementById('niaveInputExpand').value);
-            let exval = parseFloat(document.getElementById('niaveInputExpandval').value);           
+            let exval = parseFloat(document.getElementById('niaveInputExpandval').value);
             //
             //validations           
-            if (expand>5 || expand<1){
+            if (expand > 5 || expand < 1) {
                 expand = 1;
             }
-            if (inY < 1)inY = 1;
-            if (inX < 1) inY = 1;           
+            if (inY < 1) inY = 1;
+            if (inX < 1) inY = 1;
             ///
             //call compression
             console.log("x,y,e", inY, inX, { x: inX || 10, y: inY || 10 }, expand);
-            
-            NiaveCompress(imageData, resultCtx, { x: inX || 10, y: inY || 10 }, expand || 1, exval || 1);
+
+            NiaveCompress(this.imageData, this.resultCtx, { x: inX || 10, y: inY || 10 }, expand || 1, exval || 1);
         });
-        
-        console.log("start");
+
         //quad tree testing
         const quadTreeSimpleButton = document.getElementById('quadtree');
-        
-        quadTreeSimpleButton.addEventListener('click', handleQuadTreeClick(imageData, resultCtx));
-
+        quadTreeSimpleButton.addEventListener('click', handleQuadTreeClick(this.imageData, this.resultCtx));
     }
 
 }
@@ -91,8 +81,10 @@ class ImageReader{
 
 function handleMouseMove(ctx, element){
     return ((event) => {
+        // console.log('mouseoverevent', event);
         const x = event.layerX;
         const y = event.layerY;
+        // console.log('here', ctx , element,x,y)
         const pixel = ctx.getImageData(x, y, 1, 1);
         const data = pixel.data;
         const rgba = 'rgba(' + data[0] + ', ' + data[1] +
@@ -123,7 +115,6 @@ function handleQuadTreeClick(imageData, context){
         console.log('blocksize', blockSize);
         console.log('circlebool', circleBool);
         console.log('handleclickQUad', blockSize, circleBool);
-        //dereference previously made trees
     
         QuadtreeMaker(imageData, context, blockSize, circleBool, traverseType);
     };
@@ -230,7 +221,7 @@ function QuadtreeMaker(imageData, context, blockSize, circleBool, timeoutType ='
     //enable click split
     let a = new Quadtree(initialBounds);
     context.canvas.addEventListener('click', (e) => {
-        console.log('clickevent, quadtree', e.layerX, e.layerY, a);
+        console.log('clickevent, quadtree', e.layerX, e.layerY, e,a);
     });
 
     function Quadtree(bounds,level) {
