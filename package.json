@@ -1,12 +1,19 @@
 {
-  "name": "imagereading",
+  "name": "imagereader",
   "version": "1.0.0",
-  "description": "reads into imageData using built in html5 capabilities and iterates through that pixel data make lower resolution versions of the image using quadtrees and simple array iteration",
-  "main": "imageReading.js",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "index.html"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Artem Kharshan",
-  "license": "ISC"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/snorkleboy/imageReader.git"
+  },
+  "author": "artem kharshan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/snorkleboy/imageReader/issues"
+  },
+  "homepage": "https://github.com/snorkleboy/imageReader#readme"
 }
