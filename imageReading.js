@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log('img',imgURl, img);
         img.crossOrigin = "";
         img.onload = () => new ImageReader(img);
+
     });
     
 });
@@ -205,9 +206,10 @@ function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
 
 //bound is {x:,y:,width:,height:} in pixels(4 index values per pixel);
 function QuadtreeContainer(imageData, context, blockSize, circleBool, timeoutType='fast'){
-    
+    //enable click split
+    //context.canvas.addEventListener('click',())
+    //create stop button
     const timeOutes = [];
-
     const stopButton = document.getElementById('stopQuads');
     stopButton.addEventListener('click', e => timeOutes.forEach( (to=>clearTimeout(to)) ));
     

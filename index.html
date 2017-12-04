@@ -27,14 +27,14 @@
             <label class='options'> Block Commpress
               <label>blocksize x (default is 10)<input id='niaveInputX' type="text"></input></label>
               <label>blocksize y(defualt is 10)<input id='niaveInputY' type="text"></input></label>
-              <label>expandType(1-4),1 is default<input id='niaveInputExpand' type="text"></input></label>
-              <label>how much to expand by, default is 1<input id='niaveInputExpandval' type="text"></input></label>
+              <label>expandType(1-4),1 is default, 2 is resized, 3 is is pins and 4 is circles<input id='niaveInputExpand' type="text"></input></label>
+              <label>how much to expand by, only works for expandType 3 and 4<input id='niaveInputExpandval' type="text"></input></label>
               <button id='niave'> niave compression</button>
               <button id='stopNiave'>Stop niave compression</button>
             </label>
             <label class='options'> Quad Tree Simple
               <label>blockSize<input id='quadTreeBlockSize' value='12' type="text"></input> </label>
-              <label>Circles or Squares (default is square)<input id='quadTreeCircle' value='off' type="checkbox"></input> </label>
+              <label>Circles or Squares (on is circle)<input checked id='quadTreeCircle' type="checkbox"></input> </label>
               <button id='quadtree'> quadtree compression</button>
               <button id='stopQuads'>Stop quad compression</button>
             </label>
