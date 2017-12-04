@@ -33,6 +33,7 @@ class ImageReader{
         resultCanvas.width = img.width< 1200 ? img.width : 1200;
         resultCanvas.height = img.height < 1200 ? img.height : 1200;
         resultCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, resultCanvas.width, resultCanvas.height);
+        const imageData = resultCtx.getImageData(0, 0, resultCanvas.width, resultCanvas.height);
         ///
         // draw original image onto result canvass
         // resultCtx.drawImage(originalCanvass, 0, 0);
@@ -52,9 +53,7 @@ class ImageReader{
         //on click gets imageData, value of inputs, validates input, and the calls niave compress of this.imageData, resultCtx, and input
         const niaveButton = document.getElementById('niave');
         niaveButton.addEventListener('click', (e) => {
-            //
-            //get pixel data from original image and put into this.imageData
-            const imageData = resultCtx.getImageData(0, 0, resultCanvas.width, resultCanvas.height);
+            
             ///
             //get inputs
             let inX = parseInt(document.getElementById('niaveInputX').value);
@@ -78,7 +77,7 @@ class ImageReader{
         console.log("start");
         //quad tree testing
         const quadTreeSimpleButton = document.getElementById('quadtree');
-        const imageData = resultCtx.getImageData(0, 0, resultCanvas.width, resultCanvas.height);
+        
         quadTreeSimpleButton.addEventListener('click', handleQuadTreeClick(imageData, resultCtx));
 
     }
@@ -117,7 +116,8 @@ function handleQuadTreeClick(imageData, context){
         console.log('blocksize', blockSize);
         console.log('circlebool', circleBool);
         console.log('handleclickQUad', blockSize, circleBool);
-        new QuadtreeContainer(imageData, context, blockSize, circleBool);
+        let tree = null;
+        tree = QuadtreeContainer(imageData, context, blockSize, circleBool);
     };
 }
 
@@ -196,7 +196,7 @@ function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
                     rect.setAttributeNS(null, 'fill', ctx.fillStyle);
                     document.getElementById('svgOne').appendChild(rect);
                 }
-            }, 1000 + (x * 10 + y * imagedata.width) / 100));
+            }, 1000 + (x+y*600) / 100));
         }
 
 
@@ -206,9 +206,8 @@ function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
 
 //bound is {x:,y:,width:,height:} in pixels(4 index values per pixel);
 function QuadtreeContainer(imageData, context, blockSize, circleBool, timeoutType='fast'){
-    //enable click split
-    //context.canvas.addEventListener('click',())
-    //create stop button
+
+     //create stop button
     const timeOutes = [];
     const stopButton = document.getElementById('stopQuads');
     stopButton.addEventListener('click', e => timeOutes.forEach( (to=>clearTimeout(to)) ));
@@ -219,6 +218,13 @@ function QuadtreeContainer(imageData, context, blockSize, circleBool, timeoutTyp
     const pixelArray = imageData.data;
     const initialBounds = {x:0,y:0,width:imageData.width, height:imageData.height};
  
+    //start node and 
+    //enable click split
+    let a = new Quadtree(initialBounds);
+    context.canvas.addEventListener('click', (e) => {
+        console.log('clickevent, quadtree', e.layerX, e.layerY, a);
+    });
+
     function Quadtree(bounds,level) {
         // console.log('quadcon', pixelArray);
 
@@ -312,7 +318,10 @@ function QuadtreeContainer(imageData, context, blockSize, circleBool, timeoutTyp
             }
         });
     };
-    let a = new Quadtree(initialBounds);
+
+
+
+    
     // console.log(a);
     a.recusiveSplit(a); 
     // a.split();
