@@ -1,4 +1,4 @@
-# [imageReader- compression art](https://imagereader.herokuapp.com/)
+# [imageReader- compression art](https://imagereader.herokuapp.com/) -live
 ![alt text](https://res.cloudinary.com/flyakite/image/upload/v1512363891/download_2_zloy9n.png)
 ### Background and Overview
 
