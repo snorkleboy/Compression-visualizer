@@ -1,12 +1,12 @@
 
 document.addEventListener("DOMContentLoaded", function () {
     const imagereader = new ImageReader();
+    const img = new Image();
     const imgForm = document.getElementById('imageUrlSubmit');
     console.log(imgForm);
     imgForm.addEventListener('click', function (event) {
         event.preventDefault();
         const imgURl = document.getElementById('imageUrlInput').value;
-        const img = new Image();
         img.src = imgURl;
         console.log('img', imgURl, img);
         img.crossOrigin = "";
@@ -16,8 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 class ImageReader{
     constructor(){
-
-
     }
     receiveImage(img){
 
@@ -29,13 +27,16 @@ class ImageReader{
         this.resultCanvas.height = img.height > 1200 ? 1200: img.height;
         this.resultCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height);
         this.imageData = this.resultCtx.getImageData(0, 0, this.resultCanvas.width, this.resultCanvas.height);
+
+        //setup color picker
+        this.menuColor = document.getElementById('menu-color');
+        this.resultCanvas.addEventListener('mousemove', handleMouseMove(this.resultCtx, this.menuColor));
+        
         this.makeHandlers();
     }
     makeHandlers(){
         console.log('make handlers', this);
-        //setup color picker
-        this.menuColor = document.getElementById('menu-color');
-        this.resultCanvas.addEventListener('mousemove', handleMouseMove(this.resultCtx, this.menuColor));
+
         ///
         //setup clearbutton
         this.clearButton = document.getElementById('clear');
@@ -73,7 +74,9 @@ class ImageReader{
 
         //quad tree testing
         const quadTreeSimpleButton = document.getElementById('quadtree');
-        quadTreeSimpleButton.addEventListener('click', handleQuadTreeClick(this.imageData, this.resultCtx));
+        const newquadTreeSimpleButton = quadTreeSimpleButton.cloneNode(true);
+        quadTreeSimpleButton.parentNode.replaceChild(newquadTreeSimpleButton, quadTreeSimpleButton);
+        newquadTreeSimpleButton.addEventListener('click', handleQuadTreeClick(this.imageData, this.resultCtx));
     }
 
 }
