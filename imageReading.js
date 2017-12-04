@@ -50,27 +50,33 @@ class ImageReader{
         ///
         //setup niaveCommression button and handler
         this.niaveButton = document.getElementById('niave');
-        this.niaveButton.addEventListener('click', (e) => {
+        const newNiaveButton = this.niaveButton.cloneNode(true);
+        // console.log(this.niaveButton, newNiaveButton);
+        this.niaveButton.parentNode.replaceChild(newNiaveButton, this.niaveButton);
+        this.niaveButton = newNiaveButton;
+        this.niaveButton.addEventListener('click', ()=>{
 
-            ///
-            //get inputs
-            let inX = parseInt(document.getElementById('niaveInputX').value);
-            let inY = parseInt(document.getElementById('niaveInputY').value);
-            let expand = parseInt(document.getElementById('niaveInputExpand').value);
-            let exval = parseFloat(document.getElementById('niaveInputExpandval').value);
-            //
-            //validations           
-            if (expand > 5 || expand < 1) {
-                expand = 1;
-            }
-            if (inY < 1) inY = 1;
-            if (inX < 1) inY = 1;
-            ///
-            //call compression
-            console.log("x,y,e", inY, inX, { x: inX || 10, y: inY || 10 }, expand);
+                ///
+                //get inputs
+                let inX = parseInt(document.getElementById('niaveInputX').value);
+                let inY = parseInt(document.getElementById('niaveInputY').value);
+                let expand = parseInt(document.getElementById('niaveInputExpand').value);
+                let exval = parseFloat(document.getElementById('niaveInputExpandval').value);
+                //
+                //validations           
+                if (expand > 5 || expand < 1) {
+                    expand = 1;
+                }
+                if (inY < 1) inY = 1;
+                if (inX < 1) inY = 1;
+                ///
+                //call compression
+                console.log("x,y,e", inY, inX, { x: inX || 10, y: inY || 10 }, expand);
 
-            NiaveCompress(this.imageData, this.resultCtx, { x: inX || 10, y: inY || 10 }, expand || 1, exval || 1);
-        });
+                NiaveCompress(this.imageData, this.resultCtx, { x: inX || 10, y: inY || 10 }, expand || 1, exval || 1);
+            });
+        
+
 
         //quad tree testing
         const quadTreeSimpleButton = document.getElementById('quadtree');
@@ -80,6 +86,7 @@ class ImageReader{
     }
 
 }
+
 
 
 function handleMouseMove(ctx, element){
