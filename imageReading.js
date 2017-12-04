@@ -47,7 +47,11 @@ class ImageReader{
         clearButton.addEventListener('click', e => resultCtx.clearRect(0, 0, resultCanvas.width, resultCanvas.height));
 
         const resetButton = document.getElementById('reset');
-        resetButton.addEventListener('click', e => resultCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, resultCanvas.width, resultCanvas.height));
+        resetButton.addEventListener('click', e => {
+                resultCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, resultCanvas.width, resultCanvas.height)
+                imageData = resultCtx.getImageData(0, 0, resultCanvas.width, resultCanvas.height);
+            }
+        );
         ///
         //setup niaveCommression button and handler
         //on click gets imageData, value of inputs, validates input, and the calls niave compress of this.imageData, resultCtx, and input
