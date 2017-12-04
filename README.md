@@ -53,7 +53,7 @@ index.js - this file is the entry file that starts a server
 - [x] make quadree
   - [x] be runnable with options
   - [x] be stoppable
-  - [x]be able to split niavely (equally for all children)
+  - [x] be able to split niavely (equally for all children)
 
 
 **Day 1**: finish split by click get most of way through color variance calculation
