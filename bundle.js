@@ -106,6 +106,9 @@ class ImageReader{
         this.imageData = this.resultCtx.getImageData(0, 0, this.resultCanvas.width, this.resultCanvas.height);
 
         //setup reset button
+        //
+        //
+        //move to window scope and have it remake entire ImageREader class.
         this.resetButton = document.getElementById('reset');
         this.resetButton.addEventListener('click', e => {
             this.resultCtx.drawImage(this.img, 0, 0, this.img.width, this.img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height)
@@ -231,10 +234,11 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
 
 
      makeQuadTree(imageData, context, blockSize, circleBool, timeoutType = 'fun2'){
-         console.log("makequadtree", this);
+        //  console.log("makequadtree", this);
         if (this.tree) {
-            console.log("delete tree nodes", delete this.tree, this);
-            console.log("after tree nodes", this);
+            // console.log("delete tree nodes", delete this.tree, this);
+            this.tree.use = false;
+            console.log("after tree nodes", this.tree);
         }
          
         //create stop button
@@ -242,10 +246,9 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
         const stopButton = document.getElementById('stopQuads');
         stopButton.addEventListener('click', e => timeOutes.forEach((to => clearTimeout(to))));
 
-        console.log('qtmaker start', circleBool, blockSize, imageData, context);
+        // console.log('qtmaker start', circleBool, blockSize, imageData, context);
 
         let devisions = 0;
-        let highestVar = 0;
         const pixelArray = imageData.data;
         const initialBounds = { x: 0, y: 0, width: imageData.width, height: imageData.height };
 
@@ -253,13 +256,15 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
         this.Quadtree = class Quadtree{
             constructor(bounds, level) {
             // console.log("quadtree node");
-
+            
+            this.use = true;
             this.bounds = bounds;
             this.nextWidth = Math.round(this.bounds.width / 2);
             this.nextHeight = Math.round(this.bounds.height / 2);
-            this.mpX = bounds.x + Math.round(bounds.width / 2);
-            this.mpY = bounds.y + Math.round(bounds.height / 2);
-            
+            this.mpX = bounds.x + this.nextWidth;
+            this.mpY = bounds.y + this.nextHeight;
+            this.getHighestVarNode = this.getHighestVarNode.bind(this);
+                
             const i4 = (this.mpY * imageData.width * 4) + this.mpX * 4;
             
             //
@@ -267,7 +272,9 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             //        
             this.color = 'rgba(' + pixelArray[i4] + ', ' + pixelArray[i4 + 1] +
                 ', ' + pixelArray[i4 + 2] + ', ' + (pixelArray[i4 + 3]) + ')';
-            this.variance = 0;
+            this.coloravg = (pixelArray[i4] + pixelArray[i4 + 1] + pixelArray[i4 + 2] + pixelArray[i4 + 3])/4;
+                // this.rgb = { r: pixelArray[i4], g: pixelArray[i4 + 1], b: pixelArray[i4 + 2], a: pixelArray[i4 + 3] };
+                this.variance = this.calcColorVar(this.coloravg);
             this.level = level || 0;
             this.bounds = bounds;
             this.nodes = [];
@@ -289,8 +296,29 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
 
         }
 
-        // takes in xy and determines which child that x,y would be bounded by. 
+            calcColorVar(nodecoloravg) {
+                if (this.width < 2) return 0;
+                let sum = 0;
+                for (let x = this.bounds.x; x < this.bounds.x+this.bounds.width;x++){
+                    for (let y = this.bounds.y; y<this.bounds.y+this.bounds.height;y++){
+                        sum = sum + pixelArray[((y * imageData.width) + x) * 4];
+                        // console.log(sum);
+                        // console.log(imageData)
+                    }
+                }
+                const area = this.bounds.width * this.bounds.height;
+                const avg = sum/(area);
+                const variance = ((avg - nodecoloravg) * (avg - nodecoloravg)) / area;
+                
+                // console.log(variance);
+                const score = Math.round((this.bounds.width * this.bounds.height)/(variance*1000));
+                if ( score === Infinity){
+                    console.log(score, this, nodecoloravg);
+                }
+                return score;
 
+
+         }
         getIndex(x,y){
             let index = -1;
             this.nodes.forEach( (node, idx) =>{
@@ -322,21 +350,17 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             }
         }
 
-        calcColorVar () {
-            // this.bounds = bounds;
-            // this.nextWidth = Math.round(this.bounds.width / 2);
-            // this.nextHeight = Math.round(this.bounds.height / 2);
-            // this.mpX = bounds.x + Math.round(bounds.width / 2);
-            // this.mpY = bounds.y + Math.round(bounds.height / 2);
 
-            // const i4 = (this.mpY * imageData.width * 4) + this.mpX * 4;
-        }
 
         split() {
-            // console.log("split", this);
+            devisions++;
+            console.log(this.bounds);
             if (this.bounds.width === 1 || this.bounds.height===1){
+                console.log("split", this);
+                this.variance = 0;
                 return -1;
             }
+
             this.nodes[0] = new Quadtree({
                 width: this.nextWidth,
                 height: this.nextHeight,
@@ -382,8 +406,9 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
         recusiveSplit(QuadNode) {
             // console.log('rec split', this);
             QuadNode.split().nodes.forEach(function (node, index) {
-                devisions++;
-                if (node.nextWidth >= blockSize) {
+        
+                // console.log(leaves);
+                if (node.nextWidth >= blockSize && node.nextWidth >= 2) {
                     if (timeoutType === '1') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), devisions * 10)); }
                     else if (timeoutType === '4') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), 10)); }
                     else if (timeoutType === '3') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level * index) * 100 + devisions / 20))); }
@@ -391,21 +416,59 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
                 }
             });
         }
+        splitByVar(parentNode){
+            
+            function splitBV(){
+                let counter =0;
+                const a = setInterval(()=>{
+                    counter++;
+                    let hvn = parentNode.getHighestVarNode();
+                    // console.log("hvn",hvn, parentNode);
+                    
+                    hvn.node.split();
+                    if (counter > 1000) clearInterval(a);
+                },1);
+                timeOutes.push(a);
+            }
+            splitBV();
+        }
+        getHighestVarNode() {
+            
+            let highestVar = {node:null, var:0};
+             const recIter = (Pnode) => {
+                 if (Pnode.nodes[0] === undefined) {
+                     if (highestVar.var < Pnode.variance){
+                         highestVar.node = Pnode;
+                         highestVar.var = Pnode.variance;
+                    }
+                }else{
+                     Pnode.nodes.forEach( (node)=>{
+                         recIter(node);
+                    });
+                }
+            }
+            recIter(this);
+            console.log("highestvar",highestVar, this);
+            return highestVar;
+            
+
+            
+        }
     };
     
-
-
-
-
         //start node and 
         console.log('quadtreemaker', this);
         this.tree = new this.Quadtree(initialBounds);
-
-        // tree.split();
-        // tree.splitChildren();
+        //  console.log(this.tree.getHighestVarNode());
+        this.tree.splitByVar(this.tree);
+       
+        // this.tree.split();
+        // this.tree.splitChildren();
+        //  console.log(this.tree.getHighestVarNode());
+        // 
         // console.log("first node", tree);
         
-        this.tree.recusiveSplit(this.tree);
+        // this.tree.recusiveSplit(this.tree);
 
         
         // console.log("node after split", tree);
@@ -415,9 +478,10 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             return (e)=>{
                 // console.log('clickevent, quadtree', e.layerX, e.layerY, tree);
                 console.log("getIndex in handler", tree.GetNode(e.layerX,e.layerY) );
-
+            if (tree.use === true){
             const node = tree.GetNode(e.layerX, e.layerY);
             if (node) node.split(); 
+            }
             // console.log("getNode x,y node",e.layerX, e.layerY,  tree.GetNode(e.layerX, e.layerY));
         };}
 

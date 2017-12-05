@@ -33,6 +33,9 @@ class ImageReader{
         this.imageData = this.resultCtx.getImageData(0, 0, this.resultCanvas.width, this.resultCanvas.height);
 
         //setup reset button
+        //
+        //
+        //move to window scope and have it remake entire ImageREader class.
         this.resetButton = document.getElementById('reset');
         this.resetButton.addEventListener('click', e => {
             this.resultCtx.drawImage(this.img, 0, 0, this.img.width, this.img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height)
