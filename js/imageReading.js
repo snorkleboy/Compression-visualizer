@@ -85,10 +85,11 @@ class ImageReader{
 
 
         //quad tree testing
+        this.quadtreeMaker = new QuadtreeMaker();
         const quadTreeSimpleButton = document.getElementById('quadtree');
         const newquadTreeSimpleButton = quadTreeSimpleButton.cloneNode(true);
         quadTreeSimpleButton.parentNode.replaceChild(newquadTreeSimpleButton, quadTreeSimpleButton);
-        newquadTreeSimpleButton.addEventListener('click', handleQuadTreeClick(this.imageData, this.resultCtx));
+        newquadTreeSimpleButton.addEventListener('click', handleQuadTreeClick(this.imageData, this.resultCtx, this.quadtreeMaker));
     }
 
 }
@@ -120,7 +121,7 @@ function makeDownload(imageData, element){
     dlLinkDiv.appendChild(link);
 }
 
-function handleQuadTreeClick(imageData, context){
+function handleQuadTreeClick(imageData, context, quadtreeMaker){
     return (e) => {
         e.preventDefault();
         const blockSize = parseInt(document.getElementById('quadTreeBlockSize').value);
@@ -135,8 +136,8 @@ function handleQuadTreeClick(imageData, context){
         //make new canvas to get rid of event handlers
         
 
-
-         QuadtreeMaker(imageData, context, blockSize, circleBool, traverseType);
+        quadtreeMaker.makeQuadTree(imageData, context, blockSize, circleBool, traverseType);
+        //  new QuadtreeMaker(imageData, context, blockSize, circleBool, traverseType);
     };
 }
 
