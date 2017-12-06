@@ -1,24 +1,25 @@
 <html>
 
   <head>
-    <title>Canvas Practice</title>
+    <title>imageData fun</title>
 
     <link rel="stylesheet" href="index.css">
     
   </head>
 
   <body>
-    
+    <label>image url
+      <input name='imageUrl' id='imageUrlInput' type="text" value='https://i.imgur.com/drGvplW.jpg' />
+      <input id='imageUrlSubmit' type="submit" value='submit' />
+    </label>
+    <canvas id="result" width="800" height="800"></canvas>
     <div class='container'>
         
       <div class="options-container">
         <a href='https://github.com/snorkleboy/imageReader/blob/master/README.md'>github readme</a>
         <div>
 
-          <label>image url
-            <input name='imageUrl' id='imageUrlInput' type="text" value='https://i.imgur.com/drGvplW.jpg' />
-            <input id='imageUrlSubmit' type="submit" value='submit' />
-          </label>
+          
           <div class='options'>
             <div class='colors'>
               <div id="menu-color" style="width:200px;height:50px;float:left"></div>
@@ -39,14 +40,16 @@
               </label>
               <label>blockSize<input id='quadTreeBlockSize' value='6' type="text"></input> </label>
               <label>Circles or Squares (on is circle)<input checked id='quadTreeCircle' type="checkbox"></input> </label>
+              <label>Split by Color variance<input id='quadTreeVariance' type="checkbox"></input> </label>
               <button id='quadtree'> quadtree compression</button>
+              
               <button id='stopQuads'>Stop quad compression</button>
             </label>
             <button id='clear'>clear</button>
             <button id='reset'>reset</button>
             <br></br>
           </div>
-          <canvas id="result" width="800" height="800"></canvas>
+          
       </div>
 
       

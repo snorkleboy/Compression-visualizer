@@ -130,16 +130,16 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
         const blockSize = parseInt(document.getElementById('quadTreeBlockSize').value);
         const circleBool = document.getElementById('quadTreeCircle').checked;
         const traverseType = document.getElementById('QuadTreeTraverse').value;
-
+        const splitbyVariance = document.getElementById('quadTreeVariance').checked;
         if (traverseType > 4 || traverseType < 0) traverseType = 2;
         // console.log('blocksize', blockSize);
         // console.log('circlebool', circleBool);
         // console.log('handleclickQUad', blockSize, circleBool);
         
         //make new canvas to get rid of event handlers
-        
+        console.log('splitbyvar',splitbyVariance);
 
-        quadtreeMaker.makeQuadTree(imageData, context, blockSize, circleBool, traverseType);
+        quadtreeMaker.makeQuadTree(imageData, context, blockSize, circleBool, traverseType, splitbyVariance);
         //  new QuadtreeMaker(imageData, context, blockSize, circleBool, traverseType);
     };
 }
