@@ -100,9 +100,12 @@ class ImageReader{
         //turn off anti aliasing to see pixels
         this.resultCtx = this.resultCanvas.getContext('2d');
         this.resultCtx.imageSmoothingEnabled = false;
-        this.resultCanvas.width = img.width > 1200 ? 1200 : img.width;
-        this.resultCanvas.height = img.height > 1200 ? 1200: img.height;
+
+        this.resultCanvas.width = 1024;
+        const ratio = 1024/img.width;
+        this.resultCanvas.height = img.height * ratio;
         this.resultCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height);
+        
         this.imageData = this.resultCtx.getImageData(0, 0, this.resultCanvas.width, this.resultCanvas.height);
 
         //setup reset button
