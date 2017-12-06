@@ -41,11 +41,12 @@
             //
             /// maybe refactor following into this.render()?
             //        
-            this.color = 'rgba(' + pixelArray[i4] + ', ' + pixelArray[i4 + 1] +
-                ', ' + pixelArray[i4 + 2] + ', ' + (pixelArray[i4 + 3]) + ')';
-            this.coloravg = (pixelArray[i4] + pixelArray[i4 + 1] + pixelArray[i4 + 2] + pixelArray[i4 + 3])/4;
+            
+            this.coloravg = this.calcAverageColor();
+            this.color = 'rgba(' + this.coloravg [0] + ', ' + this.coloravg [1] +
+                    ', ' + this.coloravg [2] + ', ' + (this.coloravg [3]) + ')';
                 // this.rgb = { r: pixelArray[i4], g: pixelArray[i4 + 1], b: pixelArray[i4 + 2], a: pixelArray[i4 + 3] };
-                this.variance = this.calcColorVar(this.coloravg);
+            this.variance = this.calcColorVar(150);
             this.level = level || 0;
             this.bounds = bounds;
             this.nodes = [];
@@ -66,9 +67,26 @@
 
 
         }
-
-            calcColorVar(nodecoloravg) {
-                if (this.width < 2) return 0;
+        calcAverageColor(){
+            let r = 0;
+            let g = 0;
+            let b = 0;
+            let a = 0;
+            for (let x = this.bounds.x; x < this.bounds.x + this.bounds.width; x = x+4) {
+                for (let y = this.bounds.y; y < this.bounds.y + this.bounds.height; y++) {
+                   const i4 = ((y * imageData.width) + x) * 4;
+                   r = pixelArray[i4];
+                   g = pixelArray[i4+1];
+                   b = pixelArray[i4+2];
+                   a = pixelArray[i4+3];
+                    // console.log(sum);
+                    // console.log(imageData)
+                }
+            }
+            return [r,g,b,a];
+        }
+        calcColorVar(nodecoloravg) {
+                // if (this.width < 2) return 0;
                 let sum = 0;
                 for (let x = this.bounds.x; x < this.bounds.x+this.bounds.width;x++){
                     for (let y = this.bounds.y; y<this.bounds.y+this.bounds.height;y++){
@@ -77,14 +95,15 @@
                         // console.log(imageData)
                     }
                 }
+                
                 const area = this.bounds.width * this.bounds.height;
                 const avg = sum/(area);
                 const variance = ((avg - nodecoloravg) * (avg - nodecoloravg)) / area;
                 
                 // console.log(variance);
-                const score = Math.round((this.bounds.width * this.bounds.height)/(variance*1000));
+                const score = variance===0 ? 0 : Math.round((this.bounds.width * this.bounds.height)/(variance*100));
                 if ( score === Infinity){
-                    console.log(score, this, nodecoloravg);
+                    console.log(score,  nodecoloravg, sum, area, avg, variance, this);
                 }
                 return score;
 
@@ -124,14 +143,14 @@
 
 
         split() {
-            devisions++;
-            console.log(this.bounds);
+            
+            // console.log(this.bounds);
             if (this.bounds.width === 1 || this.bounds.height===1){
                 console.log("split", this);
                 this.variance = 0;
                 return -1;
             }
-
+            devisions++;
             this.nodes[0] = new Quadtree({
                 width: this.nextWidth,
                 height: this.nextHeight,
@@ -197,8 +216,8 @@
                     // console.log("hvn",hvn, parentNode);
                     
                     hvn.node.split();
-                    if (counter > 1000) clearInterval(a);
-                },1);
+                    if (counter > 3500) clearInterval(a);
+                },devisions);
                 timeOutes.push(a);
             }
             splitBV();
@@ -217,9 +236,9 @@
                          recIter(node);
                     });
                 }
-            }
+            };
             recIter(this);
-            console.log("highestvar",highestVar, this);
+            // console.log("highestvar",highestVar, this);
             return highestVar;
             
 
@@ -231,7 +250,7 @@
         console.log('quadtreemaker', this);
         this.tree = new this.Quadtree(initialBounds);
         //  console.log(this.tree.getHighestVarNode());
-        this.tree.splitByVar(this.tree);
+        // this.tree.splitByVar(this.tree);
        
         // this.tree.split();
         // this.tree.splitChildren();
@@ -239,7 +258,7 @@
         // 
         // console.log("first node", tree);
         
-        // this.tree.recusiveSplit(this.tree);
+        this.tree.recusiveSplit(this.tree);
 
         
         // console.log("node after split", tree);
@@ -250,7 +269,7 @@
                 // console.log('clickevent, quadtree', e.layerX, e.layerY, tree);
                 console.log("getIndex in handler", tree.GetNode(e.layerX,e.layerY) );
             if (tree.use === true){
-            const node = tree.GetNode(e.layerX, e.layerY);
+                const node = tree.GetNode(e.layerX, e.layerY);
             if (node) node.split(); 
             }
             // console.log("getNode x,y node",e.layerX, e.layerY,  tree.GetNode(e.layerX, e.layerY));
