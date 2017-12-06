@@ -108,7 +108,7 @@
             const variance = varSum / 4;
                 
            
-            const score = variance / (imageData.width / this.bounds.width) ;
+            const score = variance / ((imageData.width * imageData.height )/ area) ;
             if ( score === Infinity){
                 console.log(score, this.coloravg, sum, area, variance, this);
             }
@@ -221,10 +221,10 @@
                 const a = setInterval(()=>{
                     counter++;
                     let hvn = parentNode.getHighestVarNode();
-                    console.log("hvn",hvn, parentNode);
-                    
+                    // console.log("hvn",hvn, parentNode);
+                    if (hvn.variance < 1) clearInterval(a);
                     hvn.node.split();
-                    if (counter > 3000) clearInterval(a);
+                    
                 },devisions);
                 timeOutes.push(a);
             }
