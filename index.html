@@ -8,13 +8,10 @@
   </head>
 
   <body>
-    <label>image url
-      <input name='imageUrl' id='imageUrlInput' type="text" value='https://i.imgur.com/drGvplW.jpg' />
-      <input id='imageUrlSubmit' type="submit" value='submit' />
-    </label>
-    <canvas id="result" width="800" height="800"></canvas>
-    <div class='container'>
-        
+    <span class='canvas-holder'>
+      <canvas id="result" width="800" height="800"></canvas>
+    </span>
+      <div class='container'>    
       <div class="options-container">
         <a href='https://github.com/snorkleboy/imageReader/blob/master/README.md'>github readme</a>
         <div>
@@ -26,7 +23,7 @@
               <div id='colorpick' style="width:200px;height:50px;float:left"></div>
             </div>
             <br></br>
-            <label class='options'> Block Commpress
+            <label class='inneroptions'> Block Commpress
               <label>blocksize x (default is 10)<input id='niaveInputX' type="text"></input></label>
               <label>blocksize y(defualt is 10)<input id='niaveInputY' type="text"></input></label>
               <label>expandType(1-4),1 is default, 2 is resized, 3 is is pins and 4 is Circles<input id='niaveInputExpand' type="text"></input></label>
@@ -34,7 +31,8 @@
               <button id='niave'> niave compression</button>
               <button id='stopNiave'>Stop niave compression</button>
             </label>
-            <label class='options'> Quad Tree Simple
+
+            <label class='inneroptions'> Quad Tree Simple
               <label>traverseType,(1-4) 1 is closest to call order
                 <input id='QuadTreeTraverse' value=3 type="text"></input>
               </label>
@@ -45,9 +43,14 @@
               
               <button id='stopQuads'>Stop quad compression</button>
             </label>
+
             <button id='clear'>clear</button>
             <button id='reset'>reset</button>
             <br></br>
+            <label>image url
+              <input name='imageUrl' id='imageUrlInput' type="text" value='https://i.imgur.com/drGvplW.jpg' />
+              <input id='imageUrlSubmit' type="submit" value='submit' />
+            </label>
           </div>
           
       </div>

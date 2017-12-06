@@ -78,7 +78,7 @@
             return [r,g,b,a];
         }
         calcColorVar() {
-                if (this.width < 2) return 0;
+                // if (this.width < 2) return 0;
             // console.log("start", this.coloravg,  variance, this);
             let sum = [0,0,0,0];
                for (let x = this.bounds.x; x < this.bounds.x+this.bounds.width-4;x = x+1){

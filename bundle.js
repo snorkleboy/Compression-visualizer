@@ -96,14 +96,15 @@ class ImageReader{
     }
     receiveImage(img){
         console.log("image recieved", img);
+        this.img=img;
         this.resultCanvas = document.getElementById('result');
         //turn off anti aliasing to see pixels
         this.resultCtx = this.resultCanvas.getContext('2d');
         this.resultCtx.imageSmoothingEnabled = false;
 
-        this.resultCanvas.width = 1024;
-        const ratio = 1024/img.width;
-        this.resultCanvas.height = img.height * ratio;
+        this.resultCanvas.height = 1024;
+        const ratio = 1024/img.height;
+        this.resultCanvas.width = img.width * ratio;
         this.resultCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height);
         
         this.imageData = this.resultCtx.getImageData(0, 0, this.resultCanvas.width, this.resultCanvas.height);
@@ -310,7 +311,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             return [r,g,b,a];
         }
         calcColorVar() {
-                if (this.width < 2) return 0;
+                // if (this.width < 2) return 0;
             // console.log("start", this.coloravg,  variance, this);
             let sum = [0,0,0,0];
                for (let x = this.bounds.x; x < this.bounds.x+this.bounds.width-4;x = x+1){
