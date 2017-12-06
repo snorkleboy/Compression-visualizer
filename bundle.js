@@ -311,7 +311,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             return [r,g,b,a];
         }
         calcColorVar() {
-                // if (this.width < 2) return 0;
+                if (this.width < 2) return 0;
             // console.log("start", this.coloravg,  variance, this);
             let sum = [0,0,0,0];
                for (let x = this.bounds.x; x < this.bounds.x+this.bounds.width-4;x = x+1){
@@ -322,7 +322,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
                     sum[2] += Math.pow(pixelArray[i4 + 2]-this.coloravg[2],2);
                     sum[3] += Math.pow(pixelArray[i4 + 3] - this.coloravg[3],2);
                     if (sum[0] === undefined || Number.isNaN(sum[0]))
-                    console.log('sum undefined', x,y,i4,this.bounds,this);
+                        console.log('sum undefined', x,y,i4,this.bounds,this);
                     }
                 }
             const area = this.bounds.width * this.bounds.height;
@@ -346,7 +346,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
         getIndex(x,y){
             let index = -1;
             this.nodes.forEach( (node, idx) =>{
-                if (node.bounds.x < x && x < node.bounds.width+node.bounds.x){
+                if (node.bounds.x < x && x < node.bounds.x+node.bounds.width){
                     // console.log("inside x bounds of", node.bounds.x, node.bounds.x+node.bounds.width);
                     if ( node.bounds.y < y && y < node.bounds.y+node.bounds.height){
                         // console.log("inside y bounds of", node.bounds.y, node.bounds.y + node.bounds.height);
@@ -358,8 +358,6 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             });
             if (index === -1) console.log('get index returning -1: x,y this=', x, y, this);
             return index;
-            // none of the none of the nodes contain the x,y probably shouldnt ever happen
-
         }
         //every node has either no children or 4 children. If xy is within bounds, if there are no children return this node,
         // if there are children getIndex and run getNode on that child node. 
@@ -380,7 +378,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             
             // console.log(this.bounds);
             if (this.bounds.width === 1 || this.bounds.height===1){
-                console.log("split", this);
+                console.log("split below 1 width", this);
                 this.variance = 0;
                 return -1;
             }
@@ -447,7 +445,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
                 const a = setInterval(()=>{
                     counter++;
                     let hvn = parentNode.getHighestVarNode();
-                    if (hvn.variance < 10) clearInterval(a);
+                    if (hvn.variance < 1) clearInterval(a);
                     hvn.node.split();
                     
                 },devisions);
