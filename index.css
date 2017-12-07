@@ -1,18 +1,38 @@
 body{
     background-color: black;
 }
+
 button, label, input{
     min-height: 30px;
     max-width: 300px;
-    /* flex-grow: 0; */
-    background-color: rgb(180, 180, 180);
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin:5px;
+    background-color: rgb(243, 243, 243);
     color: rgb(82, 82, 82);
-    border: 1px solid lightgrey;
+    /* border: 1px solid lightgrey; */
+    
+}
+button{
+    border: 1px solid rgb(182, 182, 182);
+    border-radius: 3px;
+}
+input{
+    background-color: rgb(243, 243, 243);
+    padding: 6px;
+    margin: 5px;
+    color: rgb(129, 129, 103);
+    font-size: 15px;
+}
+select{
+    min-height: 15px;
+    padding: 3px;
+    margin: 5px;
 }
 .canvas-holder{
     /* max-height: 1050px; */
     /* min-height: 1050px; */
-    height: 1050px;
+    height: 720;
     display: flex;
     flex-direction: column;
     width: fit-content;
@@ -29,10 +49,21 @@ canvas{
 }
 
 
+
 .container{
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.container *{
+    opacity: 1;
+    transition: .6s opacity ease-in ;
+    transition-delay: .1s;
 }
 .colors{
     position: absolute;
@@ -48,8 +79,14 @@ canvas{
     margin: 5px;
     padding: 20px;
     text-align: center;
-    background-color: #4d4d4d;
+    background-color: #9e9e9e;
     border-radius: 10px;
+    opacity: 1;
+    height: 60%;
+    overflow: hidden;
+    transition:  1s height; 
+    
+
 }
 .options{
     display: flex;
@@ -65,4 +102,23 @@ canvas{
 label{
     display: flex;
     flex-direction: column;
+}
+
+.collapse{
+    height: 0%;
+}
+.collapse *{
+    opacity: 0;
+}
+.imageOptions{
+    height: fit-content;
+    border-radius: 10px;
+}
+
+#blockChop, #quadTree{
+    opacity: 1;
+    /* width: 100px; */
+    border-radius: 10px;    
+
+    margin-bottom: 20px;
 }

@@ -2,7 +2,7 @@
 
   <head>
     <title>imageData fun</title>
-
+    <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="index.css">
     
   </head>
@@ -11,7 +11,7 @@
  
       <div class='container'>    
           <span class='canvas-holder'>
-            <canvas id="result" width="1024" height="1024"></canvas>
+            <canvas id="result" width="680" height="680"></canvas>
           </span>
       <div class="options-container">
         <a href='https://github.com/snorkleboy/imageReader/blob/master/README.md'>github readme</a>
@@ -24,40 +24,44 @@
               <div id='colorpick' style="width:200px;height:50px;float:left"></div>
             </div>
             <br></br>
-            <label class='inneroptions bc'> Block Chop
+            <label id='bc' class='inneroptions bc collapse'> 
+              <button id='blockChop' >BlockChop</button>
+                            <button id='niave'> niave compression</button>
+                            <button id='stopNiave'>Stop niave compression</button>
               <label>blocksize x (default is 10)<input id='niaveInputX' type="text"></input></label>
               <label>blocksize y(defualt is 10)<input id='niaveInputY' type="text"></input></label>
               <label>expandType(1-4),1 is default, 2 is resized, 3 is is pins and 4 is Circles<input id='niaveInputExpand' type="text"></input></label>
               <label>how much to expand by, only works for expandType 3 and 4<input id='niaveInputExpandval' type="text"></input></label>
-              <button id='niave'> niave compression</button>
-              <button id='stopNiave'>Stop niave compression</button>
-            </label>
 
-            <label class='inneroptions qt'> QuadTree
+            </label>
+            <label class='imageOptions inneroptions'> load an image
+              <input name='imageUrl' id='imageUrlInput' type="text" value='https://i.imgur.com/drGvplW.jpg' />
+              <input id='imageUrlSubmit' type="submit" value='submit' />
+              <button id='clear'>clear</button>
+              <button id='reset'>reset</button>
+            </label>
+            <label id='qt' class='inneroptions qt collapse'>
+              <button id='quadTree'>QuadTree</button>
+                            <button id='quadtree'> quadtree compression</button>                            
+                            <button id='stopQuads'>Stop quad compression</button>
               <label>traverseType,(1-4) 1 is closest to call order
                 <select>
-                  <option value="volvo">Volvo</option>
-                  <option value="saab">Saab</option>
-                  <option value="mercedes">Mercedes</option>
-                  <option value="audi">Audi</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
                 </select>
                 <input id='QuadTreeTraverse' value=3 type="text"></input>
               </label>
               <label>blockSize<input id='quadTreeBlockSize' value='6' type="text"></input> </label>
               <label>Circles or Squares (on is circle)<input checked id='quadTreeCircle' type="checkbox"></input> </label>
               <label>Split by Color variance<input id='quadTreeVariance' type="checkbox"></input> </label>
-              <button id='quadtree'> quadtree compression</button>
-              
-              <button id='stopQuads'>Stop quad compression</button>
+
             </label>
 
-            <button id='clear'>clear</button>
-            <button id='reset'>reset</button>
+
             <br></br>
-            <label>image url
-              <input name='imageUrl' id='imageUrlInput' type="text" value='https://i.imgur.com/drGvplW.jpg' />
-              <input id='imageUrlSubmit' type="submit" value='submit' />
-            </label>
+
           </div>
           
       </div>
