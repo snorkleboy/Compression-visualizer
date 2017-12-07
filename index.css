@@ -2,7 +2,7 @@ body{
     background-color: black;
 }
 
-button, label, input{
+button, label, input, select{
     min-height: 30px;
     max-width: 300px;
     flex-grow: 0;
@@ -10,12 +10,13 @@ button, label, input{
     margin:5px;
     background-color: rgb(243, 243, 243);
     color: rgb(82, 82, 82);
+    /* transition: 1s background-color; */
     /* border: 1px solid lightgrey; */
     
 }
 button{
     border: 1px solid rgb(182, 182, 182);
-    border-radius: 3px;
+    /* border-radius: 3px; */
 }
 input{
     background-color: rgb(243, 243, 243);
@@ -46,23 +47,20 @@ canvas{
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
+    top :50px;
 }
 
 
 
 .container{
     display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    /* align-items: center; */
 }
 .container *{
     opacity: 1;
-    transition: .6s opacity ease-in ;
+    transition: .6s opacity ease-in, .3s background-color ;
     transition-delay: .1s;
 }
 .colors{
@@ -84,13 +82,17 @@ canvas{
     opacity: 1;
     height: 60%;
     overflow: hidden;
-    transition:  1s height; 
+    transition:  .7s height ease-out, 1s opacity;
+    position: relative;
     
 
 }
+.fa {
+    padding-left: 4px;
+}
 .options{
     display: flex;
-    /* flex-direction: column; */
+    flex-direction: column;
     padding: 2px;
 }
 
@@ -105,20 +107,30 @@ label{
 }
 
 .collapse{
+    
     height: 0%;
+    opacity: 0;
 }
 .collapse *{
     opacity: 0;
 }
 .imageOptions{
     height: fit-content;
-    border-radius: 10px;
+    /* border-radius: 10px; */
 }
 
-#blockChop, #quadTree{
+#blockChopToggle, #quadTreeToggle{
     opacity: 1;
     /* width: 100px; */
-    border-radius: 10px;    
+    /* border-radius: 10px;     */
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 
-    margin-bottom: 20px;
+.qt{
+    top: -80px;
+}
+
+button:hover, input:hover, select:hover{
+    background-color: lightgoldenrodyellow;
 }

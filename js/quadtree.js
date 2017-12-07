@@ -44,38 +44,38 @@
         }
         calcAverageColor(){
 
-            // const mpX = this.bounds.x + this.bounds.width/2;
-            // const mpY = this.bounds.y + this.bounds.height/2;
-            // const i4 = ((this.mpY * imageData.width) + this.mpX) * 4;
-            //        let r = pixelArray[i4];
-            //        let g = pixelArray[i4+1];
-            //        let b = pixelArray[i4+2];
-            //        let a = pixelArray[i4+3];
-            //        if (r === undefined)console.log("color avg",[r,g,b,a], i4,this);
-            //        return [r,g,b,a];
-            let r = 0;
-            let g = 0;
-            let b = 0;
-            let a = 0;
-            for (let x = this.bounds.x; x < this.bounds.x + this.bounds.width; x++) {
-                for (let y = this.bounds.y; y < this.bounds.y + this.bounds.height; y++) {
-                    const i4 = ((y * imageData.width) + x) * 4;
-                   if (pixelArray[i4+4])
-                    {
-                   r += pixelArray[i4];
-                   g += pixelArray[i4+1];
-                   b += pixelArray[i4+2];
-                   a += pixelArray[i4+3];
-                    if (r === undefined || Number.isNaN(r)) console.log("color", [r, g, b, a],x,y ,i4,this.bounds, this);}
-                }
-            }
-            const area = this.bounds.width * this.bounds.height;
-            r = Math.round(r / area);
-            g = Math.round(g / area);
-            b = Math.round(b / area);
-            a = Math.round(a / area);
-            if (r === undefined || Number.isNaN(r)) console.log("color avg", [r, g, b, a], this);
-            return [r,g,b,a];
+            //get color from ccorner
+            const i4 = ((this.bounds.y * imageData.width) + this.bounds.x) * 4;
+                   let r = pixelArray[i4];
+                   let g = pixelArray[i4+1];
+                   let b = pixelArray[i4+2];
+                   let a = pixelArray[i4+3];
+                   if (r === undefined)console.log("color avg",[r,g,b,a], i4,this);
+                   return [r,g,b,a];
+                   /// get real average
+        //     let r = 0;
+        //     let g = 0;
+        //     let b = 0;
+        //     let a = 0;
+        //     for (let x = this.bounds.x; x < this.bounds.x + this.bounds.width; x++) {
+        //         for (let y = this.bounds.y; y < this.bounds.y + this.bounds.height; y++) {
+        //             const i4 = ((y * imageData.width) + x) * 4;
+        //            if (pixelArray[i4+4])
+        //             {
+        //            r += pixelArray[i4];
+        //            g += pixelArray[i4+1];
+        //            b += pixelArray[i4+2];
+        //            a += pixelArray[i4+3];
+        //             if (r === undefined || Number.isNaN(r)) console.log("color", [r, g, b, a],x,y ,i4,this.bounds, this);}
+        //         }
+        //     }
+        //     const area = this.bounds.width * this.bounds.height;
+        //     r = Math.round(r / area);
+        //     g = Math.round(g / area);
+        //     b = Math.round(b / area);
+        //     a = Math.round(a / area);
+        //     if (r === undefined || Number.isNaN(r)) console.log("color avg", [r, g, b, a], this);
+        //     return [r,g,b,a];
         }
         calcColorVar() {
                 if (this.width < 2) return 0;
@@ -118,7 +118,7 @@
                     if ( node.bounds.y < y && y < node.bounds.y+node.bounds.height){
                         // console.log("inside y bounds of", node.bounds.y, node.bounds.y + node.bounds.height);
                         index = idx;
-                        
+                        return index;
                         // console.log("shouldnt see this");
                     }
                 }
@@ -198,10 +198,10 @@
         
                 // console.log(leaves);
                 if (node.nextWidth >= blockSize && node.nextWidth >= 2) {
-                    if (timeoutType === '4') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), node.level*devisions * 10)); }
+                    if (timeoutType === '2') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), node.level*devisions * 10)); }
                     else if (timeoutType === '1') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), 10)); }
-                    else if (timeoutType === '3') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level * index) * 100 + devisions / 20))); }
-                    else if (timeoutType === '2') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level + index) * 500))); }
+                    else if (timeoutType === '3') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), (node.level * index) * devisions)); }
+                    else if (timeoutType === '4') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level + index)))); }
                 }
             });
         }
@@ -212,7 +212,7 @@
                 const a = setInterval(()=>{
                     counter++;
                     let hvn = parentNode.getHighestVarNode();
-                    if (hvn.variance < 1) clearInterval(a);
+                    if (hvn.variance < .000001) clearInterval(a);
                     hvn.node.split();
                     
                 },devisions);

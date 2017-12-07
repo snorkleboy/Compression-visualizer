@@ -90,21 +90,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
-    const blockChopButton = document.getElementById('blockChop');
+    const blockChopButton = document.getElementById('blockChopToggle');
     blockChopButton.addEventListener('click', function(e){
+        const otherContainer = document.getElementById('qt');
         const container = document.getElementById('bc');
         // console.log(container);
 
         container.classList.contains('collapse') ? container.classList.remove('collapse') : container.classList.add('collapse');
+        if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
         // console.log(container);
     });
 
-    const quadTreeButton = document.getElementById('quadTree');
+    const quadTreeButton = document.getElementById('quadTreeToggle');
     quadTreeButton.addEventListener('click', function(e){
+        const otherContainer = document.getElementById('bc');
         const container = document.getElementById('qt');
         // console.log(container);
 
         container.classList.contains('collapse') ? container.classList.remove('collapse') : container.classList.add('collapse');
+        if (!otherContainer.classList.contains('collapse') ) otherContainer.classList.add('collapse');
         // console.log(container);
     });
 
@@ -120,10 +124,10 @@ class ImageReader{
         //turn off anti aliasing to see pixels
         this.resultCtx = this.resultCanvas.getContext('2d');
         this.resultCtx.imageSmoothingEnabled = false;
-        const htmlHeight = 680;
-        this.resultCanvas.height = htmlHeight;
-        const ratio = htmlHeight/img.height;
-        this.resultCanvas.width = img.width * ratio;
+        const htmlWidth = 1024;
+        this.resultCanvas.width = htmlWidth;
+        const ratio = htmlWidth/img.width;
+        this.resultCanvas.height = img.height * ratio;
         this.resultCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height);
         
         this.imageData = this.resultCtx.getImageData(0, 0, this.resultCanvas.width, this.resultCanvas.height);
@@ -226,8 +230,8 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
         const blockSize = parseInt(document.getElementById('quadTreeBlockSize').value);
         const circleBool = document.getElementById('quadTreeCircle').checked;
         const traverseType = document.getElementById('QuadTreeTraverse').value;
+        console.log(traverseType);
         const splitbyVariance = document.getElementById('quadTreeVariance').checked;
-        if (traverseType > 4 || traverseType < 0) traverseType = 2;
         // console.log('blocksize', blockSize);
         // console.log('circlebool', circleBool);
         // console.log('handleclickQUad', blockSize, circleBool);
@@ -296,38 +300,38 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
         }
         calcAverageColor(){
 
-            // const mpX = this.bounds.x + this.bounds.width/2;
-            // const mpY = this.bounds.y + this.bounds.height/2;
-            // const i4 = ((this.mpY * imageData.width) + this.mpX) * 4;
-            //        let r = pixelArray[i4];
-            //        let g = pixelArray[i4+1];
-            //        let b = pixelArray[i4+2];
-            //        let a = pixelArray[i4+3];
-            //        if (r === undefined)console.log("color avg",[r,g,b,a], i4,this);
-            //        return [r,g,b,a];
-            let r = 0;
-            let g = 0;
-            let b = 0;
-            let a = 0;
-            for (let x = this.bounds.x; x < this.bounds.x + this.bounds.width; x++) {
-                for (let y = this.bounds.y; y < this.bounds.y + this.bounds.height; y++) {
-                    const i4 = ((y * imageData.width) + x) * 4;
-                   if (pixelArray[i4+4])
-                    {
-                   r += pixelArray[i4];
-                   g += pixelArray[i4+1];
-                   b += pixelArray[i4+2];
-                   a += pixelArray[i4+3];
-                    if (r === undefined || Number.isNaN(r)) console.log("color", [r, g, b, a],x,y ,i4,this.bounds, this);}
-                }
-            }
-            const area = this.bounds.width * this.bounds.height;
-            r = Math.round(r / area);
-            g = Math.round(g / area);
-            b = Math.round(b / area);
-            a = Math.round(a / area);
-            if (r === undefined || Number.isNaN(r)) console.log("color avg", [r, g, b, a], this);
-            return [r,g,b,a];
+            //get color from ccorner
+            const i4 = ((this.bounds.y * imageData.width) + this.bounds.x) * 4;
+                   let r = pixelArray[i4];
+                   let g = pixelArray[i4+1];
+                   let b = pixelArray[i4+2];
+                   let a = pixelArray[i4+3];
+                   if (r === undefined)console.log("color avg",[r,g,b,a], i4,this);
+                   return [r,g,b,a];
+                   /// get real average
+        //     let r = 0;
+        //     let g = 0;
+        //     let b = 0;
+        //     let a = 0;
+        //     for (let x = this.bounds.x; x < this.bounds.x + this.bounds.width; x++) {
+        //         for (let y = this.bounds.y; y < this.bounds.y + this.bounds.height; y++) {
+        //             const i4 = ((y * imageData.width) + x) * 4;
+        //            if (pixelArray[i4+4])
+        //             {
+        //            r += pixelArray[i4];
+        //            g += pixelArray[i4+1];
+        //            b += pixelArray[i4+2];
+        //            a += pixelArray[i4+3];
+        //             if (r === undefined || Number.isNaN(r)) console.log("color", [r, g, b, a],x,y ,i4,this.bounds, this);}
+        //         }
+        //     }
+        //     const area = this.bounds.width * this.bounds.height;
+        //     r = Math.round(r / area);
+        //     g = Math.round(g / area);
+        //     b = Math.round(b / area);
+        //     a = Math.round(a / area);
+        //     if (r === undefined || Number.isNaN(r)) console.log("color avg", [r, g, b, a], this);
+        //     return [r,g,b,a];
         }
         calcColorVar() {
                 if (this.width < 2) return 0;
@@ -370,7 +374,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
                     if ( node.bounds.y < y && y < node.bounds.y+node.bounds.height){
                         // console.log("inside y bounds of", node.bounds.y, node.bounds.y + node.bounds.height);
                         index = idx;
-                        
+                        return index;
                         // console.log("shouldnt see this");
                     }
                 }
@@ -450,10 +454,10 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
         
                 // console.log(leaves);
                 if (node.nextWidth >= blockSize && node.nextWidth >= 2) {
-                    if (timeoutType === '4') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), node.level*devisions * 10)); }
+                    if (timeoutType === '2') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), node.level*devisions * 10)); }
                     else if (timeoutType === '1') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), 10)); }
-                    else if (timeoutType === '3') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level * index) * 100 + devisions / 20))); }
-                    else if (timeoutType === '2') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level + index) * 500))); }
+                    else if (timeoutType === '3') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), (node.level * index) * devisions)); }
+                    else if (timeoutType === '4') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level + index)))); }
                 }
             });
         }
@@ -464,7 +468,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
                 const a = setInterval(()=>{
                     counter++;
                     let hvn = parentNode.getHighestVarNode();
-                    if (hvn.variance < 1) clearInterval(a);
+                    if (hvn.variance < .000001) clearInterval(a);
                     hvn.node.split();
                     
                 },devisions);

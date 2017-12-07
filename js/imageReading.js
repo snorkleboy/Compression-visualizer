@@ -17,21 +17,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
-    const blockChopButton = document.getElementById('blockChop');
+    const blockChopButton = document.getElementById('blockChopToggle');
     blockChopButton.addEventListener('click', function(e){
+        const otherContainer = document.getElementById('qt');
         const container = document.getElementById('bc');
         // console.log(container);
 
         container.classList.contains('collapse') ? container.classList.remove('collapse') : container.classList.add('collapse');
+        if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
         // console.log(container);
     });
 
-    const quadTreeButton = document.getElementById('quadTree');
+    const quadTreeButton = document.getElementById('quadTreeToggle');
     quadTreeButton.addEventListener('click', function(e){
+        const otherContainer = document.getElementById('bc');
         const container = document.getElementById('qt');
         // console.log(container);
 
         container.classList.contains('collapse') ? container.classList.remove('collapse') : container.classList.add('collapse');
+        if (!otherContainer.classList.contains('collapse') ) otherContainer.classList.add('collapse');
         // console.log(container);
     });
 
@@ -47,10 +51,10 @@ class ImageReader{
         //turn off anti aliasing to see pixels
         this.resultCtx = this.resultCanvas.getContext('2d');
         this.resultCtx.imageSmoothingEnabled = false;
-        const htmlHeight = 680;
-        this.resultCanvas.height = htmlHeight;
-        const ratio = htmlHeight/img.height;
-        this.resultCanvas.width = img.width * ratio;
+        const htmlWidth = 1024;
+        this.resultCanvas.width = htmlWidth;
+        const ratio = htmlWidth/img.width;
+        this.resultCanvas.height = img.height * ratio;
         this.resultCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height);
         
         this.imageData = this.resultCtx.getImageData(0, 0, this.resultCanvas.width, this.resultCanvas.height);
@@ -153,8 +157,8 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
         const blockSize = parseInt(document.getElementById('quadTreeBlockSize').value);
         const circleBool = document.getElementById('quadTreeCircle').checked;
         const traverseType = document.getElementById('QuadTreeTraverse').value;
+        console.log(traverseType);
         const splitbyVariance = document.getElementById('quadTreeVariance').checked;
-        if (traverseType > 4 || traverseType < 0) traverseType = 2;
         // console.log('blocksize', blockSize);
         // console.log('circlebool', circleBool);
         // console.log('handleclickQUad', blockSize, circleBool);
