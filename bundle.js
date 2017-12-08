@@ -70,7 +70,7 @@
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__quadtree_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__blockCompress_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__blockCompress_js__ = __webpack_require__(7);
 
 
 
@@ -79,8 +79,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // console.log(QuadtreeMaker);
     const imagereader = new ImageReader();
     let img = new Image();
-    img.src = 'https://i.imgur.com/AIgar9n.jpg';
-    img.crossOrigin = "";
+    img.src = 'https://i.imgur.com/AIgar9n.jpg?' + new Date().getTime();
+    img.crossOrigin = "Anonymous";
     img.onload = () => imagereader.receiveImage(img);
 
 
@@ -90,9 +90,9 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault();
         const imgURl = document.getElementById('imageUrlInput').value;
         
-        img.src = imgURl;
+        img.src = imgURl+ '?' + new Date().getTime();
         console.log('img', imgURl, img);
-        img.crossOrigin = "";
+        img.crossOrigin = "Anonymous";
         img.onload = () => imagereader.receiveImage(img);
     });
 });
@@ -182,6 +182,32 @@ quadTreeButton.addEventListener('click', function (e) {
     // console.log(container);
 });
 
+//grey out traversetype on SplitByColorVar
+const varCheckbox = document.getElementById('quadTreeVariance');
+console.log(varCheckbox);    
+varCheckbox.addEventListener('click', function (e){
+    const traverseTypeSelect = document.getElementById('QuadTreeTraverse');
+    if (varCheckbox.checked){
+        traverseTypeSelect.classList.add('greyed');
+        traverseTypeSelect.disabled=true;
+    }else{
+        traverseTypeSelect.classList.remove('greyed');
+        traverseTypeSelect.disabled=false;
+    }
+});
+//grey out expand by unless its option 3 or 4
+const expandTypeSelect = document.getElementById('niaveInputExpand');
+expandTypeSelect.addEventListener('change', function(e){
+    const exapandAmountInput = document.getElementById('niaveInputExpandval');
+     if (expandTypeSelect.value <= 2){
+         exapandAmountInput.classList.add('greyed');
+         exapandAmountInput.disabled = true;
+     } else if (expandTypeSelect.value >= 3){
+         exapandAmountInput.classList.remove('greyed');
+         exapandAmountInput.disabled = false;
+     }
+    
+});
 
 
 function handleMouseMove(ctx, element){
@@ -257,7 +283,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_util__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_util__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_util__);
 
 
@@ -547,94 +573,6 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
 
 /***/ }),
 /* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = NiaveCompress;
-function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
-    //setup stop button
-    const timeOuts = [];
-    const stopNiaveButton = document.getElementById('stopNiave');
-    stopNiaveButton.addEventListener('click', e => timeOuts.forEach(to => clearTimeout(to)));
-
-    const data = imagedata.data;
-    //set/reset canvas width and height by blocksize. 
-
-    if (expand === 2) {
-        ctx.canvas.width = imagedata.width / blockSize.x;
-        ctx.canvas.height = imagedata.height / blockSize.y;
-    } else {
-        ctx.canvas.width = imagedata.width;
-        ctx.canvas.height = imagedata.height;
-    }
-    //delete previously made svg elements
-    if (expand === 5) {
-        const myNode = document.getElementById('svgOne');
-        while (myNode.firstChild) {
-            myNode.removeChild(myNode.firstChild);
-        }
-    }
-
-
-
-    for (let y = 0; y < imagedata.height; y = y + (blockSize.y)) {
-        for (let x = 0; x < imagedata.width; x = x + (blockSize.x)) {
-            timeOuts.push(setTimeout(() => {
-
-                const i = ((y * imagedata.width) + x) * 4;
-                // console.log('x,y,i,data', { x: x, y: y },i, data[x + imagedata.width * 4 * y]);
-                ctx.fillStyle = 'rgba(' + data[i] + ', ' + data[i + 1] +
-                    ', ' + data[i + 2] + ', ' + (data[i + 3]) + ')';
-
-
-
-                //standard mode, fillrect of blocksize to color. color is set above to the top left pixel of block
-                // defined by x*blocksize,y*blocksize
-                if (expand === 1) {
-                    // (imagedata.height-y) type stuff to rotate
-                    ctx.fillRect(x, y, blockSize.x, blockSize.y);
-                    // ctx.fillStyle = 'black';
-                    // ctx.fillRect(x, y, blockSize.x, 1);
-                    // ctx.fillRect(x, y, 1, blockSize.y);
-
-                    //doesnt expand, fillrect of 1x1 (single pixel) of color as defined above into an image blocksize smaller.
-                    //ie if you have a blocksize of 2 the result will be an image half the size
-                    //the canvass id resized before the for loop to make the image downloadable as a small image
-                } else if (expand === 2) {
-
-                    ctx.fillRect(x / blockSize.x, y / blockSize.y, 1, 1);
-
-                    //doesnt expand, but uses the same x, y coordinate of original image
-                    // this basically shows which pixel is being selected for each block
-                } else if (expand === 3) {
-
-                    ctx.fillRect(x, y, exval, exval);
-                    //expands by making a circle of radius=the averge of blocksize.x and blocksize.y, fills with color defined above.
-                    //the optional expandValue attribute changes how much less than the average the circle is filled by, so larget value means saller circle
-                } else if (expand === 4) {
-                    ctx.beginPath();
-                    ctx.arc(x, y, (blockSize.x + blockSize.y) / (2 * exval), 0, 2 * Math.PI, false);
-                    ctx.fill();
-                } else if (expand === 5) {
-                    // console.log('here')
-                    let svgns = "http://www.w3.org/2000/svg";
-                    let rect = document.createElementNS(svgns, 'rect');
-                    rect.setAttributeNS(null, 'x', x * 5);
-                    rect.setAttributeNS(null, 'y', y * 5);
-                    rect.setAttributeNS(null, 'height', 5 * blockSize.y);
-                    rect.setAttributeNS(null, 'width', 5 * blockSize.x);
-                    rect.setAttributeNS(null, 'fill', ctx.fillStyle);
-                    document.getElementById('svgOne').appendChild(rect);
-                }
-            }, 1000 + (x + y * 600) / 100));
-        }
-
-
-    }
-}
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -1162,7 +1100,7 @@ function isPrimitive(arg) {
 }
 exports.isPrimitive = isPrimitive;
 
-exports.isBuffer = __webpack_require__(6);
+exports.isBuffer = __webpack_require__(5);
 
 function objectToString(o) {
   return Object.prototype.toString.call(o);
@@ -1206,7 +1144,7 @@ exports.log = function() {
  *     prototype.
  * @param {function} superCtor Constructor function to inherit prototype from.
  */
-exports.inherits = __webpack_require__(7);
+exports.inherits = __webpack_require__(6);
 
 exports._extend = function(origin, add) {
   // Don't do anything if add isn't an object
@@ -1224,10 +1162,10 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(5)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(4)))
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports) {
 
 var g;
@@ -1254,7 +1192,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -1444,7 +1382,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports) {
 
 module.exports = function isBuffer(arg) {
@@ -1455,7 +1393,7 @@ module.exports = function isBuffer(arg) {
 }
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports) {
 
 if (typeof Object.create === 'function') {
@@ -1482,6 +1420,94 @@ if (typeof Object.create === 'function') {
   }
 }
 
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = NiaveCompress;
+function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
+    //setup stop button
+    const timeOuts = [];
+    const stopNiaveButton = document.getElementById('stopNiave');
+    stopNiaveButton.addEventListener('click', e => timeOuts.forEach(to => clearTimeout(to)));
+
+    const data = imagedata.data;
+    //set/reset canvas width and height by blocksize. 
+
+    if (expand === 2) {
+        ctx.canvas.width = imagedata.width / blockSize.x;
+        ctx.canvas.height = imagedata.height / blockSize.y;
+    } else {
+        ctx.canvas.width = imagedata.width;
+        ctx.canvas.height = imagedata.height;
+    }
+    //delete previously made svg elements
+    if (expand === 5) {
+        const myNode = document.getElementById('svgOne');
+        while (myNode.firstChild) {
+            myNode.removeChild(myNode.firstChild);
+        }
+    }
+
+
+
+    for (let y = 0; y < imagedata.height; y = y + (blockSize.y)) {
+        for (let x = 0; x < imagedata.width; x = x + (blockSize.x)) {
+            timeOuts.push(setTimeout(() => {
+
+                const i = ((y * imagedata.width) + x) * 4;
+                // console.log('x,y,i,data', { x: x, y: y },i, data[x + imagedata.width * 4 * y]);
+                ctx.fillStyle = 'rgba(' + data[i] + ', ' + data[i + 1] +
+                    ', ' + data[i + 2] + ', ' + (data[i + 3]) + ')';
+
+
+
+                //standard mode, fillrect of blocksize to color. color is set above to the top left pixel of block
+                // defined by x*blocksize,y*blocksize
+                if (expand === 1) {
+                    // (imagedata.height-y) type stuff to rotate
+                    ctx.fillRect(x, y, blockSize.x, blockSize.y);
+                    // ctx.fillStyle = 'black';
+                    // ctx.fillRect(x, y, blockSize.x, 1);
+                    // ctx.fillRect(x, y, 1, blockSize.y);
+
+                    //doesnt expand, fillrect of 1x1 (single pixel) of color as defined above into an image blocksize smaller.
+                    //ie if you have a blocksize of 2 the result will be an image half the size
+                    //the canvass id resized before the for loop to make the image downloadable as a small image
+                } else if (expand === 2) {
+
+                    ctx.fillRect(x / blockSize.x, y / blockSize.y, 1, 1);
+
+                    //doesnt expand, but uses the same x, y coordinate of original image
+                    // this basically shows which pixel is being selected for each block
+                } else if (expand === 3) {
+
+                    ctx.fillRect(x, y, exval, exval);
+                    //expands by making a circle of radius=the averge of blocksize.x and blocksize.y, fills with color defined above.
+                    //the optional expandValue attribute changes how much less than the average the circle is filled by, so larget value means saller circle
+                } else if (expand === 4) {
+                    ctx.beginPath();
+                    ctx.arc(x, y, (blockSize.x + blockSize.y) / (2 * exval), 0, 2 * Math.PI, false);
+                    ctx.fill();
+                } else if (expand === 5) {
+                    // console.log('here')
+                    let svgns = "http://www.w3.org/2000/svg";
+                    let rect = document.createElementNS(svgns, 'rect');
+                    rect.setAttributeNS(null, 'x', x * 5);
+                    rect.setAttributeNS(null, 'y', y * 5);
+                    rect.setAttributeNS(null, 'height', 5 * blockSize.y);
+                    rect.setAttributeNS(null, 'width', 5 * blockSize.x);
+                    rect.setAttributeNS(null, 'fill', ctx.fillStyle);
+                    document.getElementById('svgOne').appendChild(rect);
+                }
+            }, 1000 + (x + y * 600) / 100));
+        }
+
+
+    }
+}
 
 /***/ })
 /******/ ]);

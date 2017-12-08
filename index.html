@@ -10,10 +10,7 @@
   </head>
 
   <body>
-<div class='colors'>
-  <div id="menu-color" style="width:200px;height:50px;float:left"></div>
-  <div id='colorpick' style="width:200px;height:50px;float:left"></div>
-</div>
+
     <div class='container'>    
          
       <div class="options-container">
@@ -24,7 +21,7 @@
           <div class='options'>
             <div  class='imageOptions inneroptions'>
               <label > load an image
-                <input name='imageUrl' id='imageUrlInput' type="text" value='https://i.imgur.com/drGvplW.jpg' />
+                <input name='imageUrl' id='imageUrlInput' type="text" value='https://i.imgur.com/F8FSGeA.jpg' />
                 <button id='imageUrlSubmit' type="submit" value='submit' >Get Image<i class="fa fa-picture-o" aria-hidden="true"></i></button>
               </label>  
               
@@ -38,50 +35,61 @@
               
                             <button class='start' id='niave'>start BlockChop</button>
                             <button class='stop' id='stopNiave'>Stop BlockChop</button>
-              <label>blocksize x (default is 10)<input id='niaveInputX' type="text"></input></label>
-              <label>blocksize y(defualt is 10)<input id='niaveInputY' type="text"></input></label>
+              <label>blocksize x<input id='niaveInputX' type="text" value='10'></input></label>
+              <label>blocksize y<input id='niaveInputY' type="text" value='10'></input></label>
               <label>expandType
                 <select id='niaveInputExpand'>
                  <option value="1">by Block</option>
                  <option value="2">Resize</option>
                  <option value="3">Pins</option>
-                  <option value="3">Circles</option>
+                  <option value="4">Circles</option>
                 </select>
                 </label>
-              <label>how much to expand by, only works for expandType 3 and 4<input id='niaveInputExpandval' type="text"></input></label>
+              <label>how much to expand by<input id='niaveInputExpandval' class='greyed' type="text"></input></label>
 
             
             </div>
             <div id='qt' class='inneroptions qt collapse'>              
                             <button class='start' id='quadtree'>start quadtree</button>                            
                             <button class='stop' id='stopQuads'>Stop quadtrees</button>
+              <div class='checkboxes'>
+                <label>Circles
+                  <input checked id='quadTreeCircle' type="checkbox"></input>
+                </label>
+                <label>by Color Variance
+                  <input id='quadTreeVariance' type="checkbox"></input>
+                </label>
+              </div>
+              <label>size ratio<input id='quadTreeSize' value='1' type="text"></input> </label>
+              <label>Size Limit<input id='quadTreeBlockSize' value='6' type="text"></input> </label>
               <label>traverseType
-                <select id='QuadTreeTraverse'>                  
+                <select id='QuadTreeTraverse' >
                   <option value="3">Depth and Breadth</option>
                   <option value="1">In Order</option>
                   <option value="4">Diagonal</option>
                 </select>
               </label>
-              <label>size ratio<input id='quadTreeSize' value='1' type="text"></input> </label>
-              <label>Size Limit<input id='quadTreeBlockSize' value='6' type="text"></input> </label>
-              <div class='checkboxes'>
-                <label>Circles<input checked id='quadTreeCircle' type="checkbox"></input> </label>
-                <label>Split by Color Variance<input id='quadTreeVariance' type="checkbox"></input> </label>
-              </div>
+              
           </div>
           </div>        
       </div> 
       
     </div>
-    <a href='https://github.com/snorkleboy/imageReader/blob/master/README.md'>github readme</a>
+    
 <span class='canvas-holder'>
   
   <canvas id="result" width="1024" height="680"></canvas>
 </span>
     <script type="application/javascript" src="bundle.js"></script>
 </div>
+<a href='https://github.com/snorkleboy/imageReader/blob/master/README.md'>github readme</a>
   </body>
       <svg id='svgOne' width="600" height="600">
       
       </svg>
+
+      <div class='colors'>
+        <div id="menu-color" style="width:200px;height:50px;float:left"></div>
+        <div id='colorpick' style="width:200px;height:50px;float:left"></div>
+      </div>
 </html>

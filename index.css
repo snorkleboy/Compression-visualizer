@@ -52,8 +52,8 @@ canvas{
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
-    top :50px;
+    /* position: relative;
+    top :50px; */
 }
 
 
@@ -71,7 +71,7 @@ canvas{
 .colors{
     position: absolute;
     top: 0px;
-    left:0px;
+    right:0px;
 }
 .bc{
     margin-right: 50px;
@@ -84,10 +84,11 @@ canvas{
     margin: 5px;
     padding: 20px;
     text-align: center;
-    background-color: #ffe7c4;
-    border-radius: 10px;
+    background-color: rgb(218, 199, 107);
+    border-radius: 2px;
     opacity: 1;
-    height: 80%;
+    /* min-height: fit-content; */
+    height: 70%;
     overflow: hidden;
     transition:  .7s height ease-out, 1s opacity;
     position: relative;
@@ -111,7 +112,7 @@ canvas{
 label{
     display: flex;
     flex-direction: column;
-    background-color: rgb(228, 160, 128);
+    background-color: rgb(236, 174, 58);
     color: white;
 
 }
@@ -134,8 +135,8 @@ label{
     opacity: 1;
     /* width: 100px; */
     /* border-radius: 10px;     */
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 20px;
+    margin-bottom: 5px;
 }
 
 .qt{
@@ -149,11 +150,12 @@ button:hover, input:hover, select:hover{
 .start{
     background-color: rgb(157, 231, 137);
     color: rgb(245, 245, 245);
+    transition: 1s background-color, 1s color;
 }
 .stop{
     background-color: rgb(218, 139, 139);
     color: rgb(243, 243, 243);
-
+transition: 1s background-color, 1s color;
 }
 
 .start:hover{
@@ -168,5 +170,15 @@ button:hover, input:hover, select:hover{
 
 .checkboxes{
     display: flex;
-    
+
+}
+
+.greyed{
+    background-color: rgb(211, 211, 211);
+    color: rgb(170, 170, 170);
+}
+
+.greyed:hover{
+    background-color: rgb(161, 161, 161);
+    color: rgb(87, 87, 87);
 }

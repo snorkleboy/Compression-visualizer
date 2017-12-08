@@ -6,8 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // console.log(QuadtreeMaker);
     const imagereader = new ImageReader();
     let img = new Image();
-    img.src = 'https://i.imgur.com/AIgar9n.jpg';
-    img.crossOrigin = "";
+    img.src = 'https://i.imgur.com/AIgar9n.jpg?' + new Date().getTime();
+    img.crossOrigin = "Anonymous";
     img.onload = () => imagereader.receiveImage(img);
 
 
@@ -17,9 +17,9 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault();
         const imgURl = document.getElementById('imageUrlInput').value;
         
-        img.src = imgURl;
+        img.src = imgURl+ '?' + new Date().getTime();
         console.log('img', imgURl, img);
-        img.crossOrigin = "";
+        img.crossOrigin = "Anonymous";
         img.onload = () => imagereader.receiveImage(img);
     });
 });
@@ -109,6 +109,32 @@ quadTreeButton.addEventListener('click', function (e) {
     // console.log(container);
 });
 
+//grey out traversetype on SplitByColorVar
+const varCheckbox = document.getElementById('quadTreeVariance');
+console.log(varCheckbox);    
+varCheckbox.addEventListener('click', function (e){
+    const traverseTypeSelect = document.getElementById('QuadTreeTraverse');
+    if (varCheckbox.checked){
+        traverseTypeSelect.classList.add('greyed');
+        traverseTypeSelect.disabled=true;
+    }else{
+        traverseTypeSelect.classList.remove('greyed');
+        traverseTypeSelect.disabled=false;
+    }
+});
+//grey out expand by unless its option 3 or 4
+const expandTypeSelect = document.getElementById('niaveInputExpand');
+expandTypeSelect.addEventListener('change', function(e){
+    const exapandAmountInput = document.getElementById('niaveInputExpandval');
+     if (expandTypeSelect.value <= 2){
+         exapandAmountInput.classList.add('greyed');
+         exapandAmountInput.disabled = true;
+     } else if (expandTypeSelect.value >= 3){
+         exapandAmountInput.classList.remove('greyed');
+         exapandAmountInput.disabled = false;
+     }
+    
+});
 
 
 function handleMouseMove(ctx, element){
