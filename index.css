@@ -154,12 +154,12 @@ button:hover, input:hover, select:hover{
 .start{
     background-color: rgb(157, 231, 137);
     color: rgb(245, 245, 245);
-    transition: 1s background-color, 1s color;
+    transition: 1s background-color, 1s color, 1s opacity;
 }
 .stop{
     background-color: rgb(218, 139, 139);
     color: rgb(243, 243, 243);
-transition: 1s background-color, 1s color;
+transition: 1s background-color, 1s color, 1s opacity;
 }
 
 .start:hover{
@@ -177,6 +177,10 @@ transition: 1s background-color, 1s color;
     opacity: 1;
 
 }
+.checkboxes *{
+    flex-grow:0;
+    flex-shrink: 0;
+}
 
 .greyed{
     background-color: rgb(211, 211, 211);
@@ -186,4 +190,32 @@ transition: 1s background-color, 1s color;
 .greyed:hover{
     background-color: rgb(161, 161, 161);
     color: rgb(87, 87, 87);
+}
+
+.github{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;    
+    font-weight: 700;
+    font-size: 15px;
+    color: rgb(247, 247, 247);
+    padding :10px;
+    margin-left: 0px;
+
+
+    
+}
+
+.github h1{
+    font-size: 20px;
+    color: white;
+}
+.github a{
+    color: rgb(255, 255, 255);
+    transition: .5s color;
+}
+
+.github a:hover{
+    color: rgb(0, 255, 213);
 }
