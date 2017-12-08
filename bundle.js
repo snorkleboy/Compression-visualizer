@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const imgURl = document.getElementById('imageUrlInput').value;
         
         img.src = imgURl+ '?' + new Date().getTime();
-        console.log('img', imgURl, img);
+        // console.log('img', imgURl, img);
         img.crossOrigin = "Anonymous";
         img.onload = () => imagereader.receiveImage(img);
     });
@@ -104,7 +104,7 @@ class ImageReader{
     }
     //initiates a new canvas and starts event handlers on buttons
     receiveImage(img){
-        console.log("image recieved", img);
+        // console.log("image recieved", img);
         this.img=img;
 
         // make new canvas to clean event handlers
@@ -184,7 +184,7 @@ quadTreeButton.addEventListener('click', function (e) {
 
 //grey out traversetype on SplitByColorVar
 const varCheckbox = document.getElementById('quadTreeVariance');
-console.log(varCheckbox);    
+// console.log(varCheckbox);    
 varCheckbox.addEventListener('click', function (e){
     const traverseTypeSelect = document.getElementById('QuadTreeTraverse');
     if (varCheckbox.checked){
@@ -297,8 +297,9 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
         let devisions = 0;
         const pixelArray = imageData.data;
         const initialBounds = { x: 0, y: 0, width: imageData.width, height: imageData.height };
-        console.log("QTM", imageData, context.canvas,initialBounds, timeoutType);
+        // console.log("QTM", imageData, context.canvas,initialBounds, timeoutType);
 
+         const divisionsNumberEl = document.getElementById('divisionsNumber');
         this.Quadtree = class Quadtree{
             constructor(bounds, level) {       
             this.use = true;
@@ -354,7 +355,8 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
                    g += pixelArray[i4+1];
                    b += pixelArray[i4+2];
                    a += pixelArray[i4+3];
-                    if (r === undefined || Number.isNaN(r)) console.log("color", [r, g, b, a],x,y ,i4,this.bounds, this);}
+                    // if (r === undefined || Number.isNaN(r)) console.log("color", [r, g, b, a],x,y ,i4,this.bounds, this);
+                    }
                 }
             }
             const area = this.bounds.width * this.bounds.height;
@@ -370,18 +372,16 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             // console.log("start", this.coloravg,  variance, this);
             let sum = [0,0,0,0];
             let n = 0;
-               for (let x = this.bounds.x; x < this.bounds.x+this.bounds.width;x = x+1){
-                for (let y = this.bounds.y; y<this.bounds.y+this.bounds.height;y++){
-                    const i4 = (y * imageData.width + x) * 4;
-                    if (pixelArray[i4] !== undefined){
-                        n++;
-                        sum[0] += Math.pow(pixelArray[i4]-this.coloravg[0],2);
-                        sum[1] += Math.pow(pixelArray[i4 + 1] - this.coloravg[1],2);
-                        sum[2] += Math.pow(pixelArray[i4 + 2]-this.coloravg[2],2);
-                        sum[3] += Math.pow(pixelArray[i4 + 3] - this.coloravg[3],2);
-                        if (sum[0] === undefined || Number.isNaN(sum[0]))
-                            console.log('sum undefined', x,y,i4,this.bounds,this);
-                            
+                for (let x = this.bounds.x; x < this.bounds.x+this.bounds.width;x = x+1){
+                    for (let y = this.bounds.y; y<this.bounds.y+this.bounds.height;y++){
+                        const i4 = (y * imageData.width + x) * 4;
+                        if (pixelArray[i4] !== undefined){
+                            n++;
+                            sum[0] += Math.pow(pixelArray[i4]-this.coloravg[0],2);
+                            sum[1] += Math.pow(pixelArray[i4 + 1] - this.coloravg[1],2);
+                            sum[2] += Math.pow(pixelArray[i4 + 2]-this.coloravg[2],2);
+                            sum[3] += Math.pow(pixelArray[i4 + 3] - this.coloravg[3],2);
+                            // if (sum[0] === undefined || Number.isNaN(sum[0])){ // console.log('sum undefined', x,y,i4,this.bounds,this);  // }
                         }
                     }
                 }
@@ -396,10 +396,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             
             const score = variance/ ((imageData.width * imageData.height )/ area) ;
             // console.log(score, this.coloravg, sum, area, variance, this);
-            if (score === Infinity || Number.isNaN(score)){
-                console.log("nan prob",score, this.coloravg, sum, area, variance, this);
-                
-            }
+            //if (score === Infinity || Number.isNaN(score)){// console.log("nan prob",score, this.coloravg, sum, area, variance, this);}
             return score;
 
 
@@ -418,7 +415,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
                     }
                 }
             });
-            if (index === -1) console.log('get index returning -1: x,y this=', x, y, this);
+            // if (index === -1) //console.log('get index returning -1: x,y this=', x, y, this);
             return index;
         }
         //every node has either no children or 4 children. If xy is within bounds, if there are no children return this node,
@@ -445,6 +442,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
                 return false;
             }
             devisions++;
+            divisionsNumberEl.innerText = `devisions: ${devisions} number of nodes:${1+4*devisions} bottom-level nodes${1+3*devisions}`
             this.nodes[0] = new Quadtree({
                 width: this.nextWidth,
                 height: this.nextHeight,
@@ -555,7 +553,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
 
         function quadClickSplit(tree){
             return (e)=>{
-                console.log("getIndex in handler", tree.GetNode(e.layerX,e.layerY) );
+                // console.log("getIndex in handler", tree.GetNode(e.layerX,e.layerY) );
             if (tree.use === true){
                 const node = tree.GetNode(e.layerX, e.layerY);
             if (node) node.split(); 

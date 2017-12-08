@@ -41,7 +41,7 @@ select{
     flex-direction: column;
 
     width: 1024; 
-border: 5px solid gold;
+    border: 5px solid gold;
 }
 canvas{
     width: fit-content;
@@ -70,8 +70,12 @@ canvas{
 }
 .colors{
     position: absolute;
-    top: 0px;
-    right:0px;
+    top: 0vh;
+    right:0vw;
+    background-color: rgb(255, 231, 231);
+    color: rgb(143, 142, 142);
+    height: fit-content;
+    width: 200px;
 }
 .bc{
     margin-right: 50px;
@@ -170,6 +174,7 @@ transition: 1s background-color, 1s color;
 
 .checkboxes{
     display: flex;
+    opacity: 1;
 
 }
 

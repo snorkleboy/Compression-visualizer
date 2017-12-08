@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const imgURl = document.getElementById('imageUrlInput').value;
         
         img.src = imgURl+ '?' + new Date().getTime();
-        console.log('img', imgURl, img);
+        // console.log('img', imgURl, img);
         img.crossOrigin = "Anonymous";
         img.onload = () => imagereader.receiveImage(img);
     });
@@ -31,7 +31,7 @@ class ImageReader{
     }
     //initiates a new canvas and starts event handlers on buttons
     receiveImage(img){
-        console.log("image recieved", img);
+        // console.log("image recieved", img);
         this.img=img;
 
         // make new canvas to clean event handlers
@@ -111,7 +111,7 @@ quadTreeButton.addEventListener('click', function (e) {
 
 //grey out traversetype on SplitByColorVar
 const varCheckbox = document.getElementById('quadTreeVariance');
-console.log(varCheckbox);    
+// console.log(varCheckbox);    
 varCheckbox.addEventListener('click', function (e){
     const traverseTypeSelect = document.getElementById('QuadTreeTraverse');
     if (varCheckbox.checked){
