@@ -165,3 +165,8 @@ button:hover, input:hover, select:hover{
     background-color: rgb(255, 103, 103);
     color: rgb(255, 255, 255);
 }
+
+.checkboxes{
+    display: flex;
+    
+}

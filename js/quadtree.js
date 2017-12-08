@@ -3,8 +3,7 @@ import { debug } from "util";
 
  class QuadtreeMaker {
     constructor(){}
-     makeQuadTree(imageData, context, blockSize, circleBool, timeoutType = '2', byVar = false, ratio=1 ){
-        
+     makeQuadTree(imageData, context, blockSize, circleBool, timeoutType = '2', byVar = false, ratio = 1 ){
         const timeOutes = [];
         const stopButton = document.getElementById('stopQuads');
         stopButton.addEventListener('click', e => timeOutes.forEach((to => clearTimeout(to))));
@@ -226,7 +225,7 @@ import { debug } from "util";
                     if (hvn.variance < .0000001) clearInterval(a);
                     hvn.node.split();
                     
-                },10);
+                },.001);
                 timeOutes.push(a);
             }
             splitBV();

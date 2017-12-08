@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     // console.log(QuadtreeMaker);
     const imagereader = new ImageReader();
-    const img = new Image();
+    let img = new Image();
     img.src = 'https://i.imgur.com/AIgar9n.jpg';
     img.crossOrigin = "";
     img.onload = () => imagereader.receiveImage(img);
@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     imgForm.addEventListener('click', function (event) {
         event.preventDefault();
         const imgURl = document.getElementById('imageUrlInput').value;
+        
         img.src = imgURl;
         console.log('img', imgURl, img);
         img.crossOrigin = "";
@@ -85,7 +86,6 @@ class ImageReader{
     }
 
 }
-
 ///ui buttons
 const blockChopButton = document.getElementById('blockChopToggle');
 blockChopButton.addEventListener('click', function (e) {
@@ -158,13 +158,18 @@ function niaveCompressClick(e) {
 }
 function handleQuadTreeClick(imageData, context, quadtreeMaker){
     return (e) => {
+        
         e.preventDefault();
+        let ratio = parseFloat(document.getElementById('quadTreeSize').value);
         let blockSize = parseInt(document.getElementById('quadTreeBlockSize').value);
         const circleBool = document.getElementById('quadTreeCircle').checked;
         const traverseType = document.getElementById('QuadTreeTraverse').value;
         const splitbyVariance = document.getElementById('quadTreeVariance').checked;
+
         blockSize = blockSize >= 1 ? blockSize : 1;
-        quadtreeMaker.makeQuadTree(imageData, context, blockSize, circleBool, traverseType, splitbyVariance);
+        ratio = ratio > .001 ? ratio : 1;
+
+        quadtreeMaker.makeQuadTree(imageData, context, blockSize, circleBool, traverseType, splitbyVariance, ratio);
         //  new QuadtreeMaker(imageData, context, blockSize, circleBool, traverseType);
     };
 }

@@ -22,11 +22,12 @@
 
           
           <div class='options'>
-            <div id='imageUrlInput' class='imageOptions inneroptions'>
+            <div  class='imageOptions inneroptions'>
               <label > load an image
-                <input name='imageUrl' type="text" value='https://i.imgur.com/drGvplW.jpg' />
+                <input name='imageUrl' id='imageUrlInput' type="text" value='https://i.imgur.com/drGvplW.jpg' />
+                <button id='imageUrlSubmit' type="submit" value='submit' >Get Image<i class="fa fa-picture-o" aria-hidden="true"></i></button>
               </label>  
-              <button id='imageUrlSubmit' type="submit" value='submit' >Get Image<i class="fa fa-picture-o" aria-hidden="true"></i></button>
+              
               <button id='clear'>clear <i class="fa fa-minus" aria-hidden="true"></i></button>
               <button id='reset'>reset <i class="fa fa-refresh" aria-hidden="true"></i></button>
               <button id='blockChopToggle'>BlockChop <i class="fa fa-bars" aria-hidden="true"></i></button>
@@ -61,11 +62,11 @@
                   <option value="4">Diagonal</option>
                 </select>
               </label>
-              <label>Size Limit<input id='quadTreeBlockSize' value='6' type="text"></input> </label>
+              <label>size ratio<input id='quadTreeSize' value='1' type="text"></input> </label>
               <label>Size Limit<input id='quadTreeBlockSize' value='6' type="text"></input> </label>
               <div class='checkboxes'>
-                <label>Circles or Squares (on is circle)<input checked id='quadTreeCircle' type="checkbox"></input> </label>
-                <label>Split by Color variance<input id='quadTreeVariance' type="checkbox"></input> </label>
+                <label>Circles<input checked id='quadTreeCircle' type="checkbox"></input> </label>
+                <label>Split by Color Variance<input id='quadTreeVariance' type="checkbox"></input> </label>
               </div>
           </div>
           </div>        
