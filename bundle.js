@@ -75,9 +75,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 document.addEventListener("DOMContentLoaded", function () {
+    
     // console.log(QuadtreeMaker);
     const imagereader = new ImageReader();
     const img = new Image();
+    img.src = 'https://i.imgur.com/AIgar9n.jpg';
+    img.crossOrigin = "";
+    img.onload = () => imagereader.receiveImage(img);
+
+
     const imgForm = document.getElementById('imageUrlSubmit');
     // console.log(imgForm);
     imgForm.addEventListener('click', function (event) {
@@ -87,16 +93,15 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log('img', imgURl, img);
         img.crossOrigin = "";
         img.onload = () => imagereader.receiveImage(img);
-
     });
-
-
-
 });
+
+
 class ImageReader{
     constructor(){
         // console.log(that, that());
     }
+    //initiates a new canvas and starts event handlers on buttons
     receiveImage(img){
         console.log("image recieved", img);
         this.img=img;
@@ -107,7 +112,7 @@ class ImageReader{
         this.resultCanvas.parentNode.replaceChild(canvasClone, this.resultCanvas);
         this.resultCanvas = canvasClone;
         
-        //turn off anti aliasing to see pixels and size canvas
+        //turn off anti aliasing to set canvas size
         this.resultCtx = this.resultCanvas.getContext('2d');
         this.resultCtx.imageSmoothingEnabled = false;
         const htmlWidth = 1024;
@@ -115,14 +120,12 @@ class ImageReader{
         const ratio = htmlWidth/img.width;
         this.resultCanvas.height = img.height * ratio;
         
-        this.resultCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height);
-        
+        this.resultCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height);  
         this.imageData = this.resultCtx.getImageData(0, 0, this.resultCanvas.width, this.resultCanvas.height);
 
         //setup reset button
         //
         //
-        //move to window scope and have it remake entire ImageREader class.
         this.resetButton = document.getElementById('reset');
         this.resetButton.addEventListener('click', e => {
             this.resultCtx.drawImage(this.img, 0, 0, this.img.width, this.img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height)
@@ -132,11 +135,6 @@ class ImageReader{
         //setup color picker
         this.menuColor = document.getElementById('menu-color');
         this.resultCanvas.addEventListener('mousemove', handleMouseMove(this.resultCtx, this.menuColor));
-        
-        this.makeHandlers();
-    }
-    makeHandlers(){
-        // console.log('make handlers', this);
 
         ///
         //setup clearbutton
@@ -147,34 +145,11 @@ class ImageReader{
         //setup niaveCommression button and handler
         this.niaveButton = document.getElementById('niave');
         const newNiaveButton = this.niaveButton.cloneNode(true);
-        // console.log(this.niaveButton, newNiaveButton);
         this.niaveButton.parentNode.replaceChild(newNiaveButton, this.niaveButton);
         this.niaveButton = newNiaveButton;
-        this.niaveButton.addEventListener('click', ()=>{
-
-                ///
-                //get inputs
-                let inX = parseInt(document.getElementById('niaveInputX').value);
-                let inY = parseInt(document.getElementById('niaveInputY').value);
-                let expand = parseInt(document.getElementById('niaveInputExpand').value);
-                let exval = parseFloat(document.getElementById('niaveInputExpandval').value);
-                //
-                //validations           
-                if (expand > 5 || expand < 1) {
-                    expand = 1;
-                }
-                if (inY < 1) inY = 1;
-                if (inX < 1) inY = 1;
-                ///
-                //call compression
-                // console.log("x,y,e", inY, inX, { x: inX || 10, y: inY || 10 }, expand);
-
-                Object(__WEBPACK_IMPORTED_MODULE_1__blockCompress_js__["a" /* default */])(this.imageData, this.resultCtx, { x: inX || 10, y: inY || 10 }, expand || 1, exval || 1);
-            });
+        this.niaveButton.addEventListener('click', niaveCompressClick.bind(this));
         
-
-
-        //quad tree testing
+        //quad button
         this.quadtreeMaker = new __WEBPACK_IMPORTED_MODULE_0__quadtree_js__["a" /* default */]();
         const quadTreeSimpleButton = document.getElementById('quadtree');
         const newquadTreeSimpleButton = quadTreeSimpleButton.cloneNode(true);
@@ -183,6 +158,29 @@ class ImageReader{
     }
 
 }
+
+///ui buttons
+const blockChopButton = document.getElementById('blockChopToggle');
+blockChopButton.addEventListener('click', function (e) {
+    const otherContainer = document.getElementById('qt');
+    const container = document.getElementById('bc');
+    // console.log(container);
+
+    container.classList.contains('collapse') ? container.classList.remove('collapse') : container.classList.add('collapse');
+    if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
+    // console.log(container);
+});
+
+const quadTreeButton = document.getElementById('quadTreeToggle');
+quadTreeButton.addEventListener('click', function (e) {
+    const otherContainer = document.getElementById('bc');
+    const container = document.getElementById('qt');
+    // console.log(container);
+
+    container.classList.contains('collapse') ? container.classList.remove('collapse') : container.classList.add('collapse');
+    if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
+    // console.log(container);
+});
 
 
 
@@ -210,47 +208,40 @@ function makeDownload(imageData, element){
     link.setAttribute('download', 'myimage.png');
     dlLinkDiv.appendChild(link);
 }
+function niaveCompressClick(e) {
 
+    ///
+    //get inputs
+    let inX = parseInt(document.getElementById('niaveInputX').value);
+    let inY = parseInt(document.getElementById('niaveInputY').value);
+    let expand = parseInt(document.getElementById('niaveInputExpand').value);
+    let exval = parseFloat(document.getElementById('niaveInputExpandval').value);
+    //
+    //validations           
+    if (expand > 5 || expand < 1) {
+        expand = 1;
+    }
+    if (inY < 1) inY = 1;
+    if (inX < 1) inY = 1;
+    ///
+    //call compression
+    // console.log("x,y,e", inY, inX, { x: inX || 10, y: inY || 10 }, expand);
+
+    Object(__WEBPACK_IMPORTED_MODULE_1__blockCompress_js__["a" /* default */])(this.imageData, this.resultCtx, { x: inX || 10, y: inY || 10 }, expand || 1, exval || 1);
+}
 function handleQuadTreeClick(imageData, context, quadtreeMaker){
     return (e) => {
         e.preventDefault();
-        const blockSize = parseInt(document.getElementById('quadTreeBlockSize').value);
+        let blockSize = parseInt(document.getElementById('quadTreeBlockSize').value);
         const circleBool = document.getElementById('quadTreeCircle').checked;
         const traverseType = document.getElementById('QuadTreeTraverse').value;
-        console.log("tt",traverseType);
         const splitbyVariance = document.getElementById('quadTreeVariance').checked;
-        // console.log('blocksize', blockSize);
-        // console.log('circlebool', circleBool);
-        // console.log('handleclickQUad', blockSize, circleBool);
-        
-        //make new canvas to get rid of event handlers
-        console.log('splitbyvar',splitbyVariance);
-
+        blockSize = blockSize >= 1 ? blockSize : 1;
         quadtreeMaker.makeQuadTree(imageData, context, blockSize, circleBool, traverseType, splitbyVariance);
         //  new QuadtreeMaker(imageData, context, blockSize, circleBool, traverseType);
     };
 }
-const blockChopButton = document.getElementById('blockChopToggle');
-blockChopButton.addEventListener('click', function (e) {
-    const otherContainer = document.getElementById('qt');
-    const container = document.getElementById('bc');
-    // console.log(container);
 
-    container.classList.contains('collapse') ? container.classList.remove('collapse') : container.classList.add('collapse');
-    if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
-    // console.log(container);
-});
-
-const quadTreeButton = document.getElementById('quadTreeToggle');
-quadTreeButton.addEventListener('click', function (e) {
-    const otherContainer = document.getElementById('bc');
-    const container = document.getElementById('qt');
-    // console.log(container);
-
-    container.classList.contains('collapse') ? container.classList.remove('collapse') : container.classList.add('collapse');
-    if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
-    // console.log(container);
-});
 
 
 
@@ -268,8 +259,8 @@ quadTreeButton.addEventListener('click', function (e) {
 
  class QuadtreeMaker {
     constructor(){}
-     makeQuadTree(imageData, context, blockSize, circleBool, timeoutType = '2', byVar = false ){
-
+     makeQuadTree(imageData, context, blockSize, circleBool, timeoutType = '2', byVar = false, ratio=1 ){
+        
         const timeOutes = [];
         const stopButton = document.getElementById('stopQuads');
         stopButton.addEventListener('click', e => timeOutes.forEach((to => clearTimeout(to))));
@@ -301,12 +292,12 @@ quadTreeButton.addEventListener('click', function (e) {
             context.fillStyle = this.color;
             if (circleBool) {
                 context.beginPath();
-                context.arc(this.mpX, this.mpY, (bounds.width*.5), 0, 2 * Math.PI, false);
+                context.arc(this.mpX, this.mpY, (bounds.width*ratio), 0, 2 * Math.PI, false);
                 // context.clearRect(bounds.x, bounds.y, bounds.width, bounds.height);
                 context.fill();
             } else {
                 // context.clearRect(bounds.x, bounds.y, bounds.width, bounds.height);
-                context.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
+                context.fillRect(bounds.x, bounds.y, bounds.width*ratio, bounds.height*ratio);
             }
         }
         calcAverageColor(){
@@ -352,13 +343,16 @@ quadTreeButton.addEventListener('click', function (e) {
                for (let x = this.bounds.x; x < this.bounds.x+this.bounds.width;x = x+1){
                 for (let y = this.bounds.y; y<this.bounds.y+this.bounds.height;y++){
                     const i4 = (y * imageData.width + x) * 4;
-                    n++;
-                    sum[0] += Math.pow(pixelArray[i4]-this.coloravg[0],2);
-                    sum[1] += Math.pow(pixelArray[i4 + 1] - this.coloravg[1],2);
-                    sum[2] += Math.pow(pixelArray[i4 + 2]-this.coloravg[2],2);
-                    sum[3] += Math.pow(pixelArray[i4 + 3] - this.coloravg[3],2);
-                    if (sum[0] === undefined || Number.isNaN(sum[0]))
-                        console.log('sum undefined', x,y,i4,this.bounds,this);
+                    if (pixelArray[i4] !== undefined){
+                        n++;
+                        sum[0] += Math.pow(pixelArray[i4]-this.coloravg[0],2);
+                        sum[1] += Math.pow(pixelArray[i4 + 1] - this.coloravg[1],2);
+                        sum[2] += Math.pow(pixelArray[i4 + 2]-this.coloravg[2],2);
+                        sum[3] += Math.pow(pixelArray[i4 + 3] - this.coloravg[3],2);
+                        if (sum[0] === undefined || Number.isNaN(sum[0]))
+                            console.log('sum undefined', x,y,i4,this.bounds,this);
+                            
+                        }
                     }
                 }
             const area = n;
@@ -374,7 +368,7 @@ quadTreeButton.addEventListener('click', function (e) {
             // console.log(score, this.coloravg, sum, area, variance, this);
             if (score === Infinity || Number.isNaN(score)){
                 console.log("nan prob",score, this.coloravg, sum, area, variance, this);
-                debugger;
+                
             }
             return score;
 
@@ -384,9 +378,9 @@ quadTreeButton.addEventListener('click', function (e) {
             let index = -1;
             this.nodes.forEach( (node, idx) =>{
                 if (node.bounds.x < x && x < node.bounds.x+node.bounds.width){
-                    console.log("inside x bounds of", node.bounds.x, node.bounds.x+node.bounds.width);
+                    // console.log("inside x bounds of", node.bounds.x, node.bounds.x+node.bounds.width);
                     if ( node.bounds.y < y && y < node.bounds.y+node.bounds.height){
-                        console.log("inside y bounds of", node.bounds.y, node.bounds.y + node.bounds.height);
+                        // console.log("inside y bounds of", node.bounds.y, node.bounds.y + node.bounds.height);
                         index = idx;
                         
                         // return index;
@@ -415,7 +409,7 @@ quadTreeButton.addEventListener('click', function (e) {
         split() {
             
             // console.log(this.bounds);
-            if (this.bounds.width === 1 || this.bounds.height===1){
+            if (this.bounds.width < blockSize || this.bounds.height < blockSize){
                 // console.log("split below 1 width", this);
                 this.variance = 0;
                 return false;
@@ -469,7 +463,7 @@ quadTreeButton.addEventListener('click', function (e) {
                 QuadNode.nodes.forEach(function (node, index) {
             
                     // console.log("tt qt",timeoutType==='3');
-                    if (node.nextWidth >= blockSize && node.nextWidth >= 1) {
+                    if (node.nextWidth >= blockSize && node.nextWidth >= 1 && node.nextHeight >=1) {
                         if (timeoutType === '2') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), node.level*devisions * 10)); }
                         else if (timeoutType === '1') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), 10)); }
                         else if (timeoutType === '3') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level * index) * 100 + devisions / 20))); }

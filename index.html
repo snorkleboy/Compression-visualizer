@@ -4,7 +4,7 @@
     <script src="https://use.fontawesome.com/5b61570599.js"></script>
 
     <title>imageData fun</title>
-    
+    <link rel="stylesheet" href="application.css">
     <link rel="stylesheet" href="index.css">
     
   </head>
@@ -22,50 +22,52 @@
 
           
           <div class='options'>
-       
-            <label class='imageOptions inneroptions'> load an image
-              <input name='imageUrl' id='imageUrlInput' type="text" value='https://i.imgur.com/drGvplW.jpg' />
+            <div id='imageUrlInput' class='imageOptions inneroptions'>
+              <label > load an image
+                <input name='imageUrl' type="text" value='https://i.imgur.com/drGvplW.jpg' />
+              </label>  
               <button id='imageUrlSubmit' type="submit" value='submit' >Get Image<i class="fa fa-picture-o" aria-hidden="true"></i></button>
               <button id='clear'>clear <i class="fa fa-minus" aria-hidden="true"></i></button>
               <button id='reset'>reset <i class="fa fa-refresh" aria-hidden="true"></i></button>
               <button id='blockChopToggle'>BlockChop <i class="fa fa-bars" aria-hidden="true"></i></button>
               <button id='quadTreeToggle'>QuadTree <i class="fa fa-bars" aria-hidden="true"></i>  </button>
-            </label>
-
-            <label id='bc' class='inneroptions bc collapse'> 
+            
+            </div>
+            <div id='bc' class='inneroptions bc collapse'>
               
-                            <button id='niave'> niave compression</button>
-                            <button id='stopNiave'>Stop niave compression</button>
+                            <button class='start' id='niave'>start BlockChop</button>
+                            <button class='stop' id='stopNiave'>Stop BlockChop</button>
               <label>blocksize x (default is 10)<input id='niaveInputX' type="text"></input></label>
               <label>blocksize y(defualt is 10)<input id='niaveInputY' type="text"></input></label>
-              <label>expandType(1-4),1 is default, 2 is resized, 3 is is pins and 4 is Circles<input id='niaveInputExpand' type="text"></input></label>
+              <label>expandType
+                <select id='niaveInputExpand'>
+                 <option value="1">by Block</option>
+                 <option value="2">Resize</option>
+                 <option value="3">Pins</option>
+                  <option value="3">Circles</option>
+                </select>
+                </label>
               <label>how much to expand by, only works for expandType 3 and 4<input id='niaveInputExpandval' type="text"></input></label>
 
-            </label>
             
-            <label id='qt' class='inneroptions qt collapse'>
-              
-                            <button id='quadtree'> quadtree compression</button>                            
-                            <button id='stopQuads'>Stop quad compression</button>
+            </div>
+            <div id='qt' class='inneroptions qt collapse'>              
+                            <button class='start' id='quadtree'>start quadtree</button>                            
+                            <button class='stop' id='stopQuads'>Stop quadtrees</button>
               <label>traverseType
-                <select id='QuadTreeTraverse'>
-                  <option value="1">Fastest in order</option>
-                  <option value="2">Slower in order</option>
-                  <option value="3">by Depth and Breadth</option>
-                  <option value="4">4</option>
+                <select id='QuadTreeTraverse'>                  
+                  <option value="3">Depth and Breadth</option>
+                  <option value="1">In Order</option>
+                  <option value="4">Diagonal</option>
                 </select>
               </label>
-              <label>blockSize<input id='quadTreeBlockSize' value='6' type="text"></input> </label>
+              <label>Size Limit<input id='quadTreeBlockSize' value='6' type="text"></input> </label>
+              <label>Size Limit<input id='quadTreeBlockSize' value='6' type="text"></input> </label>
               <div class='checkboxes'>
                 <label>Circles or Squares (on is circle)<input checked id='quadTreeCircle' type="checkbox"></input> </label>
                 <label>Split by Color variance<input id='quadTreeVariance' type="checkbox"></input> </label>
               </div>
-
-            </label>
-
-
-            <br></br>
-
+          </div>
           </div>        
       </div> 
       

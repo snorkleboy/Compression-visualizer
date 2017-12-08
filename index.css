@@ -1,5 +1,7 @@
 body{
     background-color: black;
+    font-weight: 400;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 button, label, input, select{
@@ -8,21 +10,21 @@ button, label, input, select{
     flex-grow: 0;
     flex-shrink: 0;
     margin:5px;
-    background-color: rgb(243, 243, 243);
-    color: rgb(82, 82, 82);
+    background-color: rgb(255, 255, 255);
+    color: rgb(128, 128, 128);
     /* transition: 1s background-color; */
     /* border: 1px solid lightgrey; */
     
 }
 button{
-    border: 1px solid rgb(182, 182, 182);
+    /* border: 1px solid rgb(175, 175, 175); */
     /* border-radius: 3px; */
 }
 input{
-    background-color: rgb(243, 243, 243);
+    background-color: rgb(255, 255, 255);
     padding: 6px;
     margin: 5px;
-    color: rgb(129, 129, 103);
+    color: rgb(136, 136, 136);
     font-size: 15px;
 }
 select{
@@ -42,7 +44,8 @@ select{
 border: 5px solid gold;
 }
 canvas{
-    
+    width: fit-content;
+    height: fit-content;
 }
 
 .options-container{
@@ -72,6 +75,8 @@ canvas{
 }
 .bc{
     margin-right: 50px;
+    position: relative;
+    top: -20px;
 }
 .inneroptions{
     display: flex;
@@ -79,10 +84,10 @@ canvas{
     margin: 5px;
     padding: 20px;
     text-align: center;
-    background-color: #9e9e9e;
+    background-color: #ffe7c4;
     border-radius: 10px;
     opacity: 1;
-    height: 60%;
+    height: 80%;
     overflow: hidden;
     transition:  .7s height ease-out, 1s opacity;
     position: relative;
@@ -106,15 +111,19 @@ canvas{
 label{
     display: flex;
     flex-direction: column;
+    background-color: rgb(228, 160, 128);
+    color: white;
+
 }
 
 .collapse{
     
     height: 0%;
-    opacity: 0;
+    /* opacity: 0; */
 }
 .collapse *{
     opacity: 0;
+
 }
 .imageOptions{
     height: fit-content;
@@ -135,4 +144,24 @@ label{
 
 button:hover, input:hover, select:hover{
     background-color: lightgoldenrodyellow;
+}
+
+.start{
+    background-color: rgb(157, 231, 137);
+    color: rgb(245, 245, 245);
+}
+.stop{
+    background-color: rgb(218, 139, 139);
+    color: rgb(243, 243, 243);
+
+}
+
+.start:hover{
+    background-color: rgb(116, 252, 79);
+    color: white;
+}
+
+.stop:hover{
+    background-color: rgb(255, 103, 103);
+    color: rgb(255, 255, 255);
 }
