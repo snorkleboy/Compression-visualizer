@@ -1,3 +1,5 @@
+import { debug } from "util";
+
 
  class QuadtreeMaker {
     constructor(){}
@@ -9,7 +11,7 @@
         let devisions = 0;
         const pixelArray = imageData.data;
         const initialBounds = { x: 0, y: 0, width: imageData.width, height: imageData.height };
-        console.log("QTM", imageData, context.canvas,initialBounds);
+        console.log("QTM", imageData, context.canvas,initialBounds, timeoutType);
 
         this.Quadtree = class Quadtree{
             constructor(bounds, level) {       
@@ -34,56 +36,58 @@
             context.fillStyle = this.color;
             if (circleBool) {
                 context.beginPath();
-                context.arc(this.mpX, this.mpY, (bounds.width), 0, 2 * Math.PI, false);
-                context.clearRect(bounds.x, bounds.y, bounds.width, bounds.height);
+                context.arc(this.mpX, this.mpY, (bounds.width*.5), 0, 2 * Math.PI, false);
+                // context.clearRect(bounds.x, bounds.y, bounds.width, bounds.height);
                 context.fill();
             } else {
-                context.clearRect(bounds.x, bounds.y, bounds.width, bounds.height);
+                // context.clearRect(bounds.x, bounds.y, bounds.width, bounds.height);
                 context.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
             }
         }
         calcAverageColor(){
 
             //get color from ccorner
-            const i4 = ((this.bounds.y * imageData.width) + this.bounds.x) * 4;
-                   let r = pixelArray[i4];
-                   let g = pixelArray[i4+1];
-                   let b = pixelArray[i4+2];
-                   let a = pixelArray[i4+3];
-                   if (r === undefined)console.log("color avg",[r,g,b,a], i4,this);
-                   return [r,g,b,a];
+            // const i4 = ((this.bounds.y * imageData.width) + this.bounds.x) * 4;
+            //        let r = pixelArray[i4];
+            //        let g = pixelArray[i4+1];
+            //        let b = pixelArray[i4+2];
+            //        let a = pixelArray[i4+3];
+            //        if (r === undefined || Number.isNaN(r))console.log("color avg",[r,g,b,a], i4,this);
+            //        return [r,g,b,a];
                    /// get real average
-        //     let r = 0;
-        //     let g = 0;
-        //     let b = 0;
-        //     let a = 0;
-        //     for (let x = this.bounds.x; x < this.bounds.x + this.bounds.width; x++) {
-        //         for (let y = this.bounds.y; y < this.bounds.y + this.bounds.height; y++) {
-        //             const i4 = ((y * imageData.width) + x) * 4;
-        //            if (pixelArray[i4+4])
-        //             {
-        //            r += pixelArray[i4];
-        //            g += pixelArray[i4+1];
-        //            b += pixelArray[i4+2];
-        //            a += pixelArray[i4+3];
-        //             if (r === undefined || Number.isNaN(r)) console.log("color", [r, g, b, a],x,y ,i4,this.bounds, this);}
-        //         }
-        //     }
-        //     const area = this.bounds.width * this.bounds.height;
-        //     r = Math.round(r / area);
-        //     g = Math.round(g / area);
-        //     b = Math.round(b / area);
-        //     a = Math.round(a / area);
-        //     if (r === undefined || Number.isNaN(r)) console.log("color avg", [r, g, b, a], this);
-        //     return [r,g,b,a];
+            let r = 0;
+            let g = 0;
+            let b = 0;
+            let a = 0;
+            for (let x = this.bounds.x; x < this.bounds.x + this.bounds.width; x++) {
+                for (let y = this.bounds.y; y < this.bounds.y + this.bounds.height; y++) {
+                    const i4 = ((y * imageData.width) + x) * 4;
+                   if (pixelArray[i4+4])
+                    {
+                   r += pixelArray[i4];
+                   g += pixelArray[i4+1];
+                   b += pixelArray[i4+2];
+                   a += pixelArray[i4+3];
+                    if (r === undefined || Number.isNaN(r)) console.log("color", [r, g, b, a],x,y ,i4,this.bounds, this);}
+                }
+            }
+            const area = this.bounds.width * this.bounds.height;
+            r = Math.round(r / area);
+            g = Math.round(g / area);
+            b = Math.round(b / area);
+            a = Math.round(a / area);
+            if (r === undefined || Number.isNaN(r)) console.log("color avg", [r, g, b, a], this);
+            return [r,g,b,a];
         }
         calcColorVar() {
                 if (this.width < 2) return 0;
             // console.log("start", this.coloravg,  variance, this);
             let sum = [0,0,0,0];
-               for (let x = this.bounds.x; x < this.bounds.x+this.bounds.width-4;x = x+1){
-                for (let y = this.bounds.y; y<this.bounds.y+this.bounds.height-4;y++){
+            let n = 0;
+               for (let x = this.bounds.x; x < this.bounds.x+this.bounds.width;x = x+1){
+                for (let y = this.bounds.y; y<this.bounds.y+this.bounds.height;y++){
                     const i4 = (y * imageData.width + x) * 4;
+                    n++;
                     sum[0] += Math.pow(pixelArray[i4]-this.coloravg[0],2);
                     sum[1] += Math.pow(pixelArray[i4 + 1] - this.coloravg[1],2);
                     sum[2] += Math.pow(pixelArray[i4 + 2]-this.coloravg[2],2);
@@ -92,7 +96,7 @@
                         console.log('sum undefined', x,y,i4,this.bounds,this);
                     }
                 }
-            const area = this.bounds.width * this.bounds.height;
+            const area = n;
             let varSum = 0;
             
             sum.forEach((color) => {
@@ -105,6 +109,7 @@
             // console.log(score, this.coloravg, sum, area, variance, this);
             if (score === Infinity || Number.isNaN(score)){
                 console.log("nan prob",score, this.coloravg, sum, area, variance, this);
+                debugger;
             }
             return score;
 
@@ -114,11 +119,12 @@
             let index = -1;
             this.nodes.forEach( (node, idx) =>{
                 if (node.bounds.x < x && x < node.bounds.x+node.bounds.width){
-                    // console.log("inside x bounds of", node.bounds.x, node.bounds.x+node.bounds.width);
+                    console.log("inside x bounds of", node.bounds.x, node.bounds.x+node.bounds.width);
                     if ( node.bounds.y < y && y < node.bounds.y+node.bounds.height){
-                        // console.log("inside y bounds of", node.bounds.y, node.bounds.y + node.bounds.height);
+                        console.log("inside y bounds of", node.bounds.y, node.bounds.y + node.bounds.height);
                         index = idx;
-                        return index;
+                        
+                        // return index;
                         // console.log("shouldnt see this");
                     }
                 }
@@ -145,9 +151,9 @@
             
             // console.log(this.bounds);
             if (this.bounds.width === 1 || this.bounds.height===1){
-                console.log("split below 1 width", this);
+                // console.log("split below 1 width", this);
                 this.variance = 0;
-                return -1;
+                return false;
             }
             devisions++;
             this.nodes[0] = new Quadtree({
@@ -194,16 +200,18 @@
 
         recusiveSplit(QuadNode) {
             // console.log('rec split', this);
-            QuadNode.split().nodes.forEach(function (node, index) {
-        
-                // console.log(leaves);
-                if (node.nextWidth >= blockSize && node.nextWidth >= 2) {
-                    if (timeoutType === '2') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), node.level*devisions * 10)); }
-                    else if (timeoutType === '1') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), 10)); }
-                    else if (timeoutType === '3') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), (node.level * index) * devisions)); }
-                    else if (timeoutType === '4') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level + index)))); }
-                }
-            });
+            if(QuadNode.split()){
+                QuadNode.nodes.forEach(function (node, index) {
+            
+                    // console.log("tt qt",timeoutType==='3');
+                    if (node.nextWidth >= blockSize && node.nextWidth >= 1) {
+                        if (timeoutType === '2') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), node.level*devisions * 10)); }
+                        else if (timeoutType === '1') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), 10)); }
+                        else if (timeoutType === '3') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level * index) * 100 + devisions / 20))); }
+                        else if (timeoutType === '4') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level) * 100 + index * devisions / 20))); }
+                    }                                                                            
+                });
+            }
         }
         splitByVar(parentNode){
             
@@ -212,10 +220,10 @@
                 const a = setInterval(()=>{
                     counter++;
                     let hvn = parentNode.getHighestVarNode();
-                    if (hvn.variance < .000001) clearInterval(a);
+                    if (hvn.variance < .0000001) clearInterval(a);
                     hvn.node.split();
                     
-                },devisions);
+                },10);
                 timeOutes.push(a);
             }
             splitBV();

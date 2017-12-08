@@ -33,14 +33,16 @@ select{
 .canvas-holder{
     /* max-height: 1050px; */
     /* min-height: 1050px; */
-    height: 720;
+    height: fit-content;
+    /* min-height: 800px; */
     display: flex;
     flex-direction: column;
-    width: fit-content;
 
+    width: 1024; 
+border: 5px solid gold;
 }
 canvas{
-    border: 5px solid gold;
+    
 }
 
 .options-container{
