@@ -16,20 +16,14 @@ I will also make it possible for you to click on the canvas being controlled by 
 
 | simple split | color variance split |
 | --------------- | --------------- |
-![comp tomatoes](http://res.cloudinary.com/flyakite/image/upload/v1514431822/quadtreeorder_hhttov.png) 
-|
-![comp tomatoes var](http://res.cloudinary.com/flyakite/image/upload/v1514431820/quadtree_by_var_yzpqdc.png)
-|
+![comp tomatoes](http://res.cloudinary.com/flyakite/image/upload/v1514431822/quadtreeorder_hhttov.png) | ![comp tomatoes var](http://res.cloudinary.com/flyakite/image/upload/v1514431820/quadtree_by_var_yzpqdc.png)|
 
 ![text with variance split](https://github.com/snorkleboy/imageReader/blob/master/assets/war_tlxpkw.gif)
 
 
 | simple split | color variance split |
 | --------------- | --------------- |
-![comp regulat split](https://github.com/snorkleboy/imageReader/blob/master/assets/stones-6_cnywjy.gif)
- |
-![comp var split](https://github.com/snorkleboy/imageReader/blob/master/assets/ezgif.com-optimize.gif)
-|
+![comp regulat split](https://github.com/snorkleboy/imageReader/blob/master/assets/stones-6_cnywjy.gif)|![comp var split](https://github.com/snorkleboy/imageReader/blob/master/assets/ezgif.com-optimize.gif)|
 
 
 
