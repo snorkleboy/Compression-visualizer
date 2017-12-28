@@ -1,4 +1,4 @@
-# [imageReader- compression art](https://imagereader.herokuapp.com/) -live
+# [imageReader- compression art](https://imagereader.herokuapp.com/) 
 ![alt text](https://res.cloudinary.com/flyakite/image/upload/v1512363891/download_2_zloy9n.png)
 ### Background and Overview
 
@@ -12,12 +12,12 @@ the end result just be that if, for example, an image was mostly white and had a
 
 I will also make it possible for you to click on the canvas being controlled by the quadtree, it will use the coordinates of the mouse to find whithin which node the mouse is over, and split it. 
 
-![text with variance split](https://github.com/snorkleboy/imageReader/blob/master/assets/war.mp4)
+![text with variance split](https://github.com/snorkleboy/imageReader/blob/master/assets/war_tlxpkw.gif)
 
-![whitespace with variance split](https://github.com/snorkleboy/imageReader/blob/master/assets/flowersquarevar.mp4)
+![whitespace with variance split](https://github.com/snorkleboy/imageReader/blob/master/assets/flowersquarevar_ifiwtu.gif)
 
 niave split
-![comp regulat split](https://github.com/snorkleboy/imageReader/blob/master/assets/stones-6.gif)
+![comp regulat split](https://github.com/snorkleboy/imageReader/blob/master/assets/stones-6_cnywjy.gif)
 split by color varaincce
 ![comp var split](https://github.com/snorkleboy/imageReader/blob/master/assets/smalcircle.mp4)
 
@@ -26,4 +26,4 @@ niave split
 split by color variance
 ![comp tomatoes var](http://res.cloudinary.com/flyakite/image/upload/v1514431820/quadtree_by_var_yzpqdc.png)
 
-![stones](https://github.com/snorkleboy/imageReader/blob/master/assets/stones.mp4)
+![stones](https://github.com/snorkleboy/imageReader/blob/master/assets/stones_wegr2r.gif)
