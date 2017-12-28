@@ -105,6 +105,7 @@ class ImageReader{
     }
     //initiates a new canvas and starts event handlers on buttons
     receiveImage(img){
+
         // console.log("image recieved", img);
         this.img=img;
 
@@ -114,6 +115,13 @@ class ImageReader{
         this.resultCanvas.parentNode.replaceChild(canvasClone, this.resultCanvas);
         this.resultCanvas = canvasClone;
         
+        //stop any running quad trees
+        const stopButton = document.getElementById('stopQuads');
+        stopButton.click();
+        const divisionsNumberEl = document.getElementById('divisionsNumber');
+        divisionsNumberEl.innerText = '';
+
+
         //turn off anti aliasing to set canvas size
         this.resultCtx = this.resultCanvas.getContext('2d');
         this.resultCtx.imageSmoothingEnabled = false;
@@ -157,6 +165,11 @@ class ImageReader{
         const newquadTreeSimpleButton = quadTreeSimpleButton.cloneNode(true);
         quadTreeSimpleButton.parentNode.replaceChild(newquadTreeSimpleButton, quadTreeSimpleButton);
         newquadTreeSimpleButton.addEventListener('click', handleQuadTreeClick(this.imageData, this.resultCtx, this.quadtreeMaker));
+
+
+
+
+
     }
 
 }
@@ -293,8 +306,13 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
     constructor(){}
      makeQuadTree(imageData, context, blockSize, circleBool, timeoutType = '2', byVar = false, ratio = 1 ){
         const timeOutes = [];
+        const intervals = [];
         const stopButton = document.getElementById('stopQuads');
-        stopButton.addEventListener('click', e => timeOutes.forEach((to => clearTimeout(to))));
+        stopButton.addEventListener('click', e => {
+            timeOutes.forEach(to => clearTimeout(to));
+            intervals.forEach(to => clearInterval(to));
+        });
+
         let devisions = 0;
         const pixelArray = imageData.data;
         const initialBounds = { x: 0, y: 0, width: imageData.width, height: imageData.height };
@@ -511,7 +529,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
                     hvn.node.split();
                     
                 },devisions);
-                timeOutes.push(a);
+                intervals.push(a);
             }
             splitBV();
         }

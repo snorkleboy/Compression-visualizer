@@ -5,8 +5,13 @@ import { debug } from "util";
     constructor(){}
      makeQuadTree(imageData, context, blockSize, circleBool, timeoutType = '2', byVar = false, ratio = 1 ){
         const timeOutes = [];
+        const intervals = [];
         const stopButton = document.getElementById('stopQuads');
-        stopButton.addEventListener('click', e => timeOutes.forEach((to => clearTimeout(to))));
+        stopButton.addEventListener('click', e => {
+            timeOutes.forEach(to => clearTimeout(to));
+            intervals.forEach(to => clearInterval(to));
+        });
+
         let devisions = 0;
         const pixelArray = imageData.data;
         const initialBounds = { x: 0, y: 0, width: imageData.width, height: imageData.height };
@@ -223,7 +228,7 @@ import { debug } from "util";
                     hvn.node.split();
                     
                 },devisions);
-                timeOutes.push(a);
+                intervals.push(a);
             }
             splitBV();
         }

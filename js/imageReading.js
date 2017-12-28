@@ -32,6 +32,7 @@ class ImageReader{
     }
     //initiates a new canvas and starts event handlers on buttons
     receiveImage(img){
+
         // console.log("image recieved", img);
         this.img=img;
 
@@ -41,6 +42,13 @@ class ImageReader{
         this.resultCanvas.parentNode.replaceChild(canvasClone, this.resultCanvas);
         this.resultCanvas = canvasClone;
         
+        //stop any running quad trees
+        const stopButton = document.getElementById('stopQuads');
+        stopButton.click();
+        const divisionsNumberEl = document.getElementById('divisionsNumber');
+        divisionsNumberEl.innerText = '';
+
+
         //turn off anti aliasing to set canvas size
         this.resultCtx = this.resultCanvas.getContext('2d');
         this.resultCtx.imageSmoothingEnabled = false;
@@ -84,6 +92,11 @@ class ImageReader{
         const newquadTreeSimpleButton = quadTreeSimpleButton.cloneNode(true);
         quadTreeSimpleButton.parentNode.replaceChild(newquadTreeSimpleButton, quadTreeSimpleButton);
         newquadTreeSimpleButton.addEventListener('click', handleQuadTreeClick(this.imageData, this.resultCtx, this.quadtreeMaker));
+
+
+
+
+
     }
 
 }
