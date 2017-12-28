@@ -16,14 +16,17 @@ I will also make it possible for you to click on the canvas being controlled by 
 
 ![whitespace with variance split](https://github.com/snorkleboy/imageReader/blob/master/assets/flowersquarevar_ifiwtu.gif)
 
-niave split
+| simple split | color variance split |
+| --------------- | --------------- |
 ![comp regulat split](https://github.com/snorkleboy/imageReader/blob/master/assets/stones-6_cnywjy.gif)
-split by color varaincce
-![comp var split](https://github.com/snorkleboy/imageReader/blob/master/assets/smalcircle.mp4)
+ |
+![comp var split](https://github.com/snorkleboy/imageReader/blob/master/assets/ezgif.com-optimize.gif)
 
-niave split
+| simple split | color variance split |
+| --------------- | --------------- |
+
 ![comp tomatoes](http://res.cloudinary.com/flyakite/image/upload/v1514431822/quadtreeorder_hhttov.png) 
-split by color variance
+|
 ![comp tomatoes var](http://res.cloudinary.com/flyakite/image/upload/v1514431820/quadtree_by_var_yzpqdc.png)
 
 ![stones](https://github.com/snorkleboy/imageReader/blob/master/assets/stones_wegr2r.gif)
