@@ -570,7 +570,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             return (e)=>{
                 // console.log("getIndex in handler", tree.GetNode(e.layerX,e.layerY) );
             if (tree.use === true){
-                const node = tree.GetNode(e.layerX, e.layerY);
+                const node = tree.GetNode(e.pageX - context.canvas.offsetLeft, e.pageY - context.canvas.offsetTop);
             if (node) node.split(); 
             }
         };}
