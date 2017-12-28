@@ -69,19 +69,15 @@ canvas{
     transition-delay: .1s;
 }
 .colors{
-    position: absolute;
-    top: 0vh;
-    right:0vw;
+    position: fixed;
+    bottom: 0vh;
+    left:0vw;
     background-color: rgb(255, 231, 231);
     color: rgb(143, 142, 142);
     height: fit-content;
     width: 200px;
 }
-.bc{
-    margin-right: 50px;
-    position: relative;
-    top: -20px;
-}
+
 .inneroptions{
     display: flex;
     flex-direction: column;
@@ -188,6 +184,17 @@ transition: 1s background-color, 1s color, 1s opacity;
     background-color: rgb(161, 161, 161);
     color: rgb(87, 87, 87);
 }
+.bc{
+    position: relative;
+    top: -20px;
+}
+.qt{
+
+    position: relative;
+    top: -60px;
+}
+
+
 
 .github{
     display: flex;
