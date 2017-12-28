@@ -71,7 +71,7 @@ canvas{
 .colors{
     position: fixed;
     bottom: 0vh;
-    left:0vw;
+    left:20vw;
     background-color: rgb(255, 231, 231);
     color: rgb(143, 142, 142);
     height: fit-content;

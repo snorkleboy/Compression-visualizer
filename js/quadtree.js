@@ -151,11 +151,8 @@ import { debug } from "util";
 
 
 
-        split() {
-            
-            // console.log(this.bounds);
-            if (this.bounds.width < blockSize || this.bounds.height < blockSize){
-                // console.log("split below 1 width", this);
+        split(force=false) {
+            if (!force && (this.bounds.width < blockSize || this.bounds.height < blockSize)){
                 this.variance = 0;
                 return false;
             }
@@ -224,7 +221,7 @@ import { debug } from "util";
                 const a = setInterval(()=>{
                     counter++;
                     let hvn = parentNode.getHighestVarNode();
-                    if (hvn.variance < .0000001) clearInterval(a);
+                    if (hvn.node === null || hvn.variance < .0000001) clearInterval(a);
                     hvn.node.split();
                     
                 },devisions);
@@ -273,7 +270,7 @@ import { debug } from "util";
                 // console.log("getIndex in handler", tree.GetNode(e.layerX,e.layerY) );
             if (tree.use === true){
                 const node = tree.GetNode(e.pageX - context.canvas.offsetLeft, e.pageY - context.canvas.offsetTop);
-            if (node) node.split(); 
+            if (node) node.split(true); 
             }
         };}
 
