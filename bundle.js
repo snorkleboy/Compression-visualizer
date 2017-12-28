@@ -79,7 +79,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // console.log(QuadtreeMaker);
     const imagereader = new ImageReader();
     let img = new Image();
-    img.src = 'https://i.imgur.com/AIgar9n.jpg?' + new Date().getTime();
+    const time = new Date().getTime();
+    img.src = time % 2 === 0 ? 'https://i.imgur.com/zkc1tq7.jpg' : 'https://i.imgur.com/cMMwsek.jpg' + time;
     img.crossOrigin = "Anonymous";
     img.onload = () => imagereader.receiveImage(img);
 
@@ -489,13 +490,12 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             // console.log('rec split', this);
             if(QuadNode.split()){
                 QuadNode.nodes.forEach(function (node, index) {
-            
                     // console.log("tt qt",timeoutType==='3');
                     if (node.nextWidth >= blockSize && node.nextWidth >= 1 && node.nextHeight >=1) {
-                        if (timeoutType === '2') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), node.level*devisions * 10)); }
+                        if (timeoutType === '2') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((100 * index * index) / (node.level)))); }
                         else if (timeoutType === '1') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), 10)); }
-                        else if (timeoutType === '3') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level * index) * 100 + devisions / 20))); }
-                        else if (timeoutType === '4') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level) * 100 + index * devisions / 20))); }
+                        else if (timeoutType === '3') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((100) / (node.level * index * index)) ));}
+                        else if (timeoutType === '4') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((devisions) / (index * index * node.level)))); }
                     }                                                                            
                 });
             }
@@ -510,7 +510,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
                     if (hvn.variance < .0000001) clearInterval(a);
                     hvn.node.split();
                     
-                },.001);
+                },devisions);
                 timeOutes.push(a);
             }
             splitBV();

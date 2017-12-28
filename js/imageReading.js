@@ -6,7 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // console.log(QuadtreeMaker);
     const imagereader = new ImageReader();
     let img = new Image();
-    img.src = 'https://i.imgur.com/AIgar9n.jpg?' + new Date().getTime();
+    const time = new Date().getTime();
+    img.src = time % 2 === 0 ? 'https://i.imgur.com/zkc1tq7.jpg' : 'https://i.imgur.com/cMMwsek.jpg' + time;
     img.crossOrigin = "Anonymous";
     img.onload = () => imagereader.receiveImage(img);
 

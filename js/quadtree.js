@@ -202,13 +202,12 @@ import { debug } from "util";
             // console.log('rec split', this);
             if(QuadNode.split()){
                 QuadNode.nodes.forEach(function (node, index) {
-            
                     // console.log("tt qt",timeoutType==='3');
                     if (node.nextWidth >= blockSize && node.nextWidth >= 1 && node.nextHeight >=1) {
-                        if (timeoutType === '2') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), node.level*devisions * 10)); }
+                        if (timeoutType === '2') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((100 * index * index) / (node.level)))); }
                         else if (timeoutType === '1') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), 10)); }
-                        else if (timeoutType === '3') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level * index) * 100 + devisions / 20))); }
-                        else if (timeoutType === '4') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((node.level) * 100 + index * devisions / 20))); }
+                        else if (timeoutType === '3') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((100) / (node.level * index * index)) ));}
+                        else if (timeoutType === '4') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((devisions) / (index * index * node.level)))); }
                     }                                                                            
                 });
             }
@@ -223,7 +222,7 @@ import { debug } from "util";
                     if (hvn.variance < .0000001) clearInterval(a);
                     hvn.node.split();
                     
-                },.001);
+                },devisions);
                 timeOutes.push(a);
             }
             splitBV();

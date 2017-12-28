@@ -91,10 +91,10 @@ canvas{
     background-color: rgb(218, 199, 107);
     border-radius: 2px;
     opacity: 1;
-    /* min-height: fit-content; */
-    height: 70%;
+    max-height: fit-content;
+    height: 100%;
     overflow: hidden;
-    transition:  .7s height ease-out, 1s opacity;
+    transition:  1s height ease, 1s opacity;
     position: relative;
     
 
@@ -124,11 +124,10 @@ label{
 .collapse{
     
     height: 0%;
-    /* opacity: 0; */
+    opacity: 0;
 }
 .collapse *{
     opacity: 0;
-
 }
 .imageOptions{
     height: fit-content;
@@ -143,9 +142,7 @@ label{
     margin-bottom: 5px;
 }
 
-.qt{
-    top: -80px;
-}
+
 
 button:hover, input:hover, select:hover{
     background-color: lightgoldenrodyellow;
