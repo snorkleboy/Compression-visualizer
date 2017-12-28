@@ -65,6 +65,7 @@ class ImageReader{
         //
         this.resetButton = document.getElementById('reset');
         this.resetButton.addEventListener('click', e => {
+            stopButton.click();
             this.resultCtx.drawImage(this.img, 0, 0, this.img.width, this.img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height)
             this.imageData = this.resultCtx.getImageData(0, 0, this.resultCanvas.width, this.resultCanvas.height);
         });
@@ -100,27 +101,23 @@ class ImageReader{
     }
 
 }
+
+const stopButton = document.getElementById('stopQuads');
 ///ui buttons
 const blockChopButton = document.getElementById('blockChopToggle');
 blockChopButton.addEventListener('click', function (e) {
     const otherContainer = document.getElementById('qt');
     const container = document.getElementById('bc');
-    // console.log(container);
-
     container.classList.contains('collapse') ? container.classList.remove('collapse') : container.classList.add('collapse');
     if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
-    // console.log(container);
 });
 
 const quadTreeButton = document.getElementById('quadTreeToggle');
 quadTreeButton.addEventListener('click', function (e) {
     const otherContainer = document.getElementById('bc');
     const container = document.getElementById('qt');
-    // console.log(container);
-
     container.classList.contains('collapse') ? container.classList.remove('collapse') : container.classList.add('collapse');
     if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
-    // console.log(container);
 });
 
 //grey out traversetype on SplitByColorVar
@@ -176,7 +173,7 @@ function makeDownload(imageData, element){
     dlLinkDiv.appendChild(link);
 }
 function niaveCompressClick(e) {
-
+    stopButton.click();
     ///
     //get inputs
     let inX = parseInt(document.getElementById('niaveInputX').value);
@@ -198,7 +195,7 @@ function niaveCompressClick(e) {
 }
 function handleQuadTreeClick(imageData, context, quadtreeMaker){
     return (e) => {
-        
+        stopButton.click();
         e.preventDefault();
         let ratio = parseFloat(document.getElementById('quadTreeSize').value);
         let blockSize = parseInt(document.getElementById('quadTreeBlockSize').value);

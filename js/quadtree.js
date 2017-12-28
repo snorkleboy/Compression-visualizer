@@ -11,7 +11,6 @@ import { debug } from "util";
             timeOutes.forEach(to => clearTimeout(to));
             intervals.forEach(to => clearInterval(to));
         });
-         stopButton.click();
 
         let devisions = 0;
         const pixelArray = imageData.data;
