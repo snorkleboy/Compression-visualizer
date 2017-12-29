@@ -126,21 +126,20 @@ I made the whole process animated by putting the calls to split(), which call fi
 
 **results
 
-This approach works particularily well in images where there is a lot of area with similar colors. Such as in the following image where
+This approach works particularily well in images where there is a lot of area with similar colorsc such as in the following image
 ![whitespace with variance split](https://github.com/snorkleboy/imageReader/blob/master/assets/flowersquarevar_ifiwtu.gif)
 
+or images with tex
+![text example]()
 
 | simple split | color variance split |
 | --------------- | --------------- |
-![comp tomatoes](http://res.cloudinary.com/flyakite/image/upload/v1514431822/quadtreeorder_hhttov.png) | ![comp tomatoes var](http://res.cloudinary.com/flyakite/image/upload/v1514431820/quadtree_by_var_yzpqdc.png)|
 
-![text with variance split](https://github.com/snorkleboy/imageReader/blob/master/assets/war_tlxpkw.gif)
+
 
 
 | simple split | color variance split |
 | --------------- | --------------- |
-![comp regulat split](https://github.com/snorkleboy/imageReader/blob/master/assets/stones-6_cnywjy.gif)|![comp var split](https://github.com/snorkleboy/imageReader/blob/master/assets/ezgif.com-optimize.gif)|
 
 
-
-![stones](https://github.com/snorkleboy/imageReader/blob/master/assets/stones_wegr2r.gif)
+there are also some fun modes I built in
