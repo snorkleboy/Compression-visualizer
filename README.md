@@ -158,7 +158,7 @@ Here is a comparison of the numbers of nodes nessisary to get a readable sign by
 there are also some fun modes I built in
 ![](http://res.cloudinary.com/flyakite/image/upload/v1514590288/download_2_hqyiv2.png)
 ![](http://res.cloudinary.com/flyakite/image/upload/v1514590287/download_4_jpan4b.png)
-![])http://res.cloudinary.com/flyakite/image/upload/v1514590287/download_edkzv9.png)
+![](http://res.cloudinary.com/flyakite/image/upload/v1514590287/download_edkzv9.png)
 
 
 
