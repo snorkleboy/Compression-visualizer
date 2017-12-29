@@ -74,13 +74,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+const urls = [
+    'https://i.imgur.com/drGvplW.jpg',
+    'https://i.imgur.com/zkc1tq7.jpg',
+    'https://i.imgur.com/cMMwsek.jpg',
+    'https://i.imgur.com/5BMFvAC.jpg',
+    'https://i.imgur.com/GQnvMsI.jpg'
+]
 document.addEventListener("DOMContentLoaded", function () {
     
     // console.log(QuadtreeMaker);
     const imagereader = new ImageReader();
     let img = new Image();
     const time = new Date().getTime();
-    img.src = time % 2 === 0 ? 'https://i.imgur.com/zkc1tq7.jpg' : 'https://i.imgur.com/cMMwsek.jpg' + time;
+    img.src = urls[time % urls.length]  + time;
     img.crossOrigin = "Anonymous";
     img.onload = () => imagereader.receiveImage(img);
 
@@ -314,7 +321,6 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             timeOutes.forEach(to => clearTimeout(to));
             intervals.forEach(to => clearInterval(to));
         });
-        console.log("here123123")
 
         let devisions = 0;
         const pixelArray = imageData.data;
@@ -491,7 +497,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             if(QuadNode.split()){
                 QuadNode.nodes.forEach(function (node, index) {
                     if (node.nextWidth >= blockSize && node.nextWidth >= 1 && node.nextHeight >=1) {
-                        if (timeoutType === '2') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((100 * index * index) / (node.level)))); }
+                        if (timeoutType === '2') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), (node.level * index) * 100 )); }
                         else if (timeoutType === '1') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), 10)); }
                         else if (timeoutType === '3') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((100) / (node.level * index * index)) ));}
                         else if (timeoutType === '4') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((devisions) / (index * index * node.level)))); }

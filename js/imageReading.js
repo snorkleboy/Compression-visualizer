@@ -1,13 +1,20 @@
 import QuadtreeMaker from './quadtree.js';
 import NiaveCompress from './blockCompress.js';
 
+const urls = [
+    'https://i.imgur.com/drGvplW.jpg',
+    'https://i.imgur.com/zkc1tq7.jpg',
+    'https://i.imgur.com/cMMwsek.jpg',
+    'https://i.imgur.com/5BMFvAC.jpg',
+    'https://i.imgur.com/GQnvMsI.jpg'
+]
 document.addEventListener("DOMContentLoaded", function () {
     
     // console.log(QuadtreeMaker);
     const imagereader = new ImageReader();
     let img = new Image();
     const time = new Date().getTime();
-    img.src = time % 2 === 0 ? 'https://i.imgur.com/zkc1tq7.jpg' : 'https://i.imgur.com/cMMwsek.jpg' + time;
+    img.src = urls[time % urls.length]  + time;
     img.crossOrigin = "Anonymous";
     img.onload = () => imagereader.receiveImage(img);
 

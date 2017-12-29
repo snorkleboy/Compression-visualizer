@@ -11,7 +11,6 @@ import { debug } from "util";
             timeOutes.forEach(to => clearTimeout(to));
             intervals.forEach(to => clearInterval(to));
         });
-        console.log("here123123")
 
         let devisions = 0;
         const pixelArray = imageData.data;
@@ -188,7 +187,7 @@ import { debug } from "util";
             if(QuadNode.split()){
                 QuadNode.nodes.forEach(function (node, index) {
                     if (node.nextWidth >= blockSize && node.nextWidth >= 1 && node.nextHeight >=1) {
-                        if (timeoutType === '2') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((100 * index * index) / (node.level)))); }
+                        if (timeoutType === '2') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), (node.level * index) * 100 )); }
                         else if (timeoutType === '1') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), 10)); }
                         else if (timeoutType === '3') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((100) / (node.level * index * index)) ));}
                         else if (timeoutType === '4') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((devisions) / (index * index * node.level)))); }
