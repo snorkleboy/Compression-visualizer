@@ -56,6 +56,7 @@ The idea is that the first node of the QuadTree has borders that represent the d
  
  I also made it possible for you to click on an spot and split the node at that location.
  
+ ![click split](http://res.cloudinary.com/flyakite/video/upload/v1514587876/clicksplit_v1bsay.gif)
  I get the position of the mouse relative to the canvas and pass it to getNode(x,y). Every node either has 4 children or is a leaf node. so if nodes[0] exists, I call getIndex(x,y) which uses the boundaries of the children to find which one to search next, otherwisse I return 'this', which should be the bottom most node which encompasses the position of the mouse.
  
 ```
@@ -75,7 +76,6 @@ The idea is that the first node of the QuadTree has borders that represent the d
             });
   ```
         
- ![click split]()
 
 For compressing an image One strategy is to have the first node be a single pixel of the midpoint of the picture thats expanded to be the entire area. that node is then split into four children making up the quadrants of the parent node. You can then generate an image to an abitrary depth.
 
@@ -134,7 +134,7 @@ I made the whole process animated by putting the calls to split(), which call fi
 ** results
 
 This approach works particularily well in images where there is a lot of area with similar colorsc such as in the following image
-![whitespace with variance split](https://github.com/snorkleboy/imageReader/blob/master/assets/flowersquarevar_ifiwtu.gif)
+![whitespace with variance split]()
 
 or images with tex
 ![text example]()
@@ -147,6 +147,5 @@ or images with tex
 
 | simple split | color variance split |
 | --------------- | --------------- |
-
 
 there are also some fun modes I built in
