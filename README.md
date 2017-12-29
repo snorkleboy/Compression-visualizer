@@ -12,6 +12,7 @@ The general idea behind image compression is to find a way to represent the imag
 ** implimentation
 
 The idea is that the first node of the QuadTree has borders that represent the dimensions of the image and it has a color somehow calculated from the image ( I calculate an average color by averaging the seperate r,g,b,a channels of the pixels of the image). When this node is split, it makes 4 new child nodes and puts them into its nodes[] array:
+
 ```
         split() {
         if (this.bounds.width<2 || this.bounds.height<2 || this.nextWidth<blocksize || this.nextHeight < blocksize){
@@ -52,11 +53,14 @@ The idea is that the first node of the QuadTree has borders that represent the d
             return this;
         }
         
+       
  ```
+ 
  I also made it possible for you to click on an spot and split the node at that location.
  
- I get the position of the mouse relative to the canvas and pass it to getNode(x,y). Every node either has 4 children or is a leaf node. so if nodes[0] exists, I call getIndex(x,y) which uses the boundaries of the children to find which one to search next, otherwisse I return 'this', which should be the bottom most node which encompasses the position of the mouse. 
- ```
+ I get the position of the mouse relative to the canvas and pass it to getNode(x,y). Every node either has 4 children or is a leaf node. so if nodes[0] exists, I call getIndex(x,y) which uses the boundaries of the children to find which one to search next, otherwisse I return 'this', which should be the bottom most node which encompasses the position of the mouse.
+ 
+```
 
             
             
@@ -74,12 +78,14 @@ The idea is that the first node of the QuadTree has borders that represent the d
                  const node = tree.GetNode(e.pageX - context.canvas.offsetLeft, e.pageY - context.canvas.offsetTop);
             if (node) node.split(true); 
             });
-        ```
+   ```
+        
  ![click split]()
 
 For compressing an image One strategy is to have the first node be a single pixel of the midpoint of the picture thats expanded to be the entire area. that node is then split into four children making up the quadrants of the parent node. You can then generate an image to an abitrary depth.
 
 Here is a resursive solution for that task, where split() returns false once a certian pixel depth has been reached (block size)
+
 ```
         recusiveSplit(QuadNode) {
             if(QuadNode.split()){
@@ -89,11 +95,13 @@ Here is a resursive solution for that task, where split() returns false once a c
             }
         }
 ```
+
 !{recursive split]()
 
 A better strategy is to instead of simply spliting up every node until some arbitrary limit is reached, I will have each node calculate the variance of color within boundary and come up with a fitness score using that and the area of the boundry. I will then search for and split the node with the highest score, the idea being that giving more pixels or the area which currently has the most unrepresented color variance will have the most effect
 
 to get the average color i iterate through the pixel array using the boundaries and postition of the node like so:
+
 ```
             for (let x = this.bounds.x; x < this.bounds.x + this.bounds.width; x++) {
                 for (let y = this.bounds.y; y < this.bounds.y + this.bounds.height; y++) {
@@ -105,13 +113,17 @@ to get the average color i iterate through the pixel array using the boundaries 
                 }
             }
             ```
+            
             and then devide the sums by the are. To get the varaince I iterate once again finding the square of the difference of each pixel from the average of the node, then devide by the area. The final score of a node is the square of its varaince multiplied by what percent of the total image its area is:
+            
 ```
 const score = (variance * variance) * (area/(imageData.width * imageData.height )) 
 ```
+
 ![split by var]()
 
 I made the whole process animated by putting the calls to split(), which call fillrect(), in a set timeout. setTimeout returns a reference to that timeout, upon which clearTimeout(yourTimeout) may be called. I used that to make it cancellable by putting every timeout in an array which has an event which clears the array.:
+
 ```
         const timeOutes = [];
         const stopButton = document.getElementById('stopQuads');
@@ -124,7 +136,7 @@ I made the whole process animated by putting the calls to split(), which call fi
         timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((devisions) / (index * index * node.level))))   
 ```
 
-**results
+** results
 
 This approach works particularily well in images where there is a lot of area with similar colorsc such as in the following image
 ![whitespace with variance split](https://github.com/snorkleboy/imageReader/blob/master/assets/flowersquarevar_ifiwtu.gif)
