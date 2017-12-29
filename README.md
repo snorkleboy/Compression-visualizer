@@ -1,5 +1,5 @@
 # [imageReader- compression art](https://imagereader.herokuapp.com/) 
-![](https://res.cloudinary.com/flyakite/image/upload/v1512363891/download_2_zloy9n.png)
+![](http://res.cloudinary.com/flyakite/image/upload/v1512363891/download_1_fl6gow.png)
 ### Background and Overview
 
 [A quadTree](https://en.wikipedia.org/wiki/Quadtree) is a kind of data structure where every node has 4 children. They are a kind of expansion of the binary tree where having 4 children makes the Quadtree very useful for partitioning spatially orientated data. They are commonly used in 2 dimensional collision detection and image processing.I was inspired by the gif in the wikipedia article showing the step by step compression of an image using quadtrees and wanted to try and replicate it. 
@@ -17,7 +17,7 @@ To get the pixel data I simply draw an image onto a HTML5 canvas and call getIma
 
 ### simple recursive split
 
-For compressing an image One strategy is to have the first node be a single pixel of the midpoint of the picture thats expanded to be the entire area. that node is then split into four children making up the quadrants of the parent node. You can then generate an image to an abitrary depth.
+For compressing an image One strategy is to have the first node be a single pixel of the midpoint of the picture thats expanded to be the entire area. and filled with the average color of that space. that node is then split into four children making up the quadrants of the parent node. You can then generate an image to an abitrary depth.
 
 Here is a resursive solution for that task, where split() returns false once a certian pixel depth has been reached (block size)
 
@@ -25,17 +25,12 @@ Here is a resursive solution for that task, where split() returns false once a c
 ```
         recusiveSplit(QuadNode) {
             if(QuadNode.split()){
-                QuadNode.nodes.forEach(function (node, index) {
-                         node.recusiveSplit(node)                                
+                QuadNode.nodes.forEach(function (node) {
+                      node.recusiveSplit(node)                                
                 });
             }
         }
 ```
-
-### split by color variance
-
-A better strategy is to instead of simply spliting up every node until some arbitrary limit is reached, I will have each node calculate the variance of color within boundary and come up with a fitness score using that and the area of the boundry. I will then search for and split the node with the highest score, the idea being that giving more pixels or the area which currently has the most unrepresented color variance will have the most effect
-
 to get the average color i iterate through the pixel array using the boundaries and postition of the node like so:
 
 ```
@@ -49,20 +44,27 @@ to get the average color i iterate through the pixel array using the boundaries 
                 }
             }
 ```
-            
- and then devide the sums by the area. To get the variance I iterate once again finding the square of the difference of each pixel from the average of the node, then devide by the area. The final score of a node is the square of its variance multiplied by what percent of the total image its area is:
+then just devide the sums by the area
+
+### split by color variance
+
+A better strategy is to instead of simply spliting up every node until some arbitrary limit is reached, I will have each node calculate the variance of color within boundary and come up with a fitness score using that and the area of the boundry. I will then search for and split the node with the highest score, the idea being that giving more pixels or the area which currently has the most unrepresented color variance will have the most effect
+
+![split by var](http://res.cloudinary.com/flyakite/video/upload/v1514589638/recsplit1_flp8fq.gif)
+
+
+ Every node already calculates an average, so to get the variance I iterate once again finding the square of the difference of each pixels values from the average, then devide by the area. The final score of a node is the square of its variance multiplied by what percent of the total image its area is:
             
 ```
 const score = (variance * variance) * (area/(imageData.width * imageData.height )) 
 ```
 
-then you can search for the node with the highest score:
+once every node has a variance score, you can search for the node with the highest score similar to the recurive split: you check whether the node has children, if not its a leaf node and you need to check whether its variance score is higher than the previously largest varaince score seen:
 
 ```
         getHighestVarNode() {
-            
             let highestVar = {node:null, var:0};
-             const recIter = (Pnode) => {
+             const finder = (Pnode) => {
                  
                  if (Pnode.nodes[0] === undefined) {
                      if (highestVar.var < Pnode.variance){
@@ -75,11 +77,8 @@ then you can search for the node with the highest score:
                     });
                 }
             };
-            recIter(this);
+            finder(this);
             return highestVar;
-            
-
-            
         }
         
 ```
@@ -96,7 +95,7 @@ and then using that you can build the compression algorithm, where its inside of
             intervals.push(a);
         }
 ```
-![split by var]()
+
 
 ### animation
 
@@ -117,6 +116,7 @@ I made the whole process animated by putting the calls to split(), which call fi
  I also made it possible for you to click on an spot and split the node at that location.
  
  ![click split](http://res.cloudinary.com/flyakite/video/upload/v1514587876/clicksplit_v1bsay.gif)
+ 
  I get the position of the mouse relative to the canvas and pass it to getNode(x,y). Every node either has 4 children or is a leaf node. so if nodes[0] exists, I call getIndex(x,y) which uses the boundaries of the children to find which one to search next, otherwisse I return 'this', which should be the bottom most node which encompasses the position of the mouse.
  
 ```
@@ -138,21 +138,27 @@ I made the whole process animated by putting the calls to split(), which call fi
   
 ## some more results and comparisons
 
-This approach works particularily well in images where there is a lot of area with similar colorsc such as in the following image
+In terms of how many nodes it needs to describe a readable image This approach works particularily well in images where there is a lot of area with similar colors such as in the following image
 ![whitespace with variance split]()
 
 or images with text
-![text example]()
+![text example](http://res.cloudinary.com/flyakite/video/upload/v1514589381/vasplit_lhj5e2.gif)
 
+however as you can see while it can intilligently single out text and kee areas of similar color together that does introduce a lot of artifacts.
+
+
+Here is a comparison of the numbers of nodes nessisary to get a readable sign by doing a simple split and color varaince split
 | simple split | color variance split |
 | --------------- | --------------- |
+|![rec](http://res.cloudinary.com/flyakite/image/upload/v1514431822/quadtreeorder_hhttov.png) |![var](http://res.cloudinary.com/flyakite/image/upload/v1514431820/quadtree_by_var_yzpqdc.png)|
 
 
 
-
-| simple split | color variance split |
-| --------------- | --------------- |
 
 there are also some fun modes I built in
+[](http://res.cloudinary.com/flyakite/image/upload/v1514590288/download_2_hqyiv2.png)
+[](http://res.cloudinary.com/flyakite/image/upload/v1514590287/download_4_jpan4b.png)
+[])http://res.cloudinary.com/flyakite/image/upload/v1514590287/download_edkzv9.png)
+
 
 
