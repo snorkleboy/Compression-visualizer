@@ -9,11 +9,11 @@ The general idea behind image compression is to find a way to represent the imag
 
 
 
-##implimentation
+## implimentation
 
 The idea is that the first node of the QuadTree has borders that represent the dimensions of the image and it has a color somehow calculated from the image ( I calculate an average color by averaging the seperate r,g,b,a channels of the pixels of the image). When this node is split, it makes 4 new child nodes and puts them into its nodes[] array:
 
-###simple recursive split
+### simple recursive split
 
 For compressing an image One strategy is to have the first node be a single pixel of the midpoint of the picture thats expanded to be the entire area. that node is then split into four children making up the quadrants of the parent node. You can then generate an image to an abitrary depth.
 
@@ -30,7 +30,7 @@ Here is a resursive solution for that task, where split() returns false once a c
         }
 ```
 
-###split by color variance
+### split by color variance
 
 A better strategy is to instead of simply spliting up every node until some arbitrary limit is reached, I will have each node calculate the variance of color within boundary and come up with a fitness score using that and the area of the boundry. I will then search for and split the node with the highest score, the idea being that giving more pixels or the area which currently has the most unrepresented color variance will have the most effect
 
@@ -96,7 +96,7 @@ and then using that you can build the compression algorithm, where its inside of
 ```
 ![split by var]()
 
-###animation
+### animation
 
 I made the whole process animated by putting the calls to split(), which call fillrect(), in a set timeout. setTimeout returns a reference to that timeout, upon which clearTimeout(yourTimeout) may be called. I used that to make it cancellable by putting every timeout in an array which has an event which clears the array.:
 
@@ -134,7 +134,7 @@ I made the whole process animated by putting the calls to split(), which call fi
             });
   ```
   
-##some more results and comparisons
+## some more results and comparisons
 
 This approach works particularily well in images where there is a lot of area with similar colorsc such as in the following image
 ![whitespace with variance split]()
