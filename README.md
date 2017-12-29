@@ -51,9 +51,7 @@ The idea is that the first node of the QuadTree has borders that represent the d
             }, this.level + 1);
 
             return this;
-        }
-        
-       
+        }       
  ```
  
  I also made it possible for you to click on an spot and split the node at that location.
@@ -61,9 +59,6 @@ The idea is that the first node of the QuadTree has borders that represent the d
  I get the position of the mouse relative to the canvas and pass it to getNode(x,y). Every node either has 4 children or is a leaf node. so if nodes[0] exists, I call getIndex(x,y) which uses the boundaries of the children to find which one to search next, otherwisse I return 'this', which should be the bottom most node which encompasses the position of the mouse.
  
 ```
-
-            
-            
         getNode(x,y){
             if (this.nodes[0] !== undefined){
                 const idx = this.getIndex(x,y);
@@ -78,7 +73,7 @@ The idea is that the first node of the QuadTree has borders that represent the d
                  const node = tree.GetNode(e.pageX - context.canvas.offsetLeft, e.pageY - context.canvas.offsetTop);
             if (node) node.split(true); 
             });
-   ```
+  ```
         
  ![click split]()
 
@@ -112,9 +107,9 @@ to get the average color i iterate through the pixel array using the boundaries 
                         a += pixelArray[i4+3]; 
                 }
             }
-            ```
+```
             
-            and then devide the sums by the are. To get the varaince I iterate once again finding the square of the difference of each pixel from the average of the node, then devide by the area. The final score of a node is the square of its varaince multiplied by what percent of the total image its area is:
+ and then devide the sums by the are. To get the varaince I iterate once again finding the square of the difference of each pixel from the average of the node, then devide by the area. The final score of a node is the square of its varaince multiplied by what percent of the total image its area is:
             
 ```
 const score = (variance * variance) * (area/(imageData.width * imageData.height )) 
