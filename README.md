@@ -147,7 +147,7 @@ however as you can see while it can intilligently single out text and kee areas 
 Here is a comparison of the numbers of nodes nessisary to get a readable sign by doing a simple split and color varaince split
 | simple split | color variance split |
 | --------------- | --------------- |
-|![rec](http://res.cloudinary.com/flyakite/image/upload/v1514431822/quadtreeorder_hhttov.png) |![var](http://res.cloudinary.com/flyakite/image/upload/v1514431820/quadtree_by_var_yzpqdc.png)|
+|![rec](http://res.cloudinary.com/flyakite/image/upload/v1514431822/quadtreeorder_hhttov.png)|![var](http://res.cloudinary.com/flyakite/image/upload/v1514431820/quadtree_by_var_yzpqdc.png)|
 
 
 
