@@ -435,12 +435,17 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
 
 
         split(force=false) {
-            if (!force && (this.bounds.width < blockSize || this.bounds.height < blockSize)){
+            if (!force && (
+                    this.bounds.width < blockSize ||
+                    this.bounds.width < 2 ||
+                    this.bounds.height < blockSize ||
+                    this.bounds.height < 2
+                    ))
+            {
                 this.variance = 0;
                 return false;
             }
-            devisions++;
-            divisionsNumberEl.innerText = `devisions: ${devisions} number of nodes:${1+4*devisions} bottom-level nodes${1+3*devisions}`
+
             this.nodes[0] = new Quadtree({
                 width: this.nextWidth,
                 height: this.nextHeight,
@@ -471,7 +476,8 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
                 y: this.mpY,
 
             }, this.level + 1);
-
+            devisions++;
+            divisionsNumberEl.innerText = `devisions: ${devisions} number of nodes:${1 + 4 * devisions} bottom-level nodes${1 + 3 * devisions}`
             return this;
         }
 
@@ -498,7 +504,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             const a = setInterval(()=>{
                 counter++;
                 let hvn = parentNode.getHighestVarNode();
-                if (hvn.node === null || hvn.var < .0000001) clearInterval(a);
+                if (hvn.node === null || hvn.var === 0) clearInterval(a);
                 hvn.node.split();
             },devisions);
             intervals.push(a);
