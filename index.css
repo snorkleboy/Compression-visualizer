@@ -70,7 +70,7 @@ canvas{
 }
 .colors{
     position: fixed;
-    bottom: 0vh;
+    top: 0vh;
     left:20vw;
     background-color: rgb(255, 231, 231);
     color: rgb(143, 142, 142);

@@ -195,9 +195,14 @@ quadTreeButton.addEventListener('click', function (e) {
 
 //grey out traversetype on SplitByColorVar
 const varCheckbox = document.getElementById('quadTreeVariance');
-// console.log(varCheckbox);    
+const traverseTypeSelect = document.getElementById('QuadTreeTraverse');
+if (varCheckbox.checked) {
+    traverseTypeSelect.classList.add('greyed');
+    traverseTypeSelect.disabled = true;
+}
+
 varCheckbox.addEventListener('click', function (e){
-    const traverseTypeSelect = document.getElementById('QuadTreeTraverse');
+    // const traverseTypeSelect = document.getElementById('QuadTreeTraverse');
     if (varCheckbox.checked){
         traverseTypeSelect.classList.add('greyed');
         traverseTypeSelect.disabled=true;
@@ -339,7 +344,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             context.fillStyle = this.color;
             if (circleBool) {
                 context.beginPath();
-                context.arc(this.mpX, this.mpY, (bounds.width*ratio), 0, 2 * Math.PI, false);
+                context.ellipse(this.mpX, this.mpY, bounds.width*ratio, bounds.height*ratio,0, 0, 2 * Math.PI, false);
                 // context.clearRect(bounds.x, bounds.y, bounds.width, bounds.height);
                 context.fill();
             } else {
@@ -362,25 +367,29 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             let g = 0;
             let b = 0;
             let a = 0;
+            let counter = 0;
             for (let x = this.bounds.x; x < this.bounds.x + this.bounds.width; x++) {
                 for (let y = this.bounds.y; y < this.bounds.y + this.bounds.height; y++) {
                     const i4 = ((y * imageData.width) + x) * 4;
-                   if (pixelArray[i4+4])
+                    if (pixelArray[i4+3])
                     {
-                   r += pixelArray[i4];
-                   g += pixelArray[i4+1];
-                   b += pixelArray[i4+2];
-                   a += pixelArray[i4+3];
+                        counter = counter + 1;
+                        r += pixelArray[i4];
+                        g += pixelArray[i4+1];
+                        b += pixelArray[i4+2];
+                        a += pixelArray[i4+3];
                     // if (r === undefined || Number.isNaN(r)) console.log("color", [r, g, b, a],x,y ,i4,this.bounds, this);
                     }
                 }
             }
-            const area = this.bounds.width * this.bounds.height;
+            const area = counter;
             r = Math.round(r / area);
             g = Math.round(g / area);
             b = Math.round(b / area);
             a = Math.round(a / area);
-            if (r === undefined || Number.isNaN(r)) console.log("color avg", [r, g, b, a], this);
+            // if (r === undefined || Number.isNaN(r)) console.log("color avg", [r, g, b, a], this);
+
+            if (r === 0 && g === 0 && b === 0 && a === 0) console.log(this)
             return [r,g,b,a];
         }
         calcColorVar() {
@@ -393,11 +402,10 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
                         const i4 = (y * imageData.width + x) * 4;
                         if (pixelArray[i4] !== undefined){
                             n++;
-                            sum[0] += Math.pow(pixelArray[i4]-this.coloravg[0],2);
+                            sum[0] += Math.pow(pixelArray[i4]- this.coloravg[0],2);
                             sum[1] += Math.pow(pixelArray[i4 + 1] - this.coloravg[1],2);
-                            sum[2] += Math.pow(pixelArray[i4 + 2]-this.coloravg[2],2);
+                            sum[2] += Math.pow(pixelArray[i4 + 2]- this.coloravg[2],2);
                             sum[3] += Math.pow(pixelArray[i4 + 3] - this.coloravg[3],2);
-                            // if (sum[0] === undefined || Number.isNaN(sum[0])){ // console.log('sum undefined', x,y,i4,this.bounds,this);  // }
                         }
                     }
                 }
@@ -407,10 +415,8 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             sum.forEach((color) => {
                 varSum += color/area;
             });
-            const variance = varSum / 4;
-                
-            
-            const score = variance/ ((imageData.width * imageData.height )/ area) ;
+            const variance = varSum / 4;            
+            const score = (variance * variance) * (area/(imageData.width * imageData.height )) ;
             // console.log(score, this.coloravg, sum, area, variance, this);
             //if (score === Infinity || Number.isNaN(score)){// console.log("nan prob",score, this.coloravg, sum, area, variance, this);}
             return score;
@@ -513,19 +519,14 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             }
         }
         splitByVar(parentNode){
-            
-            function splitBV(){
-                let counter =0;
-                const a = setInterval(()=>{
-                    counter++;
-                    let hvn = parentNode.getHighestVarNode();
-                    if (hvn.node === null || hvn.variance < .0000001) clearInterval(a);
-                    hvn.node.split();
-                    
-                },devisions);
-                intervals.push(a);
-            }
-            splitBV();
+            let counter =0;
+            const a = setInterval(()=>{
+                counter++;
+                let hvn = parentNode.getHighestVarNode();
+                if (hvn.node === null || hvn.var < .0000001) clearInterval(a);
+                hvn.node.split();
+            },devisions);
+            intervals.push(a);
         }
         getHighestVarNode() {
             

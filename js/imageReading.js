@@ -122,9 +122,14 @@ quadTreeButton.addEventListener('click', function (e) {
 
 //grey out traversetype on SplitByColorVar
 const varCheckbox = document.getElementById('quadTreeVariance');
-// console.log(varCheckbox);    
+const traverseTypeSelect = document.getElementById('QuadTreeTraverse');
+if (varCheckbox.checked) {
+    traverseTypeSelect.classList.add('greyed');
+    traverseTypeSelect.disabled = true;
+}
+
 varCheckbox.addEventListener('click', function (e){
-    const traverseTypeSelect = document.getElementById('QuadTreeTraverse');
+    // const traverseTypeSelect = document.getElementById('QuadTreeTraverse');
     if (varCheckbox.checked){
         traverseTypeSelect.classList.add('greyed');
         traverseTypeSelect.disabled=true;
