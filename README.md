@@ -13,13 +13,15 @@ The general idea behind image compression is to find a way to represent the imag
 
 The idea is that the first node of the QuadTree has borders that represent the dimensions of the image and it has a color somehow calculated from the image ( I calculate an average color by averaging the seperate r,g,b,a channels of the pixels of the image). When this node is split, it makes 4 new child nodes and puts them into its nodes[] array:
 
+To get the pixel data I simply draw an image onto a HTML5 canvas and call getImageData on the context to get an object which holds an array of raw pixel data. 
+
 ### simple recursive split
 
 For compressing an image One strategy is to have the first node be a single pixel of the midpoint of the picture thats expanded to be the entire area. that node is then split into four children making up the quadrants of the parent node. You can then generate an image to an abitrary depth.
 
 Here is a resursive solution for that task, where split() returns false once a certian pixel depth has been reached (block size)
 
-!{recursive split](http://res.cloudinary.com/flyakite/video/upload/v1514588416/recsplit_fuhmre.gif)
+![recursive split](http://res.cloudinary.com/flyakite/video/upload/v1514588416/recsplit_fuhmre.gif)
 ```
         recusiveSplit(QuadNode) {
             if(QuadNode.split()){
