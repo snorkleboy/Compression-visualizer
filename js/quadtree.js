@@ -11,11 +11,11 @@ import { debug } from "util";
             timeOutes.forEach(to => clearTimeout(to));
             intervals.forEach(to => clearInterval(to));
         });
+        console.log("here123123")
 
         let devisions = 0;
         const pixelArray = imageData.data;
         const initialBounds = { x: 0, y: 0, width: imageData.width, height: imageData.height };
-        // console.log("QTM", imageData, context.canvas,initialBounds, timeoutType);
 
          const divisionsNumberEl = document.getElementById('divisionsNumber');
         this.Quadtree = class Quadtree{
@@ -26,11 +26,10 @@ import { debug } from "util";
             this.nextHeight = Math.round(this.bounds.height / 2);
             this.mpX = bounds.x + this.nextWidth;
             this.mpY = bounds.y + this.nextHeight;
+
             this.getHighestVarNode = this.getHighestVarNode.bind(this);               
-            const i4 = (this.mpY * imageData.width * 4) + this.mpX * 4;
-            //
-            /// maybe refactor following into this.render()?
-            //                   
+            
+            const i4 = (this.mpY * imageData.width * 4) + this.mpX * 4;                 
             this.coloravg = this.calcAverageColor();
             this.color = 'rgba(' + this.coloravg [0] + ', ' + this.coloravg [1] +
                     ', ' + this.coloravg [2] + ', ' + (this.coloravg [3]) + ')';
@@ -38,6 +37,7 @@ import { debug } from "util";
             this.level = level || 0;
             this.bounds = bounds;
             this.nodes = [];
+            
             context.fillStyle = this.color;
             if (circleBool) {
                 context.beginPath();
@@ -50,48 +50,35 @@ import { debug } from "util";
             }
         }
         calcAverageColor(){
-
-            //get color from ccorner
-            // const i4 = ((this.bounds.y * imageData.width) + this.bounds.x) * 4;
-            //        let r = pixelArray[i4];
-            //        let g = pixelArray[i4+1];
-            //        let b = pixelArray[i4+2];
-            //        let a = pixelArray[i4+3];
-            //        if (r === undefined || Number.isNaN(r))console.log("color avg",[r,g,b,a], i4,this);
-            //        return [r,g,b,a];
-                   /// get real average
             let r = 0;
             let g = 0;
             let b = 0;
             let a = 0;
             let counter = 0;
-            for (let x = this.bounds.x; x < this.bounds.x + this.bounds.width; x++) {
-                for (let y = this.bounds.y; y < this.bounds.y + this.bounds.height; y++) {
+            for (let x = this.bounds.x; x < this.bounds.x + this.bounds.width-1; x++) {
+                for (let y = this.bounds.y; y < this.bounds.y + this.bounds.height-1; y++) {
                     const i4 = ((y * imageData.width) + x) * 4;
-                    if (pixelArray[i4+3])
+                    if (Number.isInteger(pixelArray[i4+3]))
                     {
                         counter = counter + 1;
                         r += pixelArray[i4];
                         g += pixelArray[i4+1];
                         b += pixelArray[i4+2];
                         a += pixelArray[i4+3];
-                    // if (r === undefined || Number.isNaN(r)) console.log("color", [r, g, b, a],x,y ,i4,this.bounds, this);
                     }
                 }
             }
-            const area = counter;
+            const area = counter || 1;
+
             r = Math.round(r / area);
             g = Math.round(g / area);
             b = Math.round(b / area);
             a = Math.round(a / area);
-            // if (r === undefined || Number.isNaN(r)) console.log("color avg", [r, g, b, a], this);
-
-            if (r === 0 && g === 0 && b === 0 && a === 0) console.log(this)
+            if (r === undefined || Number.isNaN(r)) console.log("!!color avg!!", [r, g, b, a],area, this);
             return [r,g,b,a];
         }
         calcColorVar() {
                 if (this.width < 2) return 0;
-            // console.log("start", this.coloravg,  variance, this);
             let sum = [0,0,0,0];
             let n = 0;
                 for (let x = this.bounds.x; x < this.bounds.x+this.bounds.width;x = x+1){
@@ -114,8 +101,6 @@ import { debug } from "util";
             });
             const variance = varSum / 4;            
             const score = (variance * variance) * (area/(imageData.width * imageData.height )) ;
-            // console.log(score, this.coloravg, sum, area, variance, this);
-            //if (score === Infinity || Number.isNaN(score)){// console.log("nan prob",score, this.coloravg, sum, area, variance, this);}
             return score;
 
 
@@ -124,17 +109,11 @@ import { debug } from "util";
             let index = -1;
             this.nodes.forEach( (node, idx) =>{
                 if (node.bounds.x < x && x < node.bounds.x+node.bounds.width){
-                    // console.log("inside x bounds of", node.bounds.x, node.bounds.x+node.bounds.width);
                     if ( node.bounds.y < y && y < node.bounds.y+node.bounds.height){
-                        // console.log("inside y bounds of", node.bounds.y, node.bounds.y + node.bounds.height);
                         index = idx;
-                        
-                        // return index;
-                        // console.log("shouldnt see this");
                     }
                 }
             });
-            // if (index === -1) //console.log('get index returning -1: x,y this=', x, y, this);
             return index;
         }
         //every node has either no children or 4 children. If xy is within bounds, if there are no children return this node,
@@ -190,22 +169,18 @@ import { debug } from "util";
 
             }, this.level + 1);
 
-            // console.log('split', this);
             return this;
         }
 
         splitChildren() {
-            // console.log("splitchildren", this);
             this.nodes.forEach((quadNode) => {
                 quadNode.split(quadNode);
             });
         }
 
         recusiveSplit(QuadNode) {
-            // console.log('rec split', this);
             if(QuadNode.split()){
                 QuadNode.nodes.forEach(function (node, index) {
-                    // console.log("tt qt",timeoutType==='3');
                     if (node.nextWidth >= blockSize && node.nextWidth >= 1 && node.nextHeight >=1) {
                         if (timeoutType === '2') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((100 * index * index) / (node.level)))); }
                         else if (timeoutType === '1') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), 10)); }
@@ -249,28 +224,24 @@ import { debug } from "util";
         }
     };
     
-        // console.log('quadtreemaker', this);
          if (this.tree) {
-             //  console.log("after tree nodes", this.tree);
              this.tree.use = false;
          }
         this.tree = new this.Quadtree(initialBounds);
          byVar ? this.tree.splitByVar(this.tree) : this.tree.recusiveSplit(this.tree);
-        // this.tree.split();
-        // this.tree.splitChildren();
 
         
 
         function quadClickSplit(tree){
             return (e)=>{
-                // console.log("getIndex in handler", tree.GetNode(e.layerX,e.layerY) );
             if (tree.use === true){
                 const node = tree.GetNode(e.pageX - context.canvas.offsetLeft, e.pageY - context.canvas.offsetTop);
-            if (node) node.split(true); 
+                console.log(node);
+                if (node) node.split(true); 
+               
             }
         };}
 
-        // console.log(context.canvas.removeEventListener('click', quadClickSplit(this.tree)));
          context.canvas.addEventListener('click', quadClickSplit(this.tree));
     
     }

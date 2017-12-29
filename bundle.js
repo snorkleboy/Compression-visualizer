@@ -70,7 +70,7 @@
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__quadtree_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__blockCompress_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__blockCompress_js__ = __webpack_require__(2);
 
 
 
@@ -299,7 +299,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_util__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_util__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_util__);
 
 
@@ -314,11 +314,11 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             timeOutes.forEach(to => clearTimeout(to));
             intervals.forEach(to => clearInterval(to));
         });
+        console.log("here123123")
 
         let devisions = 0;
         const pixelArray = imageData.data;
         const initialBounds = { x: 0, y: 0, width: imageData.width, height: imageData.height };
-        // console.log("QTM", imageData, context.canvas,initialBounds, timeoutType);
 
          const divisionsNumberEl = document.getElementById('divisionsNumber');
         this.Quadtree = class Quadtree{
@@ -329,11 +329,10 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             this.nextHeight = Math.round(this.bounds.height / 2);
             this.mpX = bounds.x + this.nextWidth;
             this.mpY = bounds.y + this.nextHeight;
+
             this.getHighestVarNode = this.getHighestVarNode.bind(this);               
-            const i4 = (this.mpY * imageData.width * 4) + this.mpX * 4;
-            //
-            /// maybe refactor following into this.render()?
-            //                   
+            
+            const i4 = (this.mpY * imageData.width * 4) + this.mpX * 4;                 
             this.coloravg = this.calcAverageColor();
             this.color = 'rgba(' + this.coloravg [0] + ', ' + this.coloravg [1] +
                     ', ' + this.coloravg [2] + ', ' + (this.coloravg [3]) + ')';
@@ -341,6 +340,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             this.level = level || 0;
             this.bounds = bounds;
             this.nodes = [];
+            
             context.fillStyle = this.color;
             if (circleBool) {
                 context.beginPath();
@@ -353,48 +353,35 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             }
         }
         calcAverageColor(){
-
-            //get color from ccorner
-            // const i4 = ((this.bounds.y * imageData.width) + this.bounds.x) * 4;
-            //        let r = pixelArray[i4];
-            //        let g = pixelArray[i4+1];
-            //        let b = pixelArray[i4+2];
-            //        let a = pixelArray[i4+3];
-            //        if (r === undefined || Number.isNaN(r))console.log("color avg",[r,g,b,a], i4,this);
-            //        return [r,g,b,a];
-                   /// get real average
             let r = 0;
             let g = 0;
             let b = 0;
             let a = 0;
             let counter = 0;
-            for (let x = this.bounds.x; x < this.bounds.x + this.bounds.width; x++) {
-                for (let y = this.bounds.y; y < this.bounds.y + this.bounds.height; y++) {
+            for (let x = this.bounds.x; x < this.bounds.x + this.bounds.width-1; x++) {
+                for (let y = this.bounds.y; y < this.bounds.y + this.bounds.height-1; y++) {
                     const i4 = ((y * imageData.width) + x) * 4;
-                    if (pixelArray[i4+3])
+                    if (Number.isInteger(pixelArray[i4+3]))
                     {
                         counter = counter + 1;
                         r += pixelArray[i4];
                         g += pixelArray[i4+1];
                         b += pixelArray[i4+2];
                         a += pixelArray[i4+3];
-                    // if (r === undefined || Number.isNaN(r)) console.log("color", [r, g, b, a],x,y ,i4,this.bounds, this);
                     }
                 }
             }
-            const area = counter;
+            const area = counter || 1;
+
             r = Math.round(r / area);
             g = Math.round(g / area);
             b = Math.round(b / area);
             a = Math.round(a / area);
-            // if (r === undefined || Number.isNaN(r)) console.log("color avg", [r, g, b, a], this);
-
-            if (r === 0 && g === 0 && b === 0 && a === 0) console.log(this)
+            if (r === undefined || Number.isNaN(r)) console.log("!!color avg!!", [r, g, b, a],area, this);
             return [r,g,b,a];
         }
         calcColorVar() {
                 if (this.width < 2) return 0;
-            // console.log("start", this.coloravg,  variance, this);
             let sum = [0,0,0,0];
             let n = 0;
                 for (let x = this.bounds.x; x < this.bounds.x+this.bounds.width;x = x+1){
@@ -417,8 +404,6 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             });
             const variance = varSum / 4;            
             const score = (variance * variance) * (area/(imageData.width * imageData.height )) ;
-            // console.log(score, this.coloravg, sum, area, variance, this);
-            //if (score === Infinity || Number.isNaN(score)){// console.log("nan prob",score, this.coloravg, sum, area, variance, this);}
             return score;
 
 
@@ -427,17 +412,11 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
             let index = -1;
             this.nodes.forEach( (node, idx) =>{
                 if (node.bounds.x < x && x < node.bounds.x+node.bounds.width){
-                    // console.log("inside x bounds of", node.bounds.x, node.bounds.x+node.bounds.width);
                     if ( node.bounds.y < y && y < node.bounds.y+node.bounds.height){
-                        // console.log("inside y bounds of", node.bounds.y, node.bounds.y + node.bounds.height);
                         index = idx;
-                        
-                        // return index;
-                        // console.log("shouldnt see this");
                     }
                 }
             });
-            // if (index === -1) //console.log('get index returning -1: x,y this=', x, y, this);
             return index;
         }
         //every node has either no children or 4 children. If xy is within bounds, if there are no children return this node,
@@ -493,22 +472,18 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
 
             }, this.level + 1);
 
-            // console.log('split', this);
             return this;
         }
 
         splitChildren() {
-            // console.log("splitchildren", this);
             this.nodes.forEach((quadNode) => {
                 quadNode.split(quadNode);
             });
         }
 
         recusiveSplit(QuadNode) {
-            // console.log('rec split', this);
             if(QuadNode.split()){
                 QuadNode.nodes.forEach(function (node, index) {
-                    // console.log("tt qt",timeoutType==='3');
                     if (node.nextWidth >= blockSize && node.nextWidth >= 1 && node.nextHeight >=1) {
                         if (timeoutType === '2') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((100 * index * index) / (node.level)))); }
                         else if (timeoutType === '1') { timeOutes.push(setTimeout(() => node.recusiveSplit(node), 10)); }
@@ -552,28 +527,24 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
         }
     };
     
-        // console.log('quadtreemaker', this);
          if (this.tree) {
-             //  console.log("after tree nodes", this.tree);
              this.tree.use = false;
          }
         this.tree = new this.Quadtree(initialBounds);
          byVar ? this.tree.splitByVar(this.tree) : this.tree.recusiveSplit(this.tree);
-        // this.tree.split();
-        // this.tree.splitChildren();
 
         
 
         function quadClickSplit(tree){
             return (e)=>{
-                // console.log("getIndex in handler", tree.GetNode(e.layerX,e.layerY) );
             if (tree.use === true){
                 const node = tree.GetNode(e.pageX - context.canvas.offsetLeft, e.pageY - context.canvas.offsetTop);
-            if (node) node.split(true); 
+                console.log(node);
+                if (node) node.split(true); 
+               
             }
         };}
 
-        // console.log(context.canvas.removeEventListener('click', quadClickSplit(this.tree)));
          context.canvas.addEventListener('click', quadClickSplit(this.tree));
     
     }
@@ -584,6 +555,94 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
 
 /***/ }),
 /* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = NiaveCompress;
+function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
+    //setup stop button
+    const timeOuts = [];
+    const stopNiaveButton = document.getElementById('stopNiave');
+    stopNiaveButton.addEventListener('click', e => timeOuts.forEach(to => clearTimeout(to)));
+
+    const data = imagedata.data;
+    //set/reset canvas width and height by blocksize. 
+
+    if (expand === 2) {
+        ctx.canvas.width = imagedata.width / blockSize.x;
+        ctx.canvas.height = imagedata.height / blockSize.y;
+    } else {
+        ctx.canvas.width = imagedata.width;
+        ctx.canvas.height = imagedata.height;
+    }
+    //delete previously made svg elements
+    if (expand === 5) {
+        const myNode = document.getElementById('svgOne');
+        while (myNode.firstChild) {
+            myNode.removeChild(myNode.firstChild);
+        }
+    }
+
+
+
+    for (let y = 0; y < imagedata.height; y = y + (blockSize.y)) {
+        for (let x = 0; x < imagedata.width; x = x + (blockSize.x)) {
+            timeOuts.push(setTimeout(() => {
+
+                const i = ((y * imagedata.width) + x) * 4;
+                // console.log('x,y,i,data', { x: x, y: y },i, data[x + imagedata.width * 4 * y]);
+                ctx.fillStyle = 'rgba(' + data[i] + ', ' + data[i + 1] +
+                    ', ' + data[i + 2] + ', ' + (data[i + 3]) + ')';
+
+
+
+                //standard mode, fillrect of blocksize to color. color is set above to the top left pixel of block
+                // defined by x*blocksize,y*blocksize
+                if (expand === 1) {
+                    // (imagedata.height-y) type stuff to rotate
+                    ctx.fillRect(x, y, blockSize.x, blockSize.y);
+                    // ctx.fillStyle = 'black';
+                    // ctx.fillRect(x, y, blockSize.x, 1);
+                    // ctx.fillRect(x, y, 1, blockSize.y);
+
+                    //doesnt expand, fillrect of 1x1 (single pixel) of color as defined above into an image blocksize smaller.
+                    //ie if you have a blocksize of 2 the result will be an image half the size
+                    //the canvass id resized before the for loop to make the image downloadable as a small image
+                } else if (expand === 2) {
+
+                    ctx.fillRect(x / blockSize.x, y / blockSize.y, 1, 1);
+
+                    //doesnt expand, but uses the same x, y coordinate of original image
+                    // this basically shows which pixel is being selected for each block
+                } else if (expand === 3) {
+
+                    ctx.fillRect(x, y, exval, exval);
+                    //expands by making a circle of radius=the averge of blocksize.x and blocksize.y, fills with color defined above.
+                    //the optional expandValue attribute changes how much less than the average the circle is filled by, so larget value means saller circle
+                } else if (expand === 4) {
+                    ctx.beginPath();
+                    ctx.arc(x, y, (blockSize.x + blockSize.y) / (2 * exval), 0, 2 * Math.PI, false);
+                    ctx.fill();
+                } else if (expand === 5) {
+                    // console.log('here')
+                    let svgns = "http://www.w3.org/2000/svg";
+                    let rect = document.createElementNS(svgns, 'rect');
+                    rect.setAttributeNS(null, 'x', x * 5);
+                    rect.setAttributeNS(null, 'y', y * 5);
+                    rect.setAttributeNS(null, 'height', 5 * blockSize.y);
+                    rect.setAttributeNS(null, 'width', 5 * blockSize.x);
+                    rect.setAttributeNS(null, 'fill', ctx.fillStyle);
+                    document.getElementById('svgOne').appendChild(rect);
+                }
+            }, 1000 + (x + y * 600) / 100));
+        }
+
+
+    }
+}
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -1111,7 +1170,7 @@ function isPrimitive(arg) {
 }
 exports.isPrimitive = isPrimitive;
 
-exports.isBuffer = __webpack_require__(5);
+exports.isBuffer = __webpack_require__(6);
 
 function objectToString(o) {
   return Object.prototype.toString.call(o);
@@ -1155,7 +1214,7 @@ exports.log = function() {
  *     prototype.
  * @param {function} superCtor Constructor function to inherit prototype from.
  */
-exports.inherits = __webpack_require__(6);
+exports.inherits = __webpack_require__(7);
 
 exports._extend = function(origin, add) {
   // Don't do anything if add isn't an object
@@ -1173,10 +1232,10 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(5)))
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports) {
 
 var g;
@@ -1203,7 +1262,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -1393,7 +1452,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports) {
 
 module.exports = function isBuffer(arg) {
@@ -1404,7 +1463,7 @@ module.exports = function isBuffer(arg) {
 }
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 if (typeof Object.create === 'function') {
@@ -1431,94 +1490,6 @@ if (typeof Object.create === 'function') {
   }
 }
 
-
-/***/ }),
-/* 7 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = NiaveCompress;
-function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
-    //setup stop button
-    const timeOuts = [];
-    const stopNiaveButton = document.getElementById('stopNiave');
-    stopNiaveButton.addEventListener('click', e => timeOuts.forEach(to => clearTimeout(to)));
-
-    const data = imagedata.data;
-    //set/reset canvas width and height by blocksize. 
-
-    if (expand === 2) {
-        ctx.canvas.width = imagedata.width / blockSize.x;
-        ctx.canvas.height = imagedata.height / blockSize.y;
-    } else {
-        ctx.canvas.width = imagedata.width;
-        ctx.canvas.height = imagedata.height;
-    }
-    //delete previously made svg elements
-    if (expand === 5) {
-        const myNode = document.getElementById('svgOne');
-        while (myNode.firstChild) {
-            myNode.removeChild(myNode.firstChild);
-        }
-    }
-
-
-
-    for (let y = 0; y < imagedata.height; y = y + (blockSize.y)) {
-        for (let x = 0; x < imagedata.width; x = x + (blockSize.x)) {
-            timeOuts.push(setTimeout(() => {
-
-                const i = ((y * imagedata.width) + x) * 4;
-                // console.log('x,y,i,data', { x: x, y: y },i, data[x + imagedata.width * 4 * y]);
-                ctx.fillStyle = 'rgba(' + data[i] + ', ' + data[i + 1] +
-                    ', ' + data[i + 2] + ', ' + (data[i + 3]) + ')';
-
-
-
-                //standard mode, fillrect of blocksize to color. color is set above to the top left pixel of block
-                // defined by x*blocksize,y*blocksize
-                if (expand === 1) {
-                    // (imagedata.height-y) type stuff to rotate
-                    ctx.fillRect(x, y, blockSize.x, blockSize.y);
-                    // ctx.fillStyle = 'black';
-                    // ctx.fillRect(x, y, blockSize.x, 1);
-                    // ctx.fillRect(x, y, 1, blockSize.y);
-
-                    //doesnt expand, fillrect of 1x1 (single pixel) of color as defined above into an image blocksize smaller.
-                    //ie if you have a blocksize of 2 the result will be an image half the size
-                    //the canvass id resized before the for loop to make the image downloadable as a small image
-                } else if (expand === 2) {
-
-                    ctx.fillRect(x / blockSize.x, y / blockSize.y, 1, 1);
-
-                    //doesnt expand, but uses the same x, y coordinate of original image
-                    // this basically shows which pixel is being selected for each block
-                } else if (expand === 3) {
-
-                    ctx.fillRect(x, y, exval, exval);
-                    //expands by making a circle of radius=the averge of blocksize.x and blocksize.y, fills with color defined above.
-                    //the optional expandValue attribute changes how much less than the average the circle is filled by, so larget value means saller circle
-                } else if (expand === 4) {
-                    ctx.beginPath();
-                    ctx.arc(x, y, (blockSize.x + blockSize.y) / (2 * exval), 0, 2 * Math.PI, false);
-                    ctx.fill();
-                } else if (expand === 5) {
-                    // console.log('here')
-                    let svgns = "http://www.w3.org/2000/svg";
-                    let rect = document.createElementNS(svgns, 'rect');
-                    rect.setAttributeNS(null, 'x', x * 5);
-                    rect.setAttributeNS(null, 'y', y * 5);
-                    rect.setAttributeNS(null, 'height', 5 * blockSize.y);
-                    rect.setAttributeNS(null, 'width', 5 * blockSize.x);
-                    rect.setAttributeNS(null, 'fill', ctx.fillStyle);
-                    document.getElementById('svgOne').appendChild(rect);
-                }
-            }, 1000 + (x + y * 600) / 100));
-        }
-
-
-    }
-}
 
 /***/ })
 /******/ ]);
