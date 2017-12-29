@@ -11,19 +11,20 @@ A better strategy is to instead of simply spliting up every node until some arbi
 the end result just be that if, for example, an image was mostly white and had a face somewhere in it, the algorithm would mostly skip the white areas and devote the most pixels to the face where color varies more. 
 
 I will also make it possible for you to click on the canvas being controlled by the quadtree, it will use the coordinates of the mouse to find whithin which node the mouse is over, and split it. 
+![whitespace with variance split](https://github.com/snorkleboy/imageReader/blob/master/assets/flowersquarevar_ifiwtu.gif)
+
+
+| simple split | color variance split |
+| --------------- | --------------- |
+![comp tomatoes](http://res.cloudinary.com/flyakite/image/upload/v1514431822/quadtreeorder_hhttov.png) | ![comp tomatoes var](http://res.cloudinary.com/flyakite/image/upload/v1514431820/quadtree_by_var_yzpqdc.png)|
 
 ![text with variance split](https://github.com/snorkleboy/imageReader/blob/master/assets/war_tlxpkw.gif)
 
-![whitespace with variance split](https://github.com/snorkleboy/imageReader/blob/master/assets/flowersquarevar_ifiwtu.gif)
 
-niave split
-![comp regulat split](https://github.com/snorkleboy/imageReader/blob/master/assets/stones-6_cnywjy.gif)
-split by color varaincce
-![comp var split](https://github.com/snorkleboy/imageReader/blob/master/assets/smalcircle.mp4)
+| simple split | color variance split |
+| --------------- | --------------- |
+![comp regulat split](https://github.com/snorkleboy/imageReader/blob/master/assets/stones-6_cnywjy.gif)|![comp var split](https://github.com/snorkleboy/imageReader/blob/master/assets/ezgif.com-optimize.gif)|
 
-niave split
-![comp tomatoes](http://res.cloudinary.com/flyakite/image/upload/v1514431822/quadtreeorder_hhttov.png) 
-split by color variance
-![comp tomatoes var](http://res.cloudinary.com/flyakite/image/upload/v1514431820/quadtree_by_var_yzpqdc.png)
+
 
 ![stones](https://github.com/snorkleboy/imageReader/blob/master/assets/stones_wegr2r.gif)
