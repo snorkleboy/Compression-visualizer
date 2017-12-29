@@ -138,10 +138,7 @@ I made the whole process animated by putting the calls to split(), which call fi
   
 ## some more results and comparisons
 
-In terms of how many nodes it needs to describe a readable image This approach works particularily well in images where there is a lot of area with similar colors such as in the following image
-![whitespace with variance split]()
-
-or images with text
+In terms of how many nodes it needs to describe a readable image This approach works particularily well in images where there is a lot of area with similar colors or images with text
 ![text example](http://res.cloudinary.com/flyakite/video/upload/v1514589381/vasplit_lhj5e2.gif)
 
 however as you can see while it can intilligently single out text and kee areas of similar color together that does introduce a lot of artifacts.
