@@ -3,10 +3,10 @@
   <head>
     <script src="https://use.fontawesome.com/5b61570599.js"></script>
 
-    <title>imageData fun</title>
+    <title>Compression Visualizer</title>
     <link rel="stylesheet" href="application.css">
     <link rel="stylesheet" href="index.css">
-    
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
   </head>
 
   <body>
@@ -22,6 +22,22 @@
               <h1>Image Presser</h1>
               <a  href='https://github.com/snorkleboy/Compression-visualizer'>github readme</a>
             </div>
+            <button id='aboutButton' class='aboutButton'> About
+              <div id='about' class='about'>
+                <h1>Quadtree Based visual Compression.</h1>
+                <h3>load up an image, and select how to compress it.</h3>
+                <h2>Quadtree uses a quadtree to recusively devide the image into quadrants.</h2>
+                
+                <h3>Split by Var splits those quadrants depending on how much color varies within that region resulting and an algorith that
+                will find edges and regions of high color variance and devote more data to represent those regions. otherwise it splits all
+                nodes.</h3>
+
+                <h2>Blockchop is for comparison</h2>
+                <h3>it compresses the image by cutting it into blocks of X*Y pixels and taking one pixel from that region. So block chop with
+                a 1x2 bock will make an image with half the number of pixels horizontaly.</h3> 
+              </div>
+            </button>
+
             <div  class='imageOptions inneroptions'>
               <label > load an image
                 <input name='imageUrl' id='imageUrlInput' type="text" value='https://i.imgur.com/AIgar9n.jpg' />
@@ -64,7 +80,7 @@
                 </label>
               </div>
               <label>size ratio<input id='quadTreeSize' value='1' type="text"></input> </label>
-              <label>Size Limit<input id='quadTreeBlockSize' value='6' type="text"></input> </label>
+              <label>Size Limit<input id='quadTreeBlockSize' value='1' type="text"></input> </label>
               <label>traverseType
                 <select id='QuadTreeTraverse' >
                   <option value="3">Patchwork</option>

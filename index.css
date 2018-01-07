@@ -16,6 +16,7 @@ button, label, input, select{
     /* border: 1px solid lightgrey; */
     
 }
+
 button{
     /* border: 1px solid rgb(175, 175, 175); */
     /* border-radius: 3px; */
@@ -62,6 +63,33 @@ canvas{
     display: flex;
     flex-direction: row;
     /* align-items: center; */
+}
+.aboutButton{
+    /* height: fit-content; */
+    background-color: rgb(240, 219, 116); 
+    position: relative;
+}
+.about{
+    position: absolute;
+    left: 30vw;
+    background-color: rgb(240, 219, 116); 
+    width: fit-content;
+    height: 100%;
+    max-height: 200px;
+    opacity: 1;
+    transition: .6s opacity , 1s height ease-out;
+}
+.about h1{
+font-weight: 700;
+font-size: 25px;
+}
+.about h2{
+font-weight: 500;
+font-size: 15px;
+}
+.about h3{
+font-weight: 400;
+font-size: 12px;
 }
 .container *{
     opacity: 1;
@@ -118,7 +146,6 @@ label{
 }
 
 .collapse{
-    
     height: 0%;
     opacity: 0;
 }

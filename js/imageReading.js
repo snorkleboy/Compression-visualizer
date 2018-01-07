@@ -5,8 +5,7 @@ const urls = [
     'https://i.imgur.com/drGvplW.jpg',
     'https://i.imgur.com/zkc1tq7.jpg',
     'https://i.imgur.com/cMMwsek.jpg',
-    'https://i.imgur.com/5BMFvAC.jpg',
-    'https://i.imgur.com/GQnvMsI.jpg'
+    'https://i.imgur.com/5BMFvAC.jpg'
 ]
 document.addEventListener("DOMContentLoaded", function () {
     
@@ -159,7 +158,11 @@ expandTypeSelect.addEventListener('change', function(e){
     
 });
 
-
+const aboutButton = document.getElementById('aboutButton')
+const about = document.getElementById('about');
+aboutButton.addEventListener('click',function(e){
+    about.classList.contains('collapse') ? about.classList.remove('collapse') : about.classList.add('collapse');
+})
 function handleMouseMove(ctx, element){
     return ((event) => {
         // console.log('mouseoverevent', event);
@@ -176,14 +179,7 @@ function handleMouseMove(ctx, element){
 }
 
 
-function makeDownload(imageData, element){
-    const dlLinkDiv = document.getElementById(element);
-    const link = document.createElement('a');
-    link.innerText = 'download';
-    link.setAttribute('href', imageData);
-    link.setAttribute('download', 'myimage.png');
-    dlLinkDiv.appendChild(link);
-}
+
 function niaveCompressClick(e) {
     stopButton.click();
     ///
