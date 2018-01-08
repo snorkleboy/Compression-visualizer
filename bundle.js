@@ -234,9 +234,10 @@ expandTypeSelect.addEventListener('change', function(e){
 const aboutButton = document.getElementById('aboutButton')
 const about = document.getElementById('about');
 aboutButton.addEventListener('click',function(e){
-    about.classList.contains('collapse') ? about.classList.remove('collapse') : about.classList.add('collapse');
+    about.classList.contains('display-off') ? about.classList.remove('display-off') : about.classList.add('display-off');
     aboutButton.classList.contains('active') ? aboutButton.classList.remove('active') : aboutButton.classList.add('active');
 })
+
 function handleMouseMove(ctx, element){
     return ((event) => {
         // console.log('mouseoverevent', event);
@@ -509,7 +510,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
                 let hvn = parentNode.getHighestVarNode();
                 if (hvn.node === null || hvn.var === 0) clearInterval(a);
                 hvn.node.split();
-            },devisions);
+            },1);
             intervals.push(a);
         }
         getHighestVarNode() {

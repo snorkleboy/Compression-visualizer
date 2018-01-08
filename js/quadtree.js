@@ -202,7 +202,7 @@ import { debug } from "util";
                 let hvn = parentNode.getHighestVarNode();
                 if (hvn.node === null || hvn.var === 0) clearInterval(a);
                 hvn.node.split();
-            },devisions);
+            },1);
             intervals.push(a);
         }
         getHighestVarNode() {

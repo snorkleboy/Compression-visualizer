@@ -78,6 +78,8 @@ canvas{
     opacity: 1;
     transition: 1s opacity;
     border: 1px solid gray;
+    mix-blend-mode: difference;
+    background-color: white;
 }
 .about h1{
 font-weight: 700;
@@ -187,24 +189,24 @@ button:hover, input:hover, select:hover{
 }
 
 .start{
-    background-color: rgb(157, 231, 137);
+    background-color: rgb(116, 252, 79);
     color: rgb(245, 245, 245);
     transition: 1s background-color, 1s color, 1s opacity;
 }
 .stop{
-    background-color: rgb(218, 139, 139);
+    background-color: rgb(255, 103, 103);
     color: rgb(243, 243, 243);
 transition: 1s background-color, 1s color, 1s opacity;
 }
 
 .start:hover{
-    background-color: rgb(116, 252, 79);
-    color: white;
+    background-color: rgb(245, 245, 245);
+    color:rgb(116, 252, 79);
 }
 
 .stop:hover{
-    background-color: rgb(255, 103, 103);
-    color: rgb(255, 255, 255);
+    background-color: rgb(243, 243, 243);
+    color: rgb(255, 103, 103);
 }
 
 .checkboxes{
@@ -283,4 +285,7 @@ transition: 1s background-color, 1s color, 1s opacity;
 
 .header{
     color: white;
+}
+.display-off{
+    display: none;
 }

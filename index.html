@@ -12,7 +12,7 @@
   <body>
 <div class='about-holder'>
 
-  <div id='about' class='about collapse'>
+  <div id='about' class='about display-off'>
     <h1>Quadtree based visual Compression.</h1>
     <h3>load up an image, and select how to compress it.</h3>
     <h2>Quadtree uses a quadtree to recusively devide the image into quadrants.</h2>
@@ -37,10 +37,7 @@
         <div>
           
           <div class='options'>
-            <div class='github'>
-              
-              <a  href='https://github.com/snorkleboy/Compression-visualizer'>github readme</a>
-            </div>
+
                           
  
             
@@ -82,7 +79,7 @@
             </div>
             <div id='qt' class='inneroptions qt'>              
                             <button class='start' id='quadtree'>Start QuadTree</button>                            
-                            <button class='stop' id='stopQuads'>Stop QuadTrees</button>
+                            <button class='stop' id='stopQuads'>Stop QuadTree</button>
               <div class='checkboxes'>
                 <label>Circles
                   <input id='quadTreeCircle' type="checkbox"></input>
@@ -112,7 +109,12 @@
     <canvas id="result" width="1024" height="680"></canvas>
   </span>
   <h1 class='header'>A Quadtree based compression algorithm that splits nodes by finding the node with the highest statistical variance of color.
-    </h1>
+  <h1 class='header'>On the demo image, notice how sharp the edges of the in focus flowers are, and how few pixels are used to draw the blank space to the left </h1>  
+            <div class='github'>
+            
+              <a href='https://github.com/snorkleboy/Compression-visualizer'>github readme</a>
+            </div>
+</h1>
             <div class='colors'>
               <div id="menu-color" style="width:200px;height:50pxwidth:200px;height:50px;"></div>
               <div id='divisionsNumber'></div>
