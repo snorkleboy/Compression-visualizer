@@ -9,17 +9,13 @@ button, label, input, select{
     max-width: 300px;
     flex-grow: 0;
     flex-shrink: 0;
+    padding: 7px;
     margin:5px;
     background-color: rgb(255, 255, 255);
     color: rgb(128, 128, 128);
     /* transition: 1s background-color; */
     /* border: 1px solid lightgrey; */
     
-}
-
-button{
-    /* border: 1px solid rgb(175, 175, 175); */
-    /* border-radius: 3px; */
 }
 input{
     background-color: rgb(255, 255, 255);
@@ -66,18 +62,22 @@ canvas{
 }
 .aboutButton{
     /* height: fit-content; */
-    background-color: rgb(240, 219, 116); 
+    background-color: rgb(255, 252, 239); 
     position: relative;
+    padding: 5px;
 }
 .about{
     position: absolute;
-    left: 30vw;
-    background-color: rgb(240, 219, 116); 
+    left: 115%;
+    top: 2vh;
+    /* background-color: rgb(255, 253, 241);  */
     width: fit-content;
-    height: 100%;
-    max-height: 200px;
+    /* height: 100%; */
+    /* max-height: fit-content; */
+    padding: 10px;
     opacity: 1;
-    transition: .6s opacity , 1s height ease-out;
+    transition: 1s opacity;
+    border: 1px solid gray;
 }
 .about h1{
 font-weight: 700;
@@ -93,11 +93,11 @@ font-size: 12px;
 }
 .container *{
     opacity: 1;
-    transition: .6s opacity ease-in, .3s background-color ;
+    transition: 1s opacity ease-in, .3s background-color ;
     transition-delay: .1s;
 }
 .colors{
-    position: fixed;
+    /* position: fixed; */
     top: 0vh;
     left:20vw;
     background-color: rgb(255, 231, 231);
@@ -111,16 +111,26 @@ font-size: 12px;
     flex-direction: column;
     margin: 5px;
     padding: 20px;
-    text-align: center;
+    text-align: left;
     background-color: rgb(218, 199, 107);
     border-radius: 2px;
     opacity: 1;
     max-height: fit-content;
     height: 100%;
-    overflow: hidden;
-    transition:  1s height ease, 1s opacity;
+    /* overflow: hidden; */
+    transition:  1s height ease, 1.6s opacity;
     position: relative;
-    
+}
+.inneroptions *{
+    opacity: 1;
+
+    transition:  1s height ease, .5s opacity ease;
+}
+.inneroptions >h1{
+    background-color : rgb(222, 172, 47);
+    color: white;
+    font-weight: 700;
+    font-size: 20px;
 
 }
 .fa {
@@ -130,6 +140,8 @@ font-size: 12px;
     display: flex;
     flex-direction: column;
     padding: 2px;
+    align-items: center;
+
 }
 
 .niaveOptions input{
@@ -148,6 +160,9 @@ label{
 .collapse{
     height: 0%;
     opacity: 0;
+}
+.about{
+    height: fit-content;
 }
 .collapse *{
     opacity: 0;
@@ -168,7 +183,7 @@ label{
 
 
 button:hover, input:hover, select:hover{
-    background-color: lightgoldenrodyellow;
+    background-color: rgb(250, 250, 210);
 }
 
 .start{
@@ -248,5 +263,24 @@ transition: 1s background-color, 1s color, 1s opacity;
 }
 
 .github a:hover{
-    color: rgb(0, 255, 213);
+    color: rgb(255, 166, 0);
+}
+
+
+
+.active{
+    background-color: rgb(255, 255, 145);
+}
+
+
+#menu-color{
+    transition: none;
+}
+.about-holder{
+    position: relative;
+    width: 20vw;
+}
+
+.header{
+    color: white;
 }

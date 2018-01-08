@@ -173,7 +173,7 @@ import { debug } from "util";
 
             }, this.level + 1);
             devisions++;
-            divisionsNumberEl.innerText = `devisions: ${devisions} number of nodes:${1 + 4 * devisions} bottom-level nodes${1 + 3 * devisions}`
+            divisionsNumberEl.innerText = `devisions: ${devisions}\n bottom-level nodes${1 + 3 * devisions}`;
             return this;
         }
 

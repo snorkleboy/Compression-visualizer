@@ -2,10 +2,10 @@ import QuadtreeMaker from './quadtree.js';
 import NiaveCompress from './blockCompress.js';
 
 const urls = [
-    'https://i.imgur.com/drGvplW.jpg',
-    'https://i.imgur.com/zkc1tq7.jpg',
+    // 'https://i.imgur.com/drGvplW.jpg',
+    // 'https://i.imgur.com/zkc1tq7.jpg',
     'https://i.imgur.com/cMMwsek.jpg',
-    'https://i.imgur.com/5BMFvAC.jpg'
+    // 'https://i.imgur.com/5BMFvAC.jpg'
 ]
 document.addEventListener("DOMContentLoaded", function () {
     
@@ -162,6 +162,7 @@ const aboutButton = document.getElementById('aboutButton')
 const about = document.getElementById('about');
 aboutButton.addEventListener('click',function(e){
     about.classList.contains('collapse') ? about.classList.remove('collapse') : about.classList.add('collapse');
+    aboutButton.classList.contains('active') ? aboutButton.classList.remove('active') : aboutButton.classList.add('active');
 })
 function handleMouseMove(ctx, element){
     return ((event) => {
@@ -171,7 +172,7 @@ function handleMouseMove(ctx, element){
         // console.log('here', ctx , element,x,y)
         const pixel = ctx.getImageData(x, y, 1, 1);
         const data = pixel.data;
-        const rgba = 'rgba(' + data[0] + ', ' + data[1] +
+        const rgba = 'color: rgba(' + data[0] + ', ' + data[1] +
             ', ' + data[2] + ', ' + (data[3] / 255) + ')';
         element.style.background = rgba;
         element.textContent = rgba;

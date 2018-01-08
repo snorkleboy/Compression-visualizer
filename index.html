@@ -10,42 +10,54 @@
   </head>
 
   <body>
+<div class='about-holder'>
 
+  <div id='about' class='about collapse'>
+    <h1>Quadtree based visual Compression.</h1>
+    <h3>load up an image, and select how to compress it.</h3>
+    <h2>Quadtree uses a quadtree to recusively devide the image into quadrants.</h2>
+
+    <h3>'Split by Color Variance' splits those quadrants depending on how much color varies within that region. This results in edges and regions of high color variance being found first and 
+      getting more pixels devoted to that region.
+      </h3>
+      <h3>
+      You can also set whether to use circles or squares, the size ratio (how large pixels are to thier orginal counterpart), and a Size limit
+      that sets the pixel depth (so 100 size limit will be a image with 100 times less resolution)
+    </h3>
+
+    <h2>Blockchop is for comparison</h2>
+    <h3>it compresses the image by cutting it into blocks of X*Y pixels and taking one pixel from that region. So block chop
+      with a 1x2 bock will make an image with half the number of pixels horizontaly. There are also a few different rendering modes.</h3>
+  </div>
+</div>
     <div class='container'>    
-         
+        
       <div class="options-container">
         
         <div>
           
           <div class='options'>
             <div class='github'>
-              <h1>Image Presser</h1>
+              
               <a  href='https://github.com/snorkleboy/Compression-visualizer'>github readme</a>
             </div>
-            <button id='aboutButton' class='aboutButton'> About
-              <div id='about' class='about'>
-                <h1>Quadtree Based visual Compression.</h1>
-                <h3>load up an image, and select how to compress it.</h3>
-                <h2>Quadtree uses a quadtree to recusively devide the image into quadrants.</h2>
-                
-                <h3>Split by Var splits those quadrants depending on how much color varies within that region resulting and an algorith that
-                will find edges and regions of high color variance and devote more data to represent those regions. otherwise it splits all
-                nodes.</h3>
+                          
+ 
+            
 
-                <h2>Blockchop is for comparison</h2>
-                <h3>it compresses the image by cutting it into blocks of X*Y pixels and taking one pixel from that region. So block chop with
-                a 1x2 bock will make an image with half the number of pixels horizontaly.</h3> 
-              </div>
-            </button>
 
             <div  class='imageOptions inneroptions'>
+              <h1>Quadtree Compression Visualizer</h1>
+              <button id='aboutButton' class='aboutButton'> About
+              </button>
               <label > load an image
                 <input name='imageUrl' id='imageUrlInput' type="text" value='https://i.imgur.com/AIgar9n.jpg' />
                 <button id='imageUrlSubmit' type="submit" value='submit' >Get Image<i class="fa fa-picture-o" aria-hidden="true"></i></button>
+                <button id='clear'>clear <i class="fa fa-minus" aria-hidden="true"></i></button>
+                <button id='reset'>reset <i class="fa fa-refresh" aria-hidden="true"></i></button>
               </label>  
-              
-              <button id='clear'>clear <i class="fa fa-minus" aria-hidden="true"></i></button>
-              <button id='reset'>reset <i class="fa fa-refresh" aria-hidden="true"></i></button>
+                        
+
               <button id='blockChopToggle'>BlockChop <i class="fa fa-bars" aria-hidden="true"></i></button>
               <button id='quadTreeToggle'>QuadTree <i class="fa fa-bars" aria-hidden="true"></i>  </button>
             
@@ -68,14 +80,14 @@
 
             
             </div>
-            <div id='qt' class='inneroptions qt collapse'>              
+            <div id='qt' class='inneroptions qt'>              
                             <button class='start' id='quadtree'>Start QuadTree</button>                            
                             <button class='stop' id='stopQuads'>Stop QuadTrees</button>
               <div class='checkboxes'>
                 <label>Circles
                   <input id='quadTreeCircle' type="checkbox"></input>
                 </label>
-                <label>by Color Variance
+                <label>Split by Color Variance
                   <input id='quadTreeVariance' checked type="checkbox"></input>
                 </label>
               </div>
@@ -95,17 +107,20 @@
       </div> 
       
     </div>
-    
+  <div>
 <span class='canvas-holder'>
-  
-  <canvas id="result" width="1024" height="680"></canvas>
-</span>
+    <canvas id="result" width="1024" height="680"></canvas>
+  </span>
+  <h1 class='header'>A Quadtree based compression algorithm that splits nodes by finding the node with the highest statistical variance of color.
+    </h1>
+            <div class='colors'>
+              <div id="menu-color" style="width:200px;height:50pxwidth:200px;height:50px;"></div>
+              <div id='divisionsNumber'></div>
+            </div>
+  </div>
     <script type="application/javascript" src="bundle.js"></script>
 </div>
 
   </body>
-      <div class='colors'>
-        <div id="menu-color" style="width:200px;height:50pxwidth:200px;height:50px;"></div>
-        <div id='divisionsNumber'></div>
-      </div>
+
 </html>
