@@ -19,7 +19,8 @@ export const DemoObj = class DemoObj {
   }
 };
 export const DemoRunner = class DemoRunner {
-  constructor(elobjs) {
+  constructor(elobjs, destroy) {
+    this.destroy = destroy;
     this.elements = elobjs;
     this.index = 0;
     this.to = null;
@@ -45,9 +46,7 @@ export const DemoRunner = class DemoRunner {
     if (this.index > 1) {
       clearTimeout(this.to);
       this.destroyCurrent();
-      console.log("index to destroy", this.index - 1);
       this.index = this.index - 2;
-      console.log("index to run", this.index);
       this.run();
     }
   }
@@ -65,6 +64,7 @@ export const DemoRunner = class DemoRunner {
   endRun() {
     clearTimeout(this.to);
     if (this.current.attached) this.destroyCurrent();
+    if (typeof this.destroy === 'function') this.destroy();
     window.demo = undefined;
     this.index = 0;
   }
