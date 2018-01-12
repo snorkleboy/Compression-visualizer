@@ -130,6 +130,7 @@ font-size: 12px;
     /* overflow: hidden; */
     transition:  1s height ease, 1.6s opacity;
     position: relative;
+    width: 300px;
 }
 .inneroptions *{
     opacity: 1;
@@ -180,6 +181,7 @@ label{
 .imageOptions{
     height: fit-content;
     /* border-radius: 10px; */
+    width: 300px;
 }
 
 #blockChopToggle, #quadTreeToggle{
@@ -225,6 +227,7 @@ transition: 1s background-color, 1s color, 1s opacity;
 .checkboxes *{
     flex-grow:0;
     flex-shrink: 0;
+    max-width: 50%;
 }
 
 .greyed{
@@ -293,6 +296,7 @@ transition: 1s background-color, 1s color, 1s opacity;
 
 .header{
     color: white;
+    padding: 10px;
 }
 .display-off{
     display: none;
