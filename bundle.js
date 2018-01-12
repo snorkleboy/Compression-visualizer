@@ -1507,39 +1507,58 @@ function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__assets_demo__ = __webpack_require__(9);
 
 
-const intro = `
+const intro = () => `
 <div class='aa'>
  <h2> 1</h2>
   <h2> this is template</h2>
   <h1> it might explain stuff</h1>
   <button onclick="demo.stay()">stay</button>
   <button onclick="demo.destroy()">destroy</button>
-  <button onclick="demo.test()">test</button>
+  <button onclick="demo.goBack()">goBack</button>
   <button onClick="demo.end()">end demo</button>
 </div>
 `;
-const two = `
+const two = () => `
 <div class='aa'>
  <h2> 2</h2>
   <h2> another page</h2>
   <h1> wweeeeeeee</h1>
   <button onclick="demo.stay()">stay</button>
   <button onclick="demo.destroy()">destroy</button>
-  <button onclick="demo.test()">test</button>
+  <button onclick="demo.goBack()">goBack</button>
+  <button onClick="demo.end()">end demo</button>
+</div>
+`;
+const three = () => `
+<div class='aa'>
+ <h2> 3</h2>
+  <h2> another page</h2>
+  <h1> wweeeeeeee</h1>
+  <button onclick="demo.stay()">stay</button>
+  <button onclick="demo.destroy()">destroy</button>
+  <button onclick="demo.goBack()">goBack</button>
+  <button onClick="demo.end()">end demo</button>
+</div>
+`;
+const four = () => `
+<div class='aa'>
+ <h2> 4</h2>
+  <h2> another page</h2>
+  <h1> wweeeeeeee</h1>
+  <button onclick="demo.stay()">stay</button>
+  <button onclick="demo.destroy()">destroy</button>
+  <button onclick="demo.goBack()">goBack</button>
   <button onClick="demo.end()">end demo</button>
 </div>
 `;
 const fadeIn = function(el){
-    console.log('fadein')
     const body = document.querySelector('body');
     body.appendChild(el);
 
 };
 
 const fadeOut = function(next,el){
-    console.log('fadeout')
     const body = document.querySelector('body');
-    console.log(body);
     body.removeChild(el);
     next();
 };
@@ -1547,8 +1566,8 @@ const fadeOut = function(next,el){
 const demo = [
     new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](intro, fadeIn, fadeOut, 4000),
     new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](two, fadeIn, fadeOut, 4000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](intro, fadeIn, fadeOut, 4000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](two, fadeIn, fadeOut, 4000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](three, fadeIn, fadeOut, 4000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](four, fadeIn, fadeOut, 4000),
 ];
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["b" /* DemoRunner */](demo));
@@ -1563,20 +1582,21 @@ const demo = [
 
 "use strict";
 const DemoObj = class DemoObj {
-  constructor(el, add, remove,time, CBScript){
-    this.el = document.createElement('div');
-    this.el.innerHTML = el;
+  constructor(el, add, remove, time) {
+    this.el = null;
+    this.htmlMaker = el;
     this.add = add;
     this.remove = remove;
     this.time = time;
-    this.CBScript = CBScript;
     this.attached = false;
   }
-  build(){
+  build() {
+    this.el = document.createElement('div');
+    this.el.innerHTML = this.htmlMaker();
     this.add(this.el);
     this.attached = true;
   }
-  destroy(next){
+  destroy(next) {
     this.attached = false;
     this.remove(next, this.el);
   }
@@ -1584,51 +1604,50 @@ const DemoObj = class DemoObj {
 /* harmony export (immutable) */ __webpack_exports__["a"] = DemoObj;
 
 const DemoRunner = class DemoRunner {
-  constructor(elobjs){
+  constructor(elobjs) {
     this.elements = elobjs;
-    this.index=0;
+    this.index = 0;
     this.to = null;
     this.current = null;
   }
-  run(){
+  run() {
     if (this.index > this.elements.length - 1) return this.endRun();
     const obj = this.elements[this.index];
     this.current = obj;
     this.bindMethods();
     obj.build();
     ++this.index;
-    if (typeof obj.CBScript === 'function') obj.CBScript();
     this.to = setTimeout(this.destroyCurrentAndRun.bind(this), obj.time);
   }
-  bindMethods(){
-    window.demo={};
+  bindMethods() {
+    window.demo = {};
     window.demo.stay = this.stay.bind(this);
     window.demo.destroy = this.destroyCurrentAndRun.bind(this);
     window.demo.goBack = this.goBack.bind(this);
     window.demo.end = this.endRun.bind(this);
   }
-  goBack(){
-    if (this.index >= 0){
+  goBack() {
+    if (this.index > 1) {
       clearTimeout(this.to);
       this.destroyCurrent();
-      console.log("index to destroy", this.index-1);
+      console.log("index to destroy", this.index - 1);
       this.index = this.index - 2;
       console.log("index to run", this.index);
       this.run();
     }
   }
-  stay(){
+  stay() {
     clearTimeout(this.to);
   }
   destroyCurrentAndRun() {
     clearTimeout(this.to);
     this.current.destroy(this.run.bind(this));
   }
-  destroyCurrent(){
+  destroyCurrent() {
     clearTimeout(this.to);
-    this.current.destroy(function(){});
+    this.current.destroy(function () { });
   }
-  endRun(){
+  endRun() {
     clearTimeout(this.to);
     if (this.current.attached) this.destroyCurrent();
     window.demo = undefined;
