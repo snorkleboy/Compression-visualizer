@@ -71,6 +71,7 @@
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__quadtree_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__blockCompress_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__demo__ = __webpack_require__(8);
 
 
 
@@ -79,7 +80,7 @@ const urls = [
     // 'https://i.imgur.com/zkc1tq7.jpg',
     'https://i.imgur.com/cMMwsek.jpg',
     // 'https://i.imgur.com/5BMFvAC.jpg'
-]
+];
 document.addEventListener("DOMContentLoaded", function () {
     
     // console.log(QuadtreeMaker);
@@ -88,8 +89,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const time = new Date().getTime();
     img.src = urls[time % urls.length]  + time;
     img.crossOrigin = "Anonymous";
-    img.onload = () => imagereader.receiveImage(img);
-
+    img.onload = () => {
+        imagereader.receiveImage(img);
+    };
 
     const imgForm = document.getElementById('imageUrlSubmit');
     // console.log(imgForm);
@@ -140,8 +142,6 @@ class ImageReader{
         this.imageData = this.resultCtx.getImageData(0, 0, this.resultCanvas.width, this.resultCanvas.height);
 
         //setup reset button
-        //
-        //
         this.resetButton = document.getElementById('reset');
         this.resetButton.addEventListener('click', e => {
             stopButton.click();
@@ -153,12 +153,11 @@ class ImageReader{
         this.menuColor = document.getElementById('menu-color');
         this.resultCanvas.addEventListener('mousemove', handleMouseMove(this.resultCtx, this.menuColor));
 
-        ///
+        
         //setup clearbutton
         this.clearButton = document.getElementById('clear');
         this.clearButton.addEventListener('click', e => this.resultCtx.clearRect(0, 0, this.resultCanvas.width, this.resultCanvas.height));
 
-        ///
         //setup niaveCommression button and handler
         this.niaveButton = document.getElementById('niave');
         const newNiaveButton = this.niaveButton.cloneNode(true);
@@ -293,53 +292,10 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
         //  new QuadtreeMaker(imageData, context, blockSize, circleBool, traverseType);
     };
 }
-
-
-
-
-
-
-console.log(` 
-                                                          
-  _____                     _  _______                    
- (_____)                   (_)(__ _ __)_      ____   ____ 
-(_)   (_) _   _   ____   __(_)   (_)  (_)__  (____) (____)
-(_)   (_)(_) (_) (____) (____)   (_)  (____)(_)_(_)(_)_(_)
-(_)___(_)(_)_(_)( )_( )(_)_(_)   (_)  (_)   (__)__ (__)__ 
- (___(__) (___)  (__)_) (____)   (_)  (_)    (____) (____)
-       (_)                                                                                                                                                                                      
-   ___                                                      _               
- _(___)_                           _      ____  ____  ____ (_)        _     
-(_)   (_)  ___    __   __   ____  (_)__  (____)(____)(____) _   ___  (_)__  
-(_)    _  (___)  (__)_(__) (____) (____)(_)_(_)(_)__ (_)__ (_) (___) (____) 
-(_)___(_)(_)_(_)(_) (_) (_)(_)_(_)(_)   (__)__  _(__) _(__)(_)(_)_(_)(_) (_)
-  (___)   (___) (_) (_) (_)(____) (_)    (____)(____)(____)(_) (___) (_) (_)
-                           (_)                                              
-                           (_)                                              
- `)
-
-
- console.log(`
-                                     
-  _____         _                    
- (_____)  _    (_)_  ____            
-(_)___(_)(_)__ (___)(____)  __   __  
-(_______)(____)(_) (_)_(_) (__)_(__) 
-(_)   (_)(_)   (_)_(__)__ (_) (_) (_)
-(_)   (_)(_)    (__)(____)(_) (_) (_)
-                                                               _                         _                   
-(_)  (_)(_)            _     ____ (_)            _     
-(_)_(_) (_)__    ____ (_)__ (____)(_)__    ____ (_)__  
-(____)  (____)  (____)(____)(_)__ (____)  (____)(____) 
-(_) (_) (_) (_)( )_( )(_)    _(__)(_) (_)( )_( )(_) (_)
-(_)  (_)(_) (_) (__)_)(_)   (____)(_) (_) (__)_)(_) (_)
-
-TimKharshan@hotmail.com
-https://www.linkedin.com/in/artem-kharshan/                                         
-`)                                                    
-
-
-
+const demoButton = document.getElementById('demoButton');
+demoButton.addEventListener('click',function(){
+    __WEBPACK_IMPORTED_MODULE_2__demo__["a" /* default */].run();
+});
 
 /***/ }),
 /* 1 */
@@ -1542,6 +1498,145 @@ function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
 
     }
 }
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__assets_demo__ = __webpack_require__(9);
+
+
+const intro = `
+<div class='aa'>
+ <h2> 1</h2>
+  <h2> this is template</h2>
+  <h1> it might explain stuff</h1>
+  <button onclick="demo.stay()">stay</button>
+  <button onclick="demo.destroy()">destroy</button>
+  <button onclick="demo.test()">test</button>
+  <button onClick="demo.end()">end demo</button>
+</div>
+`;
+const two = `
+<div class='aa'>
+ <h2> 2</h2>
+  <h2> another page</h2>
+  <h1> wweeeeeeee</h1>
+  <button onclick="demo.stay()">stay</button>
+  <button onclick="demo.destroy()">destroy</button>
+  <button onclick="demo.test()">test</button>
+  <button onClick="demo.end()">end demo</button>
+</div>
+`;
+const fadeIn = function(el){
+    console.log('fadein')
+    const body = document.querySelector('body');
+    body.appendChild(el);
+
+};
+
+const fadeOut = function(next,el){
+    console.log('fadeout')
+    const body = document.querySelector('body');
+    console.log(body);
+    body.removeChild(el);
+    next();
+};
+
+const demo = [
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](intro, fadeIn, fadeOut, 4000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](two, fadeIn, fadeOut, 4000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](intro, fadeIn, fadeOut, 4000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](two, fadeIn, fadeOut, 4000),
+];
+
+/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["b" /* DemoRunner */](demo));
+
+    
+
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const DemoObj = class DemoObj {
+  constructor(el, add, remove,time, CBScript){
+    this.el = document.createElement('div');
+    this.el.innerHTML = el;
+    this.add = add;
+    this.remove = remove;
+    this.time = time;
+    this.CBScript = CBScript;
+    this.attached = false;
+  }
+  build(){
+    this.add(this.el);
+    this.attached = true;
+  }
+  destroy(next){
+    this.attached = false;
+    this.remove(next, this.el);
+  }
+};
+/* harmony export (immutable) */ __webpack_exports__["a"] = DemoObj;
+
+const DemoRunner = class DemoRunner {
+  constructor(elobjs){
+    this.elements = elobjs;
+    this.index=0;
+    this.to = null;
+    this.current = null;
+  }
+  run(){
+    if (this.index > this.elements.length - 1) return this.endRun();
+    const obj = this.elements[this.index];
+    this.current = obj;
+    this.bindMethods();
+    obj.build();
+    ++this.index;
+    if (typeof obj.CBScript === 'function') obj.CBScript();
+    this.to = setTimeout(this.destroyCurrentAndRun.bind(this), obj.time);
+  }
+  bindMethods(){
+    window.demo={};
+    window.demo.stay = this.stay.bind(this);
+    window.demo.destroy = this.destroyCurrentAndRun.bind(this);
+    window.demo.goBack = this.goBack.bind(this);
+    window.demo.end = this.endRun.bind(this);
+  }
+  goBack(){
+    if (this.index >= 0){
+      clearTimeout(this.to);
+      this.destroyCurrent();
+      console.log("index to destroy", this.index-1);
+      this.index = this.index - 2;
+      console.log("index to run", this.index);
+      this.run();
+    }
+  }
+  stay(){
+    clearTimeout(this.to);
+  }
+  destroyCurrentAndRun() {
+    clearTimeout(this.to);
+    this.current.destroy(this.run.bind(this));
+  }
+  destroyCurrent(){
+    clearTimeout(this.to);
+    this.current.destroy(function(){});
+  }
+  endRun(){
+    clearTimeout(this.to);
+    if (this.current.attached) this.destroyCurrent();
+    window.demo = undefined;
+    this.index = 0;
+  }
+};
+/* harmony export (immutable) */ __webpack_exports__["b"] = DemoRunner;
+
 
 /***/ })
 /******/ ]);

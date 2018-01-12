@@ -53,7 +53,13 @@ canvas{
     top :50px; */
 }
 
-
+.aa{
+    position: absolute;
+    top :0;
+    left :0;
+    background-color: white;
+    color:black;
+}
 
 .container{
     display: flex;

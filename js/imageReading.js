@@ -1,12 +1,12 @@
 import QuadtreeMaker from './quadtree.js';
 import NiaveCompress from './blockCompress.js';
-
+import Demo from './demo';
 const urls = [
     // 'https://i.imgur.com/drGvplW.jpg',
     // 'https://i.imgur.com/zkc1tq7.jpg',
     'https://i.imgur.com/cMMwsek.jpg',
     // 'https://i.imgur.com/5BMFvAC.jpg'
-]
+];
 document.addEventListener("DOMContentLoaded", function () {
     
     // console.log(QuadtreeMaker);
@@ -15,8 +15,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const time = new Date().getTime();
     img.src = urls[time % urls.length]  + time;
     img.crossOrigin = "Anonymous";
-    img.onload = () => imagereader.receiveImage(img);
-
+    img.onload = () => {
+        imagereader.receiveImage(img);
+    };
 
     const imgForm = document.getElementById('imageUrlSubmit');
     // console.log(imgForm);
@@ -67,8 +68,6 @@ class ImageReader{
         this.imageData = this.resultCtx.getImageData(0, 0, this.resultCanvas.width, this.resultCanvas.height);
 
         //setup reset button
-        //
-        //
         this.resetButton = document.getElementById('reset');
         this.resetButton.addEventListener('click', e => {
             stopButton.click();
@@ -80,12 +79,11 @@ class ImageReader{
         this.menuColor = document.getElementById('menu-color');
         this.resultCanvas.addEventListener('mousemove', handleMouseMove(this.resultCtx, this.menuColor));
 
-        ///
+        
         //setup clearbutton
         this.clearButton = document.getElementById('clear');
         this.clearButton.addEventListener('click', e => this.resultCtx.clearRect(0, 0, this.resultCanvas.width, this.resultCanvas.height));
 
-        ///
         //setup niaveCommression button and handler
         this.niaveButton = document.getElementById('niave');
         const newNiaveButton = this.niaveButton.cloneNode(true);
@@ -220,40 +218,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
         //  new QuadtreeMaker(imageData, context, blockSize, circleBool, traverseType);
     };
 }
-
-
-
-
-
-
-console.log(` 
-                                                          
-  _____                     _  _______                    
- (_____)                   (_)(__ _ __)_      ____   ____ 
-(_)   (_) _   _   ____   __(_)   (_)  (_)__  (____) (____)
-(_)   (_)(_) (_) (____) (____)   (_)  (____)(_)_(_)(_)_(_)
-(_)___(_)(_)_(_)( )_( )(_)_(_)   (_)  (_)   (__)__ (__)__ 
- (___(__) (___)  (__)_) (____)   (_)  (_)    (____) (____)
-       (_)                                                                                                                                                                                      
-   ___                                                      _               
- _(___)_                           _      ____  ____  ____ (_)        _     
-(_)   (_)  ___    __   __   ____  (_)__  (____)(____)(____) _   ___  (_)__  
-(_)    _  (___)  (__)_(__) (____) (____)(_)_(_)(_)__ (_)__ (_) (___) (____) 
-(_)___(_)(_)_(_)(_) (_) (_)(_)_(_)(_)   (__)__  _(__) _(__)(_)(_)_(_)(_) (_)
-  (___)   (___) (_) (_) (_)(____) (_)    (____)(____)(____)(_) (___) (_) (_)
-                           (_)                                              
-                           (_)                                              
- `)
-
-
- console.log(`
- _____       _                  _____  _                   _             
-|  _  | ___ | |_  ___  _____   |  |  || |_  ___  ___  ___ | |_  ___  ___ 
-|     ||  _||  _|| -_||     |  |    -||   || .'||  _||_ -||   || .'||   |
-|__|__||_|  |_|  |___||_|_|_|  |__|__||_|_||__,||_|  |___||_|_||__,||_|_|
-
-TimKharshan@hotmail.com
-https://www.linkedin.com/in/artem-kharshan/                                         
-`)                                                    
-
-
+const demoButton = document.getElementById('demoButton');
+demoButton.addEventListener('click',function(){
+    Demo.run();
+});
