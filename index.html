@@ -9,46 +9,14 @@
     <link rel="stylesheet" href="demo.css">
     <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
   </head>
-
   <body>
-<div class='about-holder'>
-
-  <div id='about' class='about display-off'>
-    <h1>Quadtree based visual Compression.</h1>
-    <h3>load up an image, and select how to compress it.</h3>
-    <h2>Quadtree uses a quadtree to recusively devide the image into quadrants.</h2>
-
-    <h3>'Split by Color Variance' splits those quadrants depending on how much color varies within that region. This results in edges and regions of high color variance being found first and 
-      getting more pixels devoted to that region.
-      </h3>
-      <h3>
-      You can also set whether to use circles or squares, the size ratio (how large pixels are to thier orginal counterpart), and a Size limit
-      that sets the pixel depth (so 100 size limit will be a image with 100 times less resolution)
-    </h3>
-
-    <h2>Blockchop is for comparison</h2>
-    <h3>it compresses the image by cutting it into blocks of X*Y pixels and taking one pixel from that region. So block chop
-      with a 1x2 bock will make an image with half the number of pixels horizontaly. There are also a few different rendering modes.</h3>
-  </div>
-</div>
-    <div class='container'>    
-        
-      <div class="options-container">
-        
-        <div>
-          
+    <div class='container'>           
+      <div class="options-container">       
+        <div>          
           <div class='options'>
-
-                          
- 
-            
-
-
             <div  class='imageOptions inneroptions'>
               <h1>Quadtree Compression Visualizer</h1>
-              <button id='aboutButton' class='aboutButton'> About
-              </button>
-              <button id='demoButton' class='aboutButton'> Demo
+              <button id='demoButton' class='aboutButton onto'> Demo
               </button>
               <label > load an image
                 <input name='imageUrl' id='imageUrlInput' type="text" value='https://i.imgur.com/AIgar9n.jpg' />
@@ -71,7 +39,7 @@
               <label>expandType
                 <select id='niaveInputExpand'>
                  <option value="1">by Block</option>
-                 <option value="2">Resize</option>
+                 <option value="2">real size</option>
                  <option value="3">Pins</option>
                   <option value="4">Circles</option>
                 </select>
@@ -80,7 +48,7 @@
 
             
             </div>
-            <div id='qt' class='inneroptions qt'>              
+            <div id='qt' class='inneroptions qt collapse'>              
                             <button class='start' id='quadtree'>Start QuadTree</button>                            
                             <button class='stop' id='stopQuads'>Stop QuadTree</button>
               <div class='checkboxes'>

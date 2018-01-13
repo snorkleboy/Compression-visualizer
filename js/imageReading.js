@@ -156,12 +156,7 @@ expandTypeSelect.addEventListener('change', function(e){
     
 });
 
-const aboutButton = document.getElementById('aboutButton')
-const about = document.getElementById('about');
-aboutButton.addEventListener('click',function(e){
-    about.classList.contains('display-off') ? about.classList.remove('display-off') : about.classList.add('display-off');
-    aboutButton.classList.contains('active') ? aboutButton.classList.remove('active') : aboutButton.classList.add('active');
-})
+
 
 function handleMouseMove(ctx, element){
     return ((event) => {
@@ -220,5 +215,5 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
 }
 const demoButton = document.getElementById('demoButton');
 demoButton.addEventListener('click',function(){
-    Demo.run();
+    Demo.toggle();
 });

@@ -230,12 +230,7 @@ expandTypeSelect.addEventListener('change', function(e){
     
 });
 
-const aboutButton = document.getElementById('aboutButton')
-const about = document.getElementById('about');
-aboutButton.addEventListener('click',function(e){
-    about.classList.contains('display-off') ? about.classList.remove('display-off') : about.classList.add('display-off');
-    aboutButton.classList.contains('active') ? aboutButton.classList.remove('active') : aboutButton.classList.add('active');
-})
+
 
 function handleMouseMove(ctx, element){
     return ((event) => {
@@ -294,7 +289,7 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
 }
 const demoButton = document.getElementById('demoButton');
 demoButton.addEventListener('click',function(){
-    __WEBPACK_IMPORTED_MODULE_2__demo__["a" /* default */].run();
+    __WEBPACK_IMPORTED_MODULE_2__demo__["a" /* default */].toggle();
 });
 
 /***/ }),
@@ -1511,7 +1506,7 @@ function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
 
 
 
-const fadeIn = function (el) {
+const fadeIn = function (el, message) {
     const parent = document.getElementById('canvasHolder');
     el.classList.add('invisible');
     parent.appendChild(el);
@@ -1520,24 +1515,28 @@ const fadeIn = function (el) {
 /* unused harmony export fadeIn */
 
 
-const fadeOut = function (next, el) {
+const fadeOut = function (el, next) {
     const parent = document.getElementById('canvasHolder');
+    el.style.transition = '.3s opacity';
     setTimeout(() => { el.classList.add('invisible'); }, 0);
     setTimeout(() => {
         parent.removeChild(el);
         next();
-    }, 1010);
+    }, 400);
 };
 /* unused harmony export fadeOut */
 
 
 
 const demo = [
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["d" /* intro */], fadeIn, fadeOut, 2000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["e" /* introExplain */], fadeIn, fadeOut, 10000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["b" /* QuadTreeRun */], fadeIn, fadeOut, 10000,__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["a" /* clickQuadTree */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["a" /* QuadTreeExplain */], fadeIn, fadeOut, 6000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["four"], fadeIn, fadeOut, 6000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["f" /* intro */], fadeIn, fadeOut, 3000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["g" /* introExplain */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["d" /* ensureQuadMenu */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["e" /* QuadTreeRun */], fadeIn, fadeOut, 10000,__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["d" /* QuadTreeExplain */], fadeIn, fadeOut, 6000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["e" /* stay */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["b" /* BlockChopIntro */], fadeIn, fadeOut, 6000,__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["c" /* ensureBlockChopmenu */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["a" /* BlockChop */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["a" /* clickBlockChop */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["c" /* BlockChopOptions */], fadeIn, fadeOut,5000),
+    
 ];
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["b" /* DemoRunner */](demo));
@@ -1552,43 +1551,54 @@ const demo = [
 
 "use strict";
 const DemoObj = class DemoObj {
-  constructor(el, add, remove, time, ...cbScripts) {
+  constructor(HTMLStringFunction, add, remove, time, ...cbScripts) {
     this.el = null;
-    this.htmlMaker = el;
+    this.htmlMaker = HTMLStringFunction;
     this.add = add;
     this.remove = remove;
     this.time = time;
     this.attached = false;
     this.cbScripts = cbScripts;
   }
-  build() {
+  build(message) {
     this.el = document.createElement('div');
     this.el.id = 'DemoDiv';
     this.el.innerHTML = this.htmlMaker();
-    this.add(this.el);
+    this.add(this.el, message);
     this.attached = true;
   }
   destroy(next) {
     this.attached = false;
-    this.remove(next, this.el);
+    this.remove(this.el, next);
   }
 };
 /* harmony export (immutable) */ __webpack_exports__["a"] = DemoObj;
 
 const DemoRunner = class DemoRunner {
-  constructor(elobjs, destroy) {
-    this.destroy = destroy;
+  constructor(elobjs, destroyCB) {
+    this.destroyCB = destroyCB;
     this.elements = elobjs;
     this.index = 0;
     this.to = null;
     this.current = null;
+
+    this.switch = false;
   }
-  run() {
+  toggle(){
+    if(!this.switch){
+      this.run();
+      this.switch = true;
+    } else{
+      this.endRun();
+    }
+    
+  }
+  run(message) {
     if (this.index > this.elements.length - 1) return this.endRun();
     const obj = this.elements[this.index];
     this.current = obj;
     this.bindMethods();
-    obj.build();
+    obj.build(message);
     ++this.index;
     this.to = setTimeout(this.destroyCurrentAndRun.bind(this), obj.time);
     const that = this;
@@ -1599,9 +1609,9 @@ const DemoRunner = class DemoRunner {
   bindMethods() {
     window.demo = {};
     window.demo.stay = this.stay.bind(this);
-    window.demo.destroy = this.destroyCurrentAndRun.bind(this);
+    window.demo.destroyCurrentAndRun = this.destroyCurrentAndRun.bind(this);
     window.demo.goBack = this.goBack.bind(this);
-    window.demo.end = this.endRun.bind(this);
+    window.demo.endRun = this.endRun.bind(this);
   }
   goBack() {
     if (this.index > 1) {
@@ -1620,14 +1630,16 @@ const DemoRunner = class DemoRunner {
   }
   destroyCurrent() {
     clearTimeout(this.to);
-    this.current.destroy(function () { });
+    this.current.destroy(function () {});
   }
   endRun() {
     clearTimeout(this.to);
     if (this.current.attached) this.destroyCurrent();
-    if (typeof this.destroy === 'function') this.destroy();
+    this.switch = false;
+    if (typeof this.destroyCB === 'function') this.destroyCB();
     window.demo = undefined;
     this.index = 0;
+    
   }
 };
 /* harmony export (immutable) */ __webpack_exports__["b"] = DemoRunner;
@@ -1640,11 +1652,11 @@ const DemoRunner = class DemoRunner {
 "use strict";
 
 const intro = () => `
-<div class='demo-div'>
+<div class='demo-intro demo-div'>
     <h1> QuadTree Compressor</h1>
 </div>
 `
-/* harmony export (immutable) */ __webpack_exports__["d"] = intro;
+/* harmony export (immutable) */ __webpack_exports__["f"] = intro;
 
 const introExplain = () => `
 <div class='demo-div'>
@@ -1660,12 +1672,12 @@ so a thousand white pixels might be represented by a single box, whereas black t
 </p>
 
   <button onclick="demo.stay()">Stay</button>
-  <button onclick="demo.destroy()">Next</button>
-  <button onclick="demo.goBack()">goBack</button>
-  <button onClick="demo.end()">end demo</button>
+            <button onclick="demo.destroyCurrentAndRun()">Next</button>
+            <button onclick="demo.goBack()">Go Back</button>
+            <button onClick="demo.endRun()">End Demo</button>
 </div>
 `;
-/* harmony export (immutable) */ __webpack_exports__["e"] = introExplain;
+/* harmony export (immutable) */ __webpack_exports__["g"] = introExplain;
 
 const QuadTreeRun = () => `
 <div class='demo-div'>
@@ -1676,13 +1688,13 @@ and a variance score. This variance score is calculated as the variance from the
 finds the node with then highest score, and breaks it into four nodes that each encompass one of its quadrants, the origin of
 the name. 
 </p>
-  <button onclick="demo.stay()">stay</button>
-  <button onclick="demo.destroy()">Next</button>
-  <button onclick="demo.goBack()">goBack</button>
-  <button onClick="demo.end()">end demo</button>
+  <button onclick="demo.stay()">Stay</button>
+            <button onclick="demo.destroyCurrentAndRun()">Next</button>
+            <button onclick="demo.goBack()">Go Back</button>
+            <button onClick="demo.endRun()">End Demo</button>
 </div>
 `;
-/* harmony export (immutable) */ __webpack_exports__["b"] = QuadTreeRun;
+/* harmony export (immutable) */ __webpack_exports__["e"] = QuadTreeRun;
 
 const QuadTreeExplain = () => `
 <div class='demo-div'>
@@ -1690,27 +1702,113 @@ const QuadTreeExplain = () => `
  <p>This results in something like an edge finder. Areas with high color variance get lots of data, and areas with little variance get less. 
 
  </p>
-  <button onclick="demo.stay()">stay</button>
-  <button onclick="demo.destroy()">Next</button>
-  <button onclick="demo.goBack()">goBack</button>
-  <button onClick="demo.end()">end demo</button>
+  <button onclick="demo.stay()">Stay</button>
+            <button onclick="demo.destroyCurrentAndRun()">Next</button>
+            <button onclick="demo.goBack()">Go Back</button>
+            <button onClick="demo.endRun()">End Demo</button>
 </div>
 `;
-/* harmony export (immutable) */ __webpack_exports__["a"] = QuadTreeExplain;
+/* harmony export (immutable) */ __webpack_exports__["d"] = QuadTreeExplain;
 
 const BlockChopIntro = () => {
     return `
             <div class='demo-div'>
             <h2>BlockChop (1/3)</h2>
-            <p></p>
-            <button onclick="demo.stay()">stay</button>
-            <button onclick="demo.destroy()">Next</button>
-            <button onclick="demo.goBack()">goBack</button>
-            <button onClick="demo.end()">end demo</button>
+            <p>
+              A more simple and naive example of how this works is the BlockChop. It
+iterates through all the pixels in the image and picks one out of some area to represent that area. 
+            </p>
+            <button onclick="demo.stay()">Stay</button>
+            <button onclick="demo.destroyCurrentAndRun()">Next</button>
+            <button onclick="demo.goBack()">Go Back</button>
+            <button onClick="demo.endRun()">End Demo</button>
             </div>
             `
 };
-/* unused harmony export BlockChopIntro */
+/* harmony export (immutable) */ __webpack_exports__["b"] = BlockChopIntro;
+
+
+const BlockChop = () => {
+  return `
+            <div class='demo-div'>
+            <h2>BlockChop (2/3)</h2>
+            <p>
+              For example with a  block size of 4x4, it would chop the image up into 4x4 blocks, choose one pixel out of each block and represent the entire block using the color of that pixel. So I this case the resulting image will have 1/(4*4) = 1/16th as many pixels as the original image. 
+            </p>
+
+            <button onclick="demo.stay()">Stay</button>
+            <button onclick="demo.destroyCurrentAndRun()">Next</button>
+            <button onclick="demo.goBack()">Go Back</button>
+            <button onClick="demo.endRun()">End Demo</button>
+            </div>
+            `
+};
+/* harmony export (immutable) */ __webpack_exports__["a"] = BlockChop;
+
+const BlockChopOptions = () => {
+  return `
+            <div class='demo-div'>
+            <h2>BlockChop (3/3)</h2>
+<p>
+  If you would like to play around with it you can set the blocksize parameters, as well as how the chosen pixel is blown up to represent its block.
+            </p>
+
+  <ul>
+    <li>
+      <p>
+        The default is by block, where the pixel is simply drawn the size of its block.
+                </p>
+    </li>
+    <li>
+      <p>
+        real size which simply knits the pixels together and doesn’t resize them
+                </p>
+    </li>
+
+    <li>
+      <p>
+        pins neither resizes nor moves the pixels, and you can really see how this algorithm works
+                </p>
+    </li>
+
+    <li>
+      <p>
+        circles uses arcs instead of fillRect which can be a cool effect
+                </p>
+    </li>
+  </ul>
+
+            <button onclick="demo.stay()">Stay</button>
+            <button onclick="demo.destroyCurrentAndRun()">Next</button>
+            <button onclick="demo.goBack()">Go Back</button>
+            <button onClick="demo.endRun()">End Demo</button>
+            </div>
+            `
+};
+/* harmony export (immutable) */ __webpack_exports__["c"] = BlockChopOptions;
+
+
+const QuadRec = () => {
+  return `
+            <div class='demo-div'>
+            <h2>Niave Quadtree (2/3)</h2>
+            
+
+            <button onclick="demo.stay()">Stay</button>
+            <button onclick="demo.destroyCurrentAndRun()">Next</button>
+            <button onclick="demo.goBack()">Go Back</button>
+            <button onClick="demo.endRun()">End Demo</button>
+            </div>
+            `
+};
+/* unused harmony export QuadRec */
+
+
+
+
+
+
+
 
 
 /***/ }),
@@ -1721,24 +1819,50 @@ const BlockChopIntro = () => {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_quadtree__ = __webpack_require__(1);
 
 
-const stayCB = function (runner) {
+const stay = function (runner) {
     runner.stay();
 };
-/* unused harmony export stayCB */
+/* harmony export (immutable) */ __webpack_exports__["e"] = stay;
 
 
 const clickQuadTree = function(){
     const quadtreeButton = document.getElementById('quadtree');
-    quadtreeButton.click();
+    setTimeout(() =>quadtreeButton.click(),2500);
 };
-/* harmony export (immutable) */ __webpack_exports__["a"] = clickQuadTree;
+/* harmony export (immutable) */ __webpack_exports__["b"] = clickQuadTree;
 
 
 const clickReset = function(){
     const resetButton = document.getElementById('reset')
     resetButton.click();
-}
+};
 /* unused harmony export clickReset */
+
+
+const clickBlockChop = function(){
+    const blockChop = document.getElementById('niave');
+    setTimeout(()=>blockChop.click(),0);
+};
+/* harmony export (immutable) */ __webpack_exports__["a"] = clickBlockChop;
+
+
+const ensureQuadMenu = function () {
+    const otherContainer = document.getElementById('bc');
+    const container = document.getElementById('qt');
+    container.classList.contains('collapse') ? container.classList.remove('collapse') : null;
+    if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
+
+};
+/* harmony export (immutable) */ __webpack_exports__["d"] = ensureQuadMenu;
+
+
+const ensureBlockChopmenu = function () {
+    const otherContainer = document.getElementById('qt');
+    const container = document.getElementById('bc');
+    container.classList.contains('collapse') ? container.classList.remove('collapse') : null;
+    if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
+};
+/* harmony export (immutable) */ __webpack_exports__["c"] = ensureBlockChopmenu;
 
 
 
