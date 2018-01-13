@@ -1,0 +1,42 @@
+.canvas-holder{
+    position: relative;
+}
+.demo-div{
+    transition : 1s opacity , 1s background-color;
+    /* mix-blend-mode: difference; */
+    position: absolute;
+    top :0;
+    left :0;
+    background-color: white;
+    
+    color:black;
+    opacity : 1;
+    transition : 1s opacity;
+    width: 50%;
+    height: 100%;
+}
+.invisible{
+    opacity: 0;
+    background-color: transparent;
+}
+.visible{
+    opacity: 1;
+    background-color: white;
+}
+
+.demo-div *{
+    padding: 10px;
+    margin: 5px;
+}
+
+.demo-div h1{
+    font-size: 28px;
+}
+
+.demo-div h2{
+    font-size: 22px
+}
+
+.demo-div p{
+    font-size: 18px;
+}

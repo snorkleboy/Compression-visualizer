@@ -60,233 +60,16 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__quadtree_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__quadtree_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__blockCompress_js__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__demo__ = __webpack_require__(8);
 
@@ -515,11 +298,11 @@ demoButton.addEventListener('click',function(){
 });
 
 /***/ }),
-/* 3 */
+/* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_util__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_util__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_util__);
 
 
@@ -763,10 +546,9 @@ demoButton.addEventListener('click',function(){
         function quadClickSplit(tree){
             return (e)=>{
             if (tree.use === true){
-                const node = tree.GetNode(e.pageX - context.canvas.offsetLeft, e.pageY - context.canvas.offsetTop);
-                console.log(node);
+                const canvasHolder = document.getElementById('canvasHolder')                
+                const node = tree.GetNode(e.pageX - canvasHolder.offsetLeft, e.pageY - canvasHolder.offsetTop);
                 if (node) node.split(true); 
-               
             }
         };}
 
@@ -779,7 +561,7 @@ demoButton.addEventListener('click',function(){
 /* harmony default export */ __webpack_exports__["a"] = (QuadtreeMaker);
 
 /***/ }),
-/* 4 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -1369,7 +1151,224 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(4)))
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
 
 /***/ }),
 /* 5 */
@@ -1505,79 +1504,40 @@ function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__assets_demo__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__assets_demopages__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__ = __webpack_require__(11);
 
 
-const intro = () => `
-<div class='aa'>
- <h2> 1</h2>
-  <h2> this is template</h2>
-  <h1> it might explain stuff</h1>
-  <button onclick="demo.stay()">stay</button>
-  <button onclick="demo.destroy()">destroy</button>
-  <button onclick="demo.goBack()">goBack</button>
-  <button onClick="demo.end()">end demo</button>
-</div>
-`;
-const two = () => `
-<div class='aa'>
- <h2> 2</h2>
-  <h2> another page</h2>
-  <h1> wweeeeeeee</h1>
-  <button onclick="demo.stay()">stay</button>
-  <button onclick="demo.destroy()">destroy</button>
-  <button onclick="demo.goBack()">goBack</button>
-  <button onClick="demo.end()">end demo</button>
-</div>
-`;
-const three = () => `
-<div class='aa'>
- <h2> 3</h2>
-  <h2> a third? no way</h2>
-  <button onclick="demo.stay()">stay</button>
-  <button onclick="demo.destroy()">destroy</button>
-  <button onclick="demo.goBack()">goBack</button>
-  <button onClick="demo.end()">end demo</button>
-</div>
-`;
-const four = () => {
 
-    return `
-            <div class='aa'>
-            <h2> 4</h2>
-            <h2> back</h2>
-            <h1> fo mo</h1>
-            <button onclick="demo.stay()">stay</button>
-            <button onclick="demo.destroy()">destroy</button>
-            <button onclick="demo.goBack()">goBack</button>
-            <button onClick="demo.end()">end demo</button>
-            </div>
-            `
+
+
+const fadeIn = function (el) {
+    const parent = document.getElementById('canvasHolder');
+    el.classList.add('invisible');
+    parent.appendChild(el);
+    setTimeout(() => { el.classList.remove('invisible'); }, 0);
 };
-const fadeIn = function(el){
-    const body = document.querySelector('body');
-    body.appendChild(el);
-    el.style.transition = 'opacity .3s';
-    el.style.opacity = '0';
-    setTimeout(() => { el.style.opacity = '1'; }, 0);
-};
+/* unused harmony export fadeIn */
 
-const fadeOut = function(next,el){
-    const body = document.querySelector('body');
-    console.log(el);
-    el.style.transition = 'opacity .3s';
-    el.style.opacity = '1';
-    setTimeout(() => { el.style.opacity = '0'; }, 0);
-    setTimeout(()=>{
-        body.removeChild(el);
+
+const fadeOut = function (next, el) {
+    const parent = document.getElementById('canvasHolder');
+    setTimeout(() => { el.classList.add('invisible'); }, 0);
+    setTimeout(() => {
+        parent.removeChild(el);
         next();
-    },400);
+    }, 1010);
 };
+/* unused harmony export fadeOut */
+
+
 
 const demo = [
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](intro, fadeIn, fadeOut, 2000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](two, fadeIn, fadeOut, 2000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](three, fadeIn, fadeOut, 2000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](four, fadeIn, fadeOut, 2000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["d" /* intro */], fadeIn, fadeOut, 2000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["e" /* introExplain */], fadeIn, fadeOut, 10000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["b" /* QuadTreeRun */], fadeIn, fadeOut, 10000,__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["a" /* clickQuadTree */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["a" /* QuadTreeExplain */], fadeIn, fadeOut, 6000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["four"], fadeIn, fadeOut, 6000),
 ];
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["b" /* DemoRunner */](demo));
@@ -1592,16 +1552,18 @@ const demo = [
 
 "use strict";
 const DemoObj = class DemoObj {
-  constructor(el, add, remove, time) {
+  constructor(el, add, remove, time, ...cbScripts) {
     this.el = null;
     this.htmlMaker = el;
     this.add = add;
     this.remove = remove;
     this.time = time;
     this.attached = false;
+    this.cbScripts = cbScripts;
   }
   build() {
     this.el = document.createElement('div');
+    this.el.id = 'DemoDiv';
     this.el.innerHTML = this.htmlMaker();
     this.add(this.el);
     this.attached = true;
@@ -1629,6 +1591,10 @@ const DemoRunner = class DemoRunner {
     obj.build();
     ++this.index;
     this.to = setTimeout(this.destroyCurrentAndRun.bind(this), obj.time);
+    const that = this;
+    obj.cbScripts.forEach(function(cbScript){
+      if (typeof cbScript === 'function') cbScript(that);
+    });
   }
   bindMethods() {
     window.demo = {};
@@ -1665,6 +1631,116 @@ const DemoRunner = class DemoRunner {
   }
 };
 /* harmony export (immutable) */ __webpack_exports__["b"] = DemoRunner;
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+const intro = () => `
+<div class='demo-div'>
+    <h1> QuadTree Compressor</h1>
+</div>
+`
+/* harmony export (immutable) */ __webpack_exports__["d"] = intro;
+
+const introExplain = () => `
+<div class='demo-div'>
+    <h1> QuadTree Compressor</h1>
+    <h2>Quick Run Down (1/3)</h2>
+<p> 
+This is a Javasript/HTML5 app that visualizes quadtree Compression
+</p>
+<p>
+The idea behind image compression is to find  way to represent the same image using less data.
+This quadTree compression algorithm accomplishes this by describing areas with less color variation with fewer pixels,
+so a thousand white pixels might be represented by a single box, whereas black text on a white background would get a lot of definition. 
+</p>
+
+  <button onclick="demo.stay()">Stay</button>
+  <button onclick="demo.destroy()">Next</button>
+  <button onclick="demo.goBack()">goBack</button>
+  <button onClick="demo.end()">end demo</button>
+</div>
+`;
+/* harmony export (immutable) */ __webpack_exports__["e"] = introExplain;
+
+const QuadTreeRun = () => `
+<div class='demo-div'>
+<h2>Quick Run Down (2/3)</h2>
+ <p>
+ The Algorithm works by recursively breaking down the image into Quad tree nodes that encompass an area and have an average color
+and a variance score. This variance score is calculated as the variance from the average color divided by the area. The algorithm
+finds the node with then highest score, and breaks it into four nodes that each encompass one of its quadrants, the origin of
+the name. 
+</p>
+  <button onclick="demo.stay()">stay</button>
+  <button onclick="demo.destroy()">Next</button>
+  <button onclick="demo.goBack()">goBack</button>
+  <button onClick="demo.end()">end demo</button>
+</div>
+`;
+/* harmony export (immutable) */ __webpack_exports__["b"] = QuadTreeRun;
+
+const QuadTreeExplain = () => `
+<div class='demo-div'>
+<h2>Quick Run Down (3/3)</h2>
+ <p>This results in something like an edge finder. Areas with high color variance get lots of data, and areas with little variance get less. 
+
+ </p>
+  <button onclick="demo.stay()">stay</button>
+  <button onclick="demo.destroy()">Next</button>
+  <button onclick="demo.goBack()">goBack</button>
+  <button onClick="demo.end()">end demo</button>
+</div>
+`;
+/* harmony export (immutable) */ __webpack_exports__["a"] = QuadTreeExplain;
+
+const BlockChopIntro = () => {
+    return `
+            <div class='demo-div'>
+            <h2>BlockChop (1/3)</h2>
+            <p></p>
+            <button onclick="demo.stay()">stay</button>
+            <button onclick="demo.destroy()">Next</button>
+            <button onclick="demo.goBack()">goBack</button>
+            <button onClick="demo.end()">end demo</button>
+            </div>
+            `
+};
+/* unused harmony export BlockChopIntro */
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_quadtree__ = __webpack_require__(1);
+
+
+const stayCB = function (runner) {
+    runner.stay();
+};
+/* unused harmony export stayCB */
+
+
+const clickQuadTree = function(){
+    const quadtreeButton = document.getElementById('quadtree');
+    quadtreeButton.click();
+};
+/* harmony export (immutable) */ __webpack_exports__["a"] = clickQuadTree;
+
+
+const clickReset = function(){
+    const resetButton = document.getElementById('reset')
+    resetButton.click();
+}
+/* unused harmony export clickReset */
+
+
 
 
 /***/ })

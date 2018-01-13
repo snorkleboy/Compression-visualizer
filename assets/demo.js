@@ -1,14 +1,16 @@
 export const DemoObj = class DemoObj {
-  constructor(el, add, remove, time) {
+  constructor(el, add, remove, time, ...cbScripts) {
     this.el = null;
     this.htmlMaker = el;
     this.add = add;
     this.remove = remove;
     this.time = time;
     this.attached = false;
+    this.cbScripts = cbScripts;
   }
   build() {
     this.el = document.createElement('div');
+    this.el.id = 'DemoDiv';
     this.el.innerHTML = this.htmlMaker();
     this.add(this.el);
     this.attached = true;
@@ -34,6 +36,10 @@ export const DemoRunner = class DemoRunner {
     obj.build();
     ++this.index;
     this.to = setTimeout(this.destroyCurrentAndRun.bind(this), obj.time);
+    const that = this;
+    obj.cbScripts.forEach(function(cbScript){
+      if (typeof cbScript === 'function') cbScript(that);
+    });
   }
   bindMethods() {
     window.demo = {};

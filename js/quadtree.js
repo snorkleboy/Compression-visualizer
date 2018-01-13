@@ -240,10 +240,9 @@ import { debug } from "util";
         function quadClickSplit(tree){
             return (e)=>{
             if (tree.use === true){
-                const node = tree.GetNode(e.pageX - context.canvas.offsetLeft, e.pageY - context.canvas.offsetTop);
-                console.log(node);
+                const canvasHolder = document.getElementById('canvasHolder')                
+                const node = tree.GetNode(e.pageX - canvasHolder.offsetLeft, e.pageY - canvasHolder.offsetTop);
                 if (node) node.split(true); 
-               
             }
         };}
 

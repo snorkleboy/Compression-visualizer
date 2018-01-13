@@ -6,6 +6,7 @@
     <title>Compression Visualizer</title>
     <link rel="stylesheet" href="application.css">
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="demo.css">
     <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
   </head>
 
@@ -65,8 +66,8 @@
               
                             <button class='start' id='niave'>start BlockChop</button>
                             <button class='stop' id='stopNiave'>Stop BlockChop</button>
-              <label>blocksize x<input id='niaveInputX' type="text" value='10'></input></label>
-              <label>blocksize y<input id='niaveInputY' type="text" value='10'></input></label>
+              <label>blocksize x<input id='niaveInputX' type="text" value='4'></input></label>
+              <label>blocksize y<input id='niaveInputY' type="text" value='4'></input></label>
               <label>expandType
                 <select id='niaveInputExpand'>
                  <option value="1">by Block</option>
@@ -107,9 +108,9 @@
       
     </div>
   <div>
-<span class='canvas-holder'>
+<span id='canvasHolder' class='canvas-holder'>
     <canvas id="result" width="1024" height="680"></canvas>
-  </span>
+</span>
   <h1 class='header'>A Quadtree based compression algorithm that splits nodes by finding the node with the highest statistical variance of color.
   <h1 class='header'>On the demo image, notice how sharp the edges of the in focus flowers are, and how few pixels are used to draw the blank space to the left </h1>  
             <div class='github'>
