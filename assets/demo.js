@@ -11,7 +11,19 @@ export const DemoObj = class DemoObj {
   build(message) {
     this.el = document.createElement('div');
     this.el.id = 'DemoDiv';
-    this.el.innerHTML = this.htmlMaker();
+    try {
+      this.el.innerHTML = this.htmlMaker();
+    } 
+    catch(err){
+      typeof this.el.innerHTML !== 'function' ?
+      console.log(`DemoObjs first parameter must be a function which returns InnerHtml`,
+      `
+      got:${typeof this.el} :${this.el}
+      expected: a function which returns HTML
+      `) :
+      console.log(err);
+
+    }
     this.add(this.el, message);
     this.attached = true;
   }

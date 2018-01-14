@@ -1486,7 +1486,7 @@ function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
                     rect.setAttributeNS(null, 'fill', ctx.fillStyle);
                     document.getElementById('svgOne').appendChild(rect);
                 }
-            }, 1000 + (x + y * 600) / 100));
+            }, (x + y * 600) / 100));
         }
 
 
@@ -1568,13 +1568,13 @@ const demo = [
     new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["b" /* BlockChopIntro */], fadeIn, fadeOut, 6000,__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["e" /* ensureBlockChopmenu */]),
     new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["a" /* BlockChop */], fadeIn, fadeOutStop, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["a" /* clickBlockChop */]),
     new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["c" /* BlockChopOptions */], fadeIn, fadeOut,5000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["d" /* QuadRec */], fadeIn, fadeOutStop, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["h" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["f" /* ensureQTrec */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["d" /* clickStopQuad */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["e" /* QuadRecRun */], fadeIn, fadeOut, 6000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["d" /* QuadRec */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["h" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["f" /* ensureQTrec */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["d" /* clickStopQuad */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["e" /* QuadRecRun */], fadeIn, fadeOutStop, 6000),
     new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["f" /* QuadRecRun2 */], fadeIn, fadeOut, 6000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["k" /* Quadvar */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["h" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["g" /* ensureQTvar */],__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["l" /* QuadvarGetHighest */], fadeIn, fadeOut, 10000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["j" /* Quadvar */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["h" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["g" /* ensureQTvar */],__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["k" /* QuadvarGetHighest */], fadeIn, fadeOut, 10000),
     new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["i" /* QuadVarexp */], fadeIn, fadeOut, 10000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["QuadVarparams"], fadeIn, fadeOut, 10000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["l" /* Quadvarparams */], fadeIn, fadeOut, 10000,__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["i" /* stay */]),
 
 ];
 
@@ -1602,7 +1602,19 @@ const DemoObj = class DemoObj {
   build(message) {
     this.el = document.createElement('div');
     this.el.id = 'DemoDiv';
-    this.el.innerHTML = this.htmlMaker();
+    try {
+      this.el.innerHTML = this.htmlMaker();
+    } 
+    catch(err){
+      typeof this.el.innerHTML !== 'function' ?
+      console.log(`DemoObjs first parameter must be a function which returns InnerHtml`,
+      `
+      got:${typeof this.el} :${this.el}
+      expected: a function which returns HTML
+      `) :
+      console.log(err);
+
+    }
     this.add(this.el, message);
     this.attached = true;
   }
@@ -1925,7 +1937,7 @@ const Quadvar = () => {
             </div>
             `
 };
-/* harmony export (immutable) */ __webpack_exports__["k"] = Quadvar;
+/* harmony export (immutable) */ __webpack_exports__["j"] = Quadvar;
 
 
 const QuadvarGetHighest = () => {
@@ -1938,8 +1950,10 @@ const QuadvarGetHighest = () => {
   getHighestVarNode() {
     let highestVar = {node:null, var:0};
     const finder = (Pnode) => {
-      //.nodes[0]===undefined when this node has no children, meaning it is a leaf node.
-      // if this is a leaf node, check its variance against the highest seen so far
+    //nodes[0]===undefined when this node has 
+    //no children, meaning it is a leaf node.
+    //if this is a leaf node, check its
+    //variance against the highest seen so far
       if (Pnode.nodes[0] === undefined) {
         if (highestVar.var < Pnode.variance){
           highestVar.node = Pnode;
@@ -1966,7 +1980,7 @@ const QuadvarGetHighest = () => {
             </div>
             `
 };
-/* harmony export (immutable) */ __webpack_exports__["l"] = QuadvarGetHighest;
+/* harmony export (immutable) */ __webpack_exports__["k"] = QuadvarGetHighest;
 
 const QuadVarexp = () => {
   return `
@@ -2043,7 +2057,7 @@ const Quadvarparams = () => {
             </div>
             `;
 };
-/* unused harmony export Quadvarparams */
+/* harmony export (immutable) */ __webpack_exports__["l"] = Quadvarparams;
 
 
 

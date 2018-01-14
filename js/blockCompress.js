@@ -73,7 +73,7 @@ export default function NiaveCompress(imagedata, ctx, blockSize, expand, exval) 
                     rect.setAttributeNS(null, 'fill', ctx.fillStyle);
                     document.getElementById('svgOne').appendChild(rect);
                 }
-            }, 1000 + (x + y * 600) / 100));
+            }, (x + y * 600) / 100));
         }
 
 

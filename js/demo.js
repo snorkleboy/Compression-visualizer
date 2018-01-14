@@ -57,13 +57,13 @@ const demo = [
     new DemoObj(DemoPages.BlockChopIntro, fadeIn, fadeOut, 6000,DemoAction.ensureBlockChopmenu),
     new DemoObj(DemoPages.BlockChop, fadeIn, fadeOutStop, 10000, DemoAction.clickBlockChop),
     new DemoObj(DemoPages.BlockChopOptions, fadeIn, fadeOut,5000),
-    new DemoObj(DemoPages.QuadRec, fadeIn, fadeOutStop, 10000, DemoAction.ensureQuadMenu, DemoAction.ensureQTrec, DemoAction.clickQuadTree, DemoAction.clickStopQuad),
-    new DemoObj(DemoPages.QuadRecRun, fadeIn, fadeOut, 6000),
+    new DemoObj(DemoPages.QuadRec, fadeIn, fadeOut, 10000, DemoAction.ensureQuadMenu, DemoAction.ensureQTrec, DemoAction.clickQuadTree, DemoAction.clickStopQuad),
+    new DemoObj(DemoPages.QuadRecRun, fadeIn, fadeOutStop, 6000),
     new DemoObj(DemoPages.QuadRecRun2, fadeIn, fadeOut, 6000),
     new DemoObj(DemoPages.Quadvar, fadeIn, fadeOut, 10000, DemoAction.ensureQuadMenu, DemoAction.ensureQTvar,DemoAction.clickQuadTree),
     new DemoObj(DemoPages.QuadvarGetHighest, fadeIn, fadeOut, 10000),
     new DemoObj(DemoPages.QuadVarexp, fadeIn, fadeOut, 10000),
-    new DemoObj(DemoPages.QuadVarparams, fadeIn, fadeOut, 10000),
+    new DemoObj(DemoPages.Quadvarparams, fadeIn, fadeOut, 10000,DemoAction.stay),
 
 ];
 

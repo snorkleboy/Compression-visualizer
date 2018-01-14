@@ -225,8 +225,10 @@ export const QuadvarGetHighest = () => {
   getHighestVarNode() {
     let highestVar = {node:null, var:0};
     const finder = (Pnode) => {
-      //.nodes[0]===undefined when this node has no children, meaning it is a leaf node.
-      // if this is a leaf node, check its variance against the highest seen so far
+    //nodes[0]===undefined when this node has 
+    //no children, meaning it is a leaf node.
+    //if this is a leaf node, check its
+    //variance against the highest seen so far
       if (Pnode.nodes[0] === undefined) {
         if (highestVar.var < Pnode.variance){
           highestVar.node = Pnode;
