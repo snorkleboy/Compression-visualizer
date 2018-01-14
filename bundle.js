@@ -1814,7 +1814,7 @@ const BlockChopOptions = () => {
 const QuadRec = () => {
   return `
             <div class='demo-div'>
-            <h2>Naive Quadtree (2/3)</h2>
+            <h2>Naive Quadtree (1/2)</h2>
             <p>
               The naive version of QuadTree compression doesn't calculate the average color nor the color variance.
 It is similar to Blockchop in that it will give an equal pixel depth to all areas on the image,
@@ -1834,7 +1834,7 @@ the only difference is that it accomplishes this recursively using QuadTrees
 const QuadRecRun = () => {
   return `
             <div class='demo-div'>
-            <h2>naive Quadtree (3/3)</h2>
+            <h2>naive Quadtree (2/2)</h2>
             <p> the code for this is simple:</p>
             <pre><code>
             recusiveSplit(QuadNode) {
@@ -1858,7 +1858,7 @@ const QuadRecRun = () => {
 const Quadvar = () => {
   return `
             <div class='demo-div'>
-            <h2>Quadtree (1/5)</h2>
+            <h2>Quadtree (1/3)</h2>
             <p>The full version of Quadtree compression has a few extra steps.
             </p>
             <p>When a node is created first an average color is calculated, and then using that average a variance is calculated and a variance score is assigned to every node as varaince/area</p>
@@ -1876,7 +1876,7 @@ const Quadvar = () => {
 const QuadvarGetHighest = () => {
   return `
             <div class='demo-div'>
-            <h2>Quadtree (2/5)</h2>
+            <h2>Quadtree (2/3)</h2>
             <p>getHighestVarNode is an important helper function I wrote which searches for the highest variance node and returns it</p>
             <pre><code>
             getHighestVarNode() {
@@ -1913,7 +1913,7 @@ const QuadvarGetHighest = () => {
 const QuadVarexp = () => {
   return `
             <div class='demo-div'>
-            <h2>Quadtree (3/5)</h2>
+            <h2>Quadtree (3/3)</h2>
             <p>
               With nodes that calculate color and variance on initialization, and a helper function
               to find nodes with the highest variance, all we need to do is call it repeatedly in a way that can be animated
