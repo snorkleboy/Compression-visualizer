@@ -37,9 +37,9 @@ export const fadeOut = function (el, next) {
 
 
 const demo = [
-    new DemoObj(DemoPages.intro, fromRightFade, fadeOut, 2500),
-    new DemoObj(DemoPages.introExplain, fadeIn, fadeOut, 10000, DemoAction.ensureQuadMenu, DemoAction.ensureQTvar),
-    new DemoObj(DemoPages.QuadTreeRun, fadeIn, fadeOut, 10000,DemoAction.clickQuadTree),
+    new DemoObj(DemoPages.intro, fromRightFade, fadeOut, 3500, DemoAction.ensureQuadMenu, DemoAction.ensureQTvar),
+    new DemoObj(DemoPages.introExplain, fadeIn, fadeOut, 13000),
+    new DemoObj(DemoPages.QuadTreeRun, fadeIn, fadeOut, 12000, DemoAction.clickQuadTree),
     new DemoObj(DemoPages.QuadTreeExplain, fadeIn, fadeOut, 6000, DemoAction.stay),
     new DemoObj(DemoPages.BlockChopIntro, fadeIn, fadeOut, 6000,DemoAction.ensureBlockChopmenu),
     new DemoObj(DemoPages.BlockChop, fadeIn, fadeOut, 10000, DemoAction.clickBlockChop),
@@ -49,6 +49,7 @@ const demo = [
     new DemoObj(DemoPages.Quadvar, fadeIn, fadeOut,10000),
     new DemoObj(DemoPages.QuadvarGetHighest, fadeIn, fadeOut, 10000, DemoAction.ensureQuadMenu, DemoAction.ensureQTvar),
     new DemoObj(DemoPages.QuadVarexp, fadeIn, fadeOut, 10000),
+    new DemoObj(DemoPages.QuadVarparams, fadeIn, fadeOut, 10000),
 
 ];
 
