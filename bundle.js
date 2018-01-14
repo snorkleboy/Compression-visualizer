@@ -1546,17 +1546,17 @@ const fadeOut = function (el, next) {
 
 
 const demo = [
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["l" /* intro */], fromRightFade, fadeOut, 3500, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["e" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["d" /* ensureQTvar */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["l" /* intro */], fromRightFade, fadeOut, 3500, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["g" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["f" /* ensureQTvar */]),
     new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["m" /* introExplain */], fadeIn, fadeOut, 13000),
     new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["g" /* QuadTreeRun */], fadeIn, fadeOut, 12000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["f" /* QuadTreeExplain */], fadeIn, fadeOut, 6000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["f" /* stay */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["b" /* BlockChopIntro */], fadeIn, fadeOut, 6000,__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["c" /* ensureBlockChopmenu */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["f" /* QuadTreeExplain */], fadeIn, fadeOut, 6000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["h" /* stay */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["b" /* BlockChopIntro */], fadeIn, fadeOut, 6000,__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["d" /* ensureBlockChopmenu */]),
     new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["a" /* BlockChop */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["a" /* clickBlockChop */]),
     new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["c" /* BlockChopOptions */], fadeIn, fadeOut,5000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["d" /* QuadRec */], fadeIn, fadeOut, 6000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["e" /* ensureQuadMenu */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["d" /* QuadRec */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["g" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["e" /* ensureQTrec */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["c" /* clickStopQuad */]),
     new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["e" /* QuadRecRun */], fadeIn, fadeOut, 6000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["j" /* Quadvar */], fadeIn, fadeOut,10000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["k" /* QuadvarGetHighest */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["e" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["d" /* ensureQTvar */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["j" /* Quadvar */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["g" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["f" /* ensureQTvar */],__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["k" /* QuadvarGetHighest */], fadeIn, fadeOut, 10000),
     new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["h" /* QuadVarexp */], fadeIn, fadeOut, 10000),
     new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["QuadVarparams"], fadeIn, fadeOut, 10000),
 
@@ -1686,13 +1686,15 @@ const introExplain = () => `
 <div class='demo-div'>
     <h1> QuadTree Compressor</h1>
     <h2>Quick Run Down (1/3)</h2>
+    <h3>Intro</h3>
 <p> 
-This is a Javasript/HTML5 app that visualizes quadtree Compression
+This is a Javasript/HTML5 Canvas app that visualizes Quadtree Compression
 </p>
 <p>
 The idea behind image compression is to find  way to represent the same image using less data.
-This QuadTree compression algorithm accomplishes this by describing areas with less color variation with fewer pixels,
-so a thousand white pixels might be represented by a single box, whereas black text on a white background would get very many. 
+This QuadTree compression algorithm accomplishes this by displaying areas with less color variation with fewer pixels and animates the process
+using HTML5 canvas and Javascripts setTimeout.  
+
 </p>
 
   <button onclick="demo.stay()">Stay</button>
@@ -1706,8 +1708,9 @@ so a thousand white pixels might be represented by a single box, whereas black t
 const QuadTreeRun = () => `
 <div class='demo-div'>
 <h2>Quick Run Down (2/3)</h2>
+<h3>Implementation</h3>
  <p>
- The algorithm works by recursively breaking down the image into QuadTree nodes that encompass an area and have an average color
+ The algorithm works by recursively splitting the image into quadrants, QuadTree nodes, that encompass an area and have an average color
 and a variance score. This variance score is calculated as the variance from the average color divided by the area. The algorithm
 finds the node with then highest score, and breaks it into four nodes that each encompass one of its quadrants, the origin of
 the name. The process then repeats constantly spliting the Node with the highest variance into four. 
@@ -1723,6 +1726,7 @@ the name. The process then repeats constantly spliting the Node with the highest
 const QuadTreeExplain = () => `
 <div class='demo-div'>
 <h2>Quick Run Down (3/3)</h2>
+<h3>Results</h3>
  <p>This results in something like an edge finder. Areas with high color variance get lots of data, and areas with little variance get less. 
  </p>
  <img src='http://res.cloudinary.com/flyakite/image/upload/v1515907371/download_13_rq5j2u_yrrgtd.png' >
@@ -1738,6 +1742,7 @@ const BlockChopIntro = () => {
     return `
             <div class='demo-div'>
             <h2>BlockChop (1/3)</h2>
+            <h3>A Simple Intro</h3>
             <p>
               A more simple and naive example of how this works is the BlockChop. It
 iterates through all the pixels in the image and picks one out of some area to represent that area. 
@@ -1756,6 +1761,7 @@ const BlockChop = () => {
   return `
             <div class='demo-div'>
             <h2>BlockChop (2/3)</h2>
+            <h3>A Simple Intro</h3>
             <p>
               For example with a  block size of 4x4, it would chop the image up into 4x4 blocks, choose one pixel out of each block and represent the entire block using the color of that pixel. So I this case the resulting image will have 1/(4*4) = 1/16th as many pixels as the original image. 
             </p>
@@ -1773,6 +1779,7 @@ const BlockChopOptions = () => {
   return `
             <div class='demo-div'>
             <h2>BlockChop (3/3)</h2>
+            <h3>Options</h3>
 <p>
   If you would like to play around with it you can set the blocksize parameters, as well as how the chosen pixel is blown up to represent its block.
             </p>
@@ -1816,6 +1823,7 @@ const QuadRec = () => {
   return `
             <div class='demo-div'>
             <h2>Naive Quadtree (1/2)</h2>
+            <h3>The QuadTree version</h3>
             <p>
               The naive version of QuadTree compression doesn't calculate the average color nor the color variance.
 It is similar to Blockchop in that it will give an equal pixel depth to all areas on the image,
@@ -1836,11 +1844,12 @@ const QuadRecRun = () => {
   return `
             <div class='demo-div'>
             <h2>Naive Quadtree (2/2)</h2>
+            <h3>The QuadTree version</h3>
             <p> the code for this is straight forward. A node is split into four, if thats successful the same process called on its children.</p>
             <pre><code>
     recusiveSplit(QuadNode) {
       if(QuadNode.split()){
-        QuadNode.nodes.forEach(function (node) {
+        QuadNode.nodes.forEach((node)=>{
           node.recusiveSplit(node)                                
         });
       }
@@ -1870,6 +1879,7 @@ const Quadvar = () => {
   return `
             <div class='demo-div'>
             <h2>Quadtree (1/4)</h2>
+            <h3>Next Step</h3>
             <p>The full version of Quadtree compression has a few extra steps.
             </p>
             <p>When a node is created first an average color is calculated, and then using that average a variance is calculated and a variance score is assigned to every node as varaince/area</p>
@@ -1888,11 +1898,14 @@ const QuadvarGetHighest = () => {
   return `
             <div class='demo-div'>
             <h2>Quadtree (2/4)</h2>
+            <h3>Finding The Right Node</h3>
             <p>getHighestVarNode is an important helper function I wrote which searches for the highest variance node and returns it</p>
             <pre><code>
   getHighestVarNode() {
     let highestVar = {node:null, var:0};
     const finder = (Pnode) => {
+      //.nodes[0]===undefined when this node has no children, meaning it is a leaf node.
+      // if this is a leaf node, check its variance against the highest seen so far
       if (Pnode.nodes[0] === undefined) {
         if (highestVar.var < Pnode.variance){
           highestVar.node = Pnode;
@@ -1925,6 +1938,7 @@ const QuadVarexp = () => {
   return `
             <div class='demo-div'>
             <h2>Quadtree (3/4)</h2>
+            <h3>Spliting by color Variance</h3>
             <p>
               With nodes that calculate color and variance on initialization, and a helper function
               to find nodes with the highest variance, all we need to do is call it repeatedly in a way that can be animated
@@ -1957,6 +1971,7 @@ const Quadvarparams = () => {
   return `
             <div class='demo-div'>
             <h2>Quadtree (4/4)</h2>
+            <h3>Options</h3>
             <p>if you would like to play around with it there are several parameters you can choose from</p>
             <ul>
               <li>
@@ -2013,12 +2028,12 @@ const Quadvarparams = () => {
 const stay = function (runner) {
     runner.stay();
 };
-/* harmony export (immutable) */ __webpack_exports__["f"] = stay;
+/* harmony export (immutable) */ __webpack_exports__["h"] = stay;
 
 
 const clickQuadTree = function(){
     const quadtreeButton = document.getElementById('quadtree');
-    setTimeout(() =>quadtreeButton.click(),1500);
+    setTimeout(() =>quadtreeButton.click(),500);
 };
 /* harmony export (immutable) */ __webpack_exports__["b"] = clickQuadTree;
 
@@ -2029,6 +2044,12 @@ const clickReset = function(){
 };
 /* unused harmony export clickReset */
 
+const clickStopQuad = function(){
+    const stopButton = document.getElementById('stopQuads');
+    setTimeout(() => stopButton.click(), 5000)
+    
+}
+/* harmony export (immutable) */ __webpack_exports__["c"] = clickStopQuad;
 
 const clickBlockChop = function(){
     const blockChop = document.getElementById('niave');
@@ -2040,13 +2061,13 @@ const ensureQTrec = function(){
     const variance = document.getElementById('quadTreeVariance');
     variance.checked = false;
 }
-/* unused harmony export ensureQTrec */
+/* harmony export (immutable) */ __webpack_exports__["e"] = ensureQTrec;
 
 const ensureQTvar = function () {
     const variance = document.getElementById('quadTreeVariance');
     variance.checked = true;
 }
-/* harmony export (immutable) */ __webpack_exports__["d"] = ensureQTvar;
+/* harmony export (immutable) */ __webpack_exports__["f"] = ensureQTvar;
 
 const ensureQuadMenu = function () {
     const otherContainer = document.getElementById('bc');
@@ -2055,7 +2076,7 @@ const ensureQuadMenu = function () {
     if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
 
 };
-/* harmony export (immutable) */ __webpack_exports__["e"] = ensureQuadMenu;
+/* harmony export (immutable) */ __webpack_exports__["g"] = ensureQuadMenu;
 
 
 const ensureBlockChopmenu = function () {
@@ -2064,7 +2085,7 @@ const ensureBlockChopmenu = function () {
     container.classList.contains('collapse') ? container.classList.remove('collapse') : null;
     if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
 };
-/* harmony export (immutable) */ __webpack_exports__["c"] = ensureBlockChopmenu;
+/* harmony export (immutable) */ __webpack_exports__["d"] = ensureBlockChopmenu;
 
 
 

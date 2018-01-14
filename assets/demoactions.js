@@ -6,14 +6,18 @@ export const stay = function (runner) {
 
 export const clickQuadTree = function(){
     const quadtreeButton = document.getElementById('quadtree');
-    setTimeout(() =>quadtreeButton.click(),1500);
+    setTimeout(() =>quadtreeButton.click(),500);
 };
 
 export const clickReset = function(){
     const resetButton = document.getElementById('reset')
     resetButton.click();
 };
-
+export const clickStopQuad = function(){
+    const stopButton = document.getElementById('stopQuads');
+    setTimeout(() => stopButton.click(), 5000)
+    
+}
 export const clickBlockChop = function(){
     const blockChop = document.getElementById('niave');
     setTimeout(()=>blockChop.click(),100);
