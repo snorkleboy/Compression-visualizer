@@ -3,7 +3,7 @@
 }
 
 .demo-div{
-    transition : 1s opacity , 1s background-color;
+    transition : .5s all;
     /* mix-blend-mode: difference; */
     position: absolute;
     top :0;
@@ -17,7 +17,9 @@
 }
 
 .demo-intro{
-    height: fit-content;
+    transition : 1s all;
+    height: 500px;
+    width: 400px;
     text-align: center;
     font-size: 30px;
 }
@@ -46,7 +48,8 @@
 .demo-div p{
     font-size: 18px;
 }
-
+.demoImg{
+}
 .onto{
     background-color: rgb(255, 205, 205);
 }

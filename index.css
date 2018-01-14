@@ -53,9 +53,6 @@ canvas{
     top :50px; */
 }
 
-.aboutButton{
-   background-color: rgb(170, 36, 36);
-}
 .container{
     display: flex;
     flex-direction: row;
@@ -64,6 +61,8 @@ canvas{
 .aboutButton{
     /* height: fit-content; */
     background-color: rgb(255, 252, 239); 
+    transition: .3s background-color;
+    background-color: rgb(170, 36, 36);
     position: relative;
     padding: 5px;
 }
@@ -115,7 +114,7 @@ font-size: 12px;
     margin: 5px;
     padding: 20px;
     text-align: left;
-    background-color: rgb(218, 199, 107);
+    background-color: rgb(243, 243, 243);
     border-radius: 2px;
     opacity: 1;
     max-height: fit-content;
@@ -131,8 +130,9 @@ font-size: 12px;
     transition:  1s height ease, .5s opacity ease;
 }
 .inneroptions >h1{
-    background-color : rgb(222, 172, 47);
+    background-color : rgb(192, 192, 192);
     color: white;
+    padding :6px;
     font-weight: 700;
     font-size: 20px;
 
@@ -156,7 +156,7 @@ font-size: 12px;
 label{
     display: flex;
     flex-direction: column;
-    background-color: rgb(236, 174, 58);
+    background-color: rgb(163, 163, 163);
     color: white;
 
 }
@@ -183,12 +183,17 @@ label{
     /* border-radius: 10px;     */
     margin-top: 20px;
     margin-bottom: 5px;
+    text-align: center;
 }
 
 
 
 button:hover, input:hover, select:hover{
-    background-color: rgb(250, 250, 210);
+    background-color: rgb(250, 249, 210);
+}
+
+.aboutButton:hover{
+    background-color: rgb(255, 246, 246);
 }
 
 .start{
@@ -245,6 +250,7 @@ transition: 1s background-color, 1s color, 1s opacity;
 
 
 .github{
+    text-align: left;
     display: flex;
     flex-direction: column;
     align-content: center;
@@ -254,11 +260,15 @@ transition: 1s background-color, 1s color, 1s opacity;
     color: rgb(247, 247, 247);
     padding :10px;
     margin-left: 0px;
+    background-color: darkgrey;
 
 
     
 }
+.title{
+    text-align: center;
 
+}
 .github h1{
     font-size: 20px;
     color: white;

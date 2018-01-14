@@ -304,7 +304,7 @@ demoButton.addEventListener('click',function(){
 
  class QuadtreeMaker {
     constructor(){}
-     makeQuadTree(imageData, context, blockSize, circleBool, timeoutType = '2', byVar = false, ratio = 1 ){
+     makeQuadTree(imageData, context, blockSize, circleBool, timeoutType = '1', byVar = false, ratio = 1 ){
         const timeOutes = [];
         const intervals = [];
         const stopButton = document.getElementById('stopQuads');
@@ -1505,9 +1505,25 @@ function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
 
 
 
+const fromRightFade = function(el){
+    const parent = document.getElementById('canvasHolder');
+    el.style.position = 'absolute';
+    el.style.transition = '1s all';
+    el.style.left = '300%';
+    el.style.opacity = '0';
+    parent.appendChild(el);
+    setTimeout(() => { 
+        el.style.left = '0%';
+        el.style.opacity= '1';
+    
+    }, 0);
+}
+/* unused harmony export fromRightFade */
+
 
 const fadeIn = function (el, message) {
     const parent = document.getElementById('canvasHolder');
+    el.style.transition = '.7s all';
     el.classList.add('invisible');
     parent.appendChild(el);
     setTimeout(() => { el.classList.remove('invisible'); }, 0);
@@ -1517,8 +1533,9 @@ const fadeIn = function (el, message) {
 
 const fadeOut = function (el, next) {
     const parent = document.getElementById('canvasHolder');
-    el.style.transition = '.3s opacity';
-    setTimeout(() => { el.classList.add('invisible'); }, 0);
+    el.style.opacity = '1';
+    el.style.transition = '.3s all';
+    setTimeout(() => { el.style.opacity = '0'; }, 0);
     setTimeout(() => {
         parent.removeChild(el);
         next();
@@ -1529,14 +1546,19 @@ const fadeOut = function (el, next) {
 
 
 const demo = [
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["f" /* intro */], fadeIn, fadeOut, 3000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["g" /* introExplain */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["d" /* ensureQuadMenu */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["e" /* QuadTreeRun */], fadeIn, fadeOut, 10000,__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["d" /* QuadTreeExplain */], fadeIn, fadeOut, 6000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["e" /* stay */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["k" /* intro */], fromRightFade, fadeOut, 2500),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["l" /* introExplain */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["e" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["d" /* ensureQTvar */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["g" /* QuadTreeRun */], fadeIn, fadeOut, 10000,__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["f" /* QuadTreeExplain */], fadeIn, fadeOut, 6000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["f" /* stay */]),
     new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["b" /* BlockChopIntro */], fadeIn, fadeOut, 6000,__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["c" /* ensureBlockChopmenu */]),
     new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["a" /* BlockChop */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["a" /* clickBlockChop */]),
     new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["c" /* BlockChopOptions */], fadeIn, fadeOut,5000),
-    
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["d" /* QuadRec */], fadeIn, fadeOut, 6000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["e" /* ensureQuadMenu */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["e" /* QuadRecRun */], fadeIn, fadeOut, 6000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["i" /* Quadvar */], fadeIn, fadeOut,10000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["j" /* QuadvarGetHighest */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["e" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["d" /* ensureQTvar */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["h" /* QuadVarexp */], fadeIn, fadeOut, 10000),
+
 ];
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["b" /* DemoRunner */](demo));
@@ -1654,9 +1676,10 @@ const DemoRunner = class DemoRunner {
 const intro = () => `
 <div class='demo-intro demo-div'>
     <h1> QuadTree Compressor</h1>
+    <img class='demoImg' src='http://res.cloudinary.com/flyakite/image/upload/v1512363891/download_1_fl6gow.png'></img>
 </div>
 `
-/* harmony export (immutable) */ __webpack_exports__["f"] = intro;
+/* harmony export (immutable) */ __webpack_exports__["k"] = intro;
 
 const introExplain = () => `
 <div class='demo-div'>
@@ -1667,8 +1690,8 @@ This is a Javasript/HTML5 app that visualizes quadtree Compression
 </p>
 <p>
 The idea behind image compression is to find  way to represent the same image using less data.
-This quadTree compression algorithm accomplishes this by describing areas with less color variation with fewer pixels,
-so a thousand white pixels might be represented by a single box, whereas black text on a white background would get a lot of definition. 
+This QuadTree compression algorithm accomplishes this by describing areas with less color variation with fewer pixels,
+so a thousand white pixels might be represented by a single box, whereas black text on a white background would get very many. 
 </p>
 
   <button onclick="demo.stay()">Stay</button>
@@ -1677,16 +1700,16 @@ so a thousand white pixels might be represented by a single box, whereas black t
             <button onClick="demo.endRun()">End Demo</button>
 </div>
 `;
-/* harmony export (immutable) */ __webpack_exports__["g"] = introExplain;
+/* harmony export (immutable) */ __webpack_exports__["l"] = introExplain;
 
 const QuadTreeRun = () => `
 <div class='demo-div'>
 <h2>Quick Run Down (2/3)</h2>
  <p>
- The Algorithm works by recursively breaking down the image into Quad tree nodes that encompass an area and have an average color
+ The algorithm works by recursively breaking down the image into QuadTree nodes that encompass an area and have an average color
 and a variance score. This variance score is calculated as the variance from the average color divided by the area. The algorithm
 finds the node with then highest score, and breaks it into four nodes that each encompass one of its quadrants, the origin of
-the name. 
+the name. The process then repeats constantly spliting the Node with the highest variance into four. 
 </p>
   <button onclick="demo.stay()">Stay</button>
             <button onclick="demo.destroyCurrentAndRun()">Next</button>
@@ -1694,21 +1717,21 @@ the name.
             <button onClick="demo.endRun()">End Demo</button>
 </div>
 `;
-/* harmony export (immutable) */ __webpack_exports__["e"] = QuadTreeRun;
+/* harmony export (immutable) */ __webpack_exports__["g"] = QuadTreeRun;
 
 const QuadTreeExplain = () => `
 <div class='demo-div'>
 <h2>Quick Run Down (3/3)</h2>
  <p>This results in something like an edge finder. Areas with high color variance get lots of data, and areas with little variance get less. 
-
  </p>
-  <button onclick="demo.stay()">Stay</button>
-            <button onclick="demo.destroyCurrentAndRun()">Next</button>
+ <img class='demoImg' src=http://res.cloudinary.com/flyakite/image/upload/v1515897356/download_13_rq5j2u.png />
+            <button onclick="demo.stay()">Stay</button>
+            <button class='onto' onclick="demo.destroyCurrentAndRun()">Next( Full Explanation)</button>
             <button onclick="demo.goBack()">Go Back</button>
             <button onClick="demo.endRun()">End Demo</button>
 </div>
 `;
-/* harmony export (immutable) */ __webpack_exports__["d"] = QuadTreeExplain;
+/* harmony export (immutable) */ __webpack_exports__["f"] = QuadTreeExplain;
 
 const BlockChopIntro = () => {
     return `
@@ -1791,8 +1814,12 @@ const BlockChopOptions = () => {
 const QuadRec = () => {
   return `
             <div class='demo-div'>
-            <h2>Niave Quadtree (2/3)</h2>
-            
+            <h2>Naive Quadtree (2/3)</h2>
+            <p>
+              The naive version of QuadTree compression doesn't calculate the average color nor the color variance.
+It is similar to Blockchop in that it will give an equal pixel depth to all areas on the image,
+the only difference is that it accomplishes this recursively using QuadTrees
+            </p>
 
             <button onclick="demo.stay()">Stay</button>
             <button onclick="demo.destroyCurrentAndRun()">Next</button>
@@ -1801,8 +1828,127 @@ const QuadRec = () => {
             </div>
             `
 };
-/* unused harmony export QuadRec */
+/* harmony export (immutable) */ __webpack_exports__["d"] = QuadRec;
 
+
+const QuadRecRun = () => {
+  return `
+            <div class='demo-div'>
+            <h2>naive Quadtree (3/3)</h2>
+            <p> the code for this is simple:</p>
+            <pre><code>
+            recusiveSplit(QuadNode) {
+                if(QuadNode.split()){
+                    QuadNode.nodes.forEach(function (node) {
+                          node.recusiveSplit(node)                                
+                    });
+                }
+              }
+            </code></pre>
+
+            <button onclick="demo.stay()">Stay</button>
+            <button onclick="demo.destroyCurrentAndRun()">Next</button>
+            <button onclick="demo.goBack()">Go Back</button>
+            <button onClick="demo.endRun()">End Demo</button>
+            </div>
+            `
+};
+/* harmony export (immutable) */ __webpack_exports__["e"] = QuadRecRun;
+
+const Quadvar = () => {
+  return `
+            <div class='demo-div'>
+            <h2>Quadtree (1/5)</h2>
+            <p>The full version of Quadtree compression has a few extra steps.
+            </p>
+            <p>When a node is created first an average color is calculated, and then using that average a variance is calculated and a variance score is assigned to every node as varaince/area</p>
+
+            <button onclick="demo.stay()">Stay</button>
+            <button onclick="demo.destroyCurrentAndRun()">Next</button>
+            <button onclick="demo.goBack()">Go Back</button>
+            <button onClick="demo.endRun()">End Demo</button>
+            </div>
+            `
+};
+/* harmony export (immutable) */ __webpack_exports__["i"] = Quadvar;
+
+
+const QuadvarGetHighest = () => {
+  return `
+            <div class='demo-div'>
+            <h2>Quadtree (2/5)</h2>
+            <p>getHighestVarNode is an important helper function I wrote which searches for the highest variance node and returns it</p>
+            <pre><code>
+            getHighestVarNode() {
+              let highestVar = {node:null, var:0};
+              const finder = (Pnode) => {
+                if (Pnode.nodes[0] === undefined) {
+                     if (highestVar.var < Pnode.variance){
+                         highestVar.node = Pnode;
+                         highestVar.var = Pnode.variance;
+                    }
+                }else{
+                     Pnode.nodes.forEach( (node)=>{
+                         finder(node);
+                    });
+                }
+              };
+              finder(this);
+              return highestVar;
+            }
+            </code>
+            </pre>
+            <p>
+              The idea here is that finder takes a node (starts with the root). If the node has children it calls the function on all the children, otherwise it is a leaf node and its variance is compared to the largest variance seen and stored if larger.  
+            </p>
+            <button onclick="demo.stay()">Stay</button>
+            <button onclick="demo.destroyCurrentAndRun()">Next</button>
+            <button onclick="demo.goBack()">Go Back</button>
+            <button onClick="demo.endRun()">End Demo</button>
+            </div>
+            `
+};
+/* harmony export (immutable) */ __webpack_exports__["j"] = QuadvarGetHighest;
+
+const QuadVarexp = () => {
+  return `
+            <div class='demo-div'>
+            <h2>Quadtree (3/5)</h2>
+            <p>
+              With nodes that calculate color and variance on initialization, and a helper function
+              to find nodes with the highest variance, all we need to do is call it repeatedly in a way that can be animated
+            </p>
+              <pre>
+                <code>
+                  splitByVar(tree){
+                      const a = setInterval(()=>{
+                          let hvn = tree.getHighestVarNode();
+                          if (hvn.node === null || hvn.var === 0) clearInterval(a);
+                          hvn.node.split();
+                      },10);
+                      intervals.push(a);
+                  }                  
+                </code>
+              </pre>
+              <p>
+                  splitByVar works by getting the highest variance node and calling for it to be split. It is done within a set interval so that the process can be animated and cancelled. 
+              </p>
+            <button onclick="demo.stay()">Stay</button>
+            <button onclick="demo.destroyCurrentAndRun()">Next</button>
+            <button onclick="demo.goBack()">Go Back</button>
+            <button onClick="demo.endRun()">End Demo</button>
+            </div>
+            `
+};
+/* harmony export (immutable) */ __webpack_exports__["h"] = QuadVarexp;
+
+const example = () => `
+<div class='demo-intro demo-div'>
+    <h1> QuadTree Compressor</h1>
+    <img class='demoImg' src='http://res.cloudinary.com/flyakite/image/upload/v1512363891/download_1_fl6gow.png'></img>
+</div>
+`
+/* unused harmony export example */
 
 
 
@@ -1822,12 +1968,12 @@ const QuadRec = () => {
 const stay = function (runner) {
     runner.stay();
 };
-/* harmony export (immutable) */ __webpack_exports__["e"] = stay;
+/* harmony export (immutable) */ __webpack_exports__["f"] = stay;
 
 
 const clickQuadTree = function(){
     const quadtreeButton = document.getElementById('quadtree');
-    setTimeout(() =>quadtreeButton.click(),2500);
+    setTimeout(() =>quadtreeButton.click(),1500);
 };
 /* harmony export (immutable) */ __webpack_exports__["b"] = clickQuadTree;
 
@@ -1845,6 +1991,17 @@ const clickBlockChop = function(){
 };
 /* harmony export (immutable) */ __webpack_exports__["a"] = clickBlockChop;
 
+const ensureQTrec = function(){
+    const variance = document.getElementById('quadTreeVariance');
+    variance.checked = false;
+}
+/* unused harmony export ensureQTrec */
+
+const ensureQTvar = function () {
+    const variance = document.getElementById('quadTreeVariance');
+    variance.checked = true;
+}
+/* harmony export (immutable) */ __webpack_exports__["d"] = ensureQTvar;
 
 const ensureQuadMenu = function () {
     const otherContainer = document.getElementById('bc');
@@ -1853,7 +2010,7 @@ const ensureQuadMenu = function () {
     if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
 
 };
-/* harmony export (immutable) */ __webpack_exports__["d"] = ensureQuadMenu;
+/* harmony export (immutable) */ __webpack_exports__["e"] = ensureQuadMenu;
 
 
 const ensureBlockChopmenu = function () {

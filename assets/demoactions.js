@@ -6,7 +6,7 @@ export const stay = function (runner) {
 
 export const clickQuadTree = function(){
     const quadtreeButton = document.getElementById('quadtree');
-    setTimeout(() =>quadtreeButton.click(),2500);
+    setTimeout(() =>quadtreeButton.click(),1500);
 };
 
 export const clickReset = function(){
@@ -18,7 +18,14 @@ export const clickBlockChop = function(){
     const blockChop = document.getElementById('niave');
     setTimeout(()=>blockChop.click(),0);
 };
-
+export const ensureQTrec = function(){
+    const variance = document.getElementById('quadTreeVariance');
+    variance.checked = false;
+}
+export const ensureQTvar = function () {
+    const variance = document.getElementById('quadTreeVariance');
+    variance.checked = true;
+}
 export const ensureQuadMenu = function () {
     const otherContainer = document.getElementById('bc');
     const container = document.getElementById('qt');

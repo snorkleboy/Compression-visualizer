@@ -3,7 +3,7 @@ import { debug } from "util";
 
  class QuadtreeMaker {
     constructor(){}
-     makeQuadTree(imageData, context, blockSize, circleBool, timeoutType = '2', byVar = false, ratio = 1 ){
+     makeQuadTree(imageData, context, blockSize, circleBool, timeoutType = '1', byVar = false, ratio = 1 ){
         const timeOutes = [];
         const intervals = [];
         const stopButton = document.getElementById('stopQuads');
