@@ -93,24 +93,24 @@ export const BlockChopOptions = () => {
   <ul>
     <li>
       <p>
-        The default is by block, where the pixel is simply drawn the size of its block.
+       * The default is by block, where the pixel is simply drawn the size of its block.
                 </p>
     </li>
     <li>
       <p>
-        real size which simply knits the pixels together and doesnt resize them
-                </p>
-    </li>
-
-    <li>
-      <p>
-        pins neither resizes nor moves the pixels, and you can really see how this algorithm works
+       * real size which simply knits the pixels together and doesnt resize them
                 </p>
     </li>
 
     <li>
       <p>
-        circles uses arcs instead of fillRect which can be a cool effect
+       * pins neither resizes nor moves the pixels, and you can really see how this algorithm works
+                </p>
+    </li>
+
+    <li>
+      <p>
+       * circles uses arcs instead of fillRect which can be a cool effect
                 </p>
     </li>
   </ul>
@@ -147,16 +147,16 @@ export const QuadRecRun = () => {
             <h2>Naive Quadtree (2/2)</h2>
             <p> the code for this is straight forward. A node is split into four, if thats successful the same process called on its children.</p>
             <pre><code>
-            recusiveSplit(QuadNode) {
-              if(QuadNode.split()){
-                QuadNode.nodes.forEach(function (node) {
-                  node.recusiveSplit(node)                                
-                });
-              }
-            }
+    recusiveSplit(QuadNode) {
+      if(QuadNode.split()){
+        QuadNode.nodes.forEach(function (node) {
+          node.recusiveSplit(node)                                
+        });
+      }
+    }
             </code></pre>
 
-            <p> The process is animated by putting the calls to recursiveSplit into Timeoutes and saving the ID of the timeout in an array so that it can be cancelled</p>
+            <p> The process is animated by putting the calls to recursiveSplit into setTimeoutes and saving the ID of the timeouts in an array so that they can be cancelled by a button press using clearTimeout</p>
             <pre>
               <code>
     timeOutes.push(setTimeout(
@@ -261,27 +261,27 @@ export const Quadvarparams = () => {
             <p>if you would like to play around with it there are several parameters you can choose from</p>
             <ul>
               <li>
-                <p>the split by var chechbox toggles whether to fo naive Quadtree compression or to go by color variance.
+                <p>* the split by var chechbox toggles whether to fo naive Quadtree compression or to go by color variance.
                 </p>
               </li>
 
               <li>
-                <p>the circles checkbox toggles whether to fill in areas with circles or squares
+                <p>* the circles checkbox toggles whether to fill in areas with circles or squares
                 </p>
               </li>
 
               <li>
-                <p>the size ratio is how much each node is expanded. 1 is the same size as the nodes boundaries in square mode, or a radius of the width in circle mode. a value of .5 is half that. 
+                <p>* the size ratio is how much each node is expanded. 1 is the same size as the nodes boundaries in square mode, or a radius of the width in circle mode. a value of .5 is half that. 
                 </p>
               </li>
 
               <li>
-                <p>the size limit is how deep into th image the quadtree will go. setting up a size limit of 10 will the smallest node be a 10x10 box. 
+                <p>* the size limit is how deep into th image the quadtree will go. setting up a size limit of 10 will the smallest node be a 10x10 box. 
                 </p>
               </li>
 
               <li>
-                <p>The traverse type
+                <p>* The traverse type is the order in which the nodes are split. Different values are put into the setTimeoutes to change their order of execution.
                 </p>
               </li>
             
