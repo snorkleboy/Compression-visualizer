@@ -267,12 +267,11 @@ export const QuadVarexp = () => {
               <pre>
                 <code>
   splitByVar(tree){
-      const a = setInterval(()=>{
+      intervals.push(setInterval(()=>{
           let hvn = tree.getHighestVarNode();
           if (hvn.node === null || hvn.var === 0) clearInterval(a);
           hvn.node.split();
-      },10);
-      intervals.push(a);
+      },10));
   }                  
                 </code>
               </pre>
