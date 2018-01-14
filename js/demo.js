@@ -35,6 +35,19 @@ export const fadeOut = function (el, next) {
     }, 400);
 };
 
+export const fadeOutStop = function (el, next) {
+    DemoAction.clickStopBlockChop();
+    DemoAction.clickStopQuad();
+    const parent = document.getElementById('canvasHolder');
+    el.style.opacity = '1';
+    el.style.transition = '.3s all';
+    setTimeout(() => { el.style.opacity = '0'; }, 0);
+    setTimeout(() => {
+        parent.removeChild(el);
+        next();
+    }, 400);
+};
+
 
 const demo = [
     new DemoObj(DemoPages.intro, fromRightFade, fadeOut, 3500, DemoAction.ensureQuadMenu, DemoAction.ensureQTvar),
@@ -42,10 +55,11 @@ const demo = [
     new DemoObj(DemoPages.QuadTreeRun, fadeIn, fadeOut, 12000, DemoAction.clickQuadTree),
     new DemoObj(DemoPages.QuadTreeExplain, fadeIn, fadeOut, 6000, DemoAction.stay),
     new DemoObj(DemoPages.BlockChopIntro, fadeIn, fadeOut, 6000,DemoAction.ensureBlockChopmenu),
-    new DemoObj(DemoPages.BlockChop, fadeIn, fadeOut, 10000, DemoAction.clickBlockChop),
+    new DemoObj(DemoPages.BlockChop, fadeIn, fadeOutStop, 10000, DemoAction.clickBlockChop),
     new DemoObj(DemoPages.BlockChopOptions, fadeIn, fadeOut,5000),
-    new DemoObj(DemoPages.QuadRec, fadeIn, fadeOut, 10000, DemoAction.ensureQuadMenu, DemoAction.ensureQTrec, DemoAction.clickQuadTree, DemoAction.clickStopQuad),
+    new DemoObj(DemoPages.QuadRec, fadeIn, fadeOutStop, 10000, DemoAction.ensureQuadMenu, DemoAction.ensureQTrec, DemoAction.clickQuadTree, DemoAction.clickStopQuad),
     new DemoObj(DemoPages.QuadRecRun, fadeIn, fadeOut, 6000),
+    new DemoObj(DemoPages.QuadRecRun2, fadeIn, fadeOut, 6000),
     new DemoObj(DemoPages.Quadvar, fadeIn, fadeOut, 10000, DemoAction.ensureQuadMenu, DemoAction.ensureQTvar,DemoAction.clickQuadTree),
     new DemoObj(DemoPages.QuadvarGetHighest, fadeIn, fadeOut, 10000),
     new DemoObj(DemoPages.QuadVarexp, fadeIn, fadeOut, 10000),

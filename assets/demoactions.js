@@ -15,12 +15,16 @@ export const clickReset = function(){
 };
 export const clickStopQuad = function(){
     const stopButton = document.getElementById('stopQuads');
-    setTimeout(() => stopButton.click(), 5000)
+    setTimeout(() => stopButton.click(), 3000)
     
 }
 export const clickBlockChop = function(){
     const blockChop = document.getElementById('niave');
     setTimeout(()=>blockChop.click(),100);
+};
+export const clickStopBlockChop = function () {
+    const blockChopbutton = document.getElementById('stopNiave');
+    setTimeout(() => blockChopbutton.click(), 100);
 };
 export const ensureQTrec = function(){
     const variance = document.getElementById('quadTreeVariance');

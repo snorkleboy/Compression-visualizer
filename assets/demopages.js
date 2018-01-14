@@ -133,8 +133,8 @@ export const BlockChopOptions = () => {
 export const QuadRec = () => {
   return `
             <div class='demo-div'>
-            <h2>Naive Quadtree (1/2)</h2>
-            <h3>The QuadTree version</h3>
+            <h2>The Simple Quadtree (1/3)</h2>
+            <h3>The Simple QuadTree version</h3>
             <p>
               The naive version of QuadTree compression doesn't calculate the average color nor the color variance.
 It is similar to Blockchop in that it will give an equal pixel depth to all areas on the image,
@@ -152,8 +152,8 @@ the only difference is that it accomplishes this recursively using QuadTrees
 export const QuadRecRun = () => {
   return `
             <div class='demo-div'>
-            <h2>Naive Quadtree (2/2)</h2>
-            <h3>The QuadTree version</h3>
+            <h2>The Simple Quadtree (2/3)</h2>
+            <h3> Recusive Split</h3>
             <p> the code for this is straight forward. A node is split into four, if thats successful the same process called on its children.</p>
             <pre><code>
     recusiveSplit(QuadNode) {
@@ -164,7 +164,18 @@ export const QuadRecRun = () => {
       }
     }
             </code></pre>
-
+            <button onclick="demo.stay()">Stay</button>
+            <button onclick="demo.destroyCurrentAndRun()">Next</button>
+            <button onclick="demo.goBack()">Go Back</button>
+            <button onClick="demo.endRun()">End Demo</button>
+            </div>
+            `
+};
+export const QuadRecRun2 = () => {
+  return `
+            <div class='demo-div'>
+            <h2>The Simple Quadtree(3/3)</h2>
+            <h3> Animating Each Step</h3>
             <p> The process is animated by putting the calls to recursiveSplit into setTimeoutes and saving the ID of the timeouts in an array so that they can be cancelled by a button press using clearTimeout</p>
             <pre>
               <code>
@@ -182,6 +193,11 @@ export const QuadRecRun = () => {
             </div>
             `
 };
+
+
+
+
+
 export const Quadvar = () => {
   return `
             <div class='demo-div'>
@@ -244,7 +260,7 @@ export const QuadVarexp = () => {
             <h3>Spliting by color Variance</h3>
             <p>
               With nodes that calculate color and variance on initialization, and a helper function
-              to find nodes with the highest variance, all we need to do is call it repeatedly in a way that can be animated
+              to find nodes with the highest variance, all we need to do is call it repeatedly in a way that can be animated.
             </p>
               <pre>
                 <code>
@@ -260,6 +276,7 @@ export const QuadVarexp = () => {
               </pre>
               <p>
                   splitByVar works by getting the highest variance node and calling for it to be split. It is done within a set interval so that the process can be animated and cancelled. 
+                  The default escape conditions are that the highest variance node has a score of 0. 
               </p>
             <button onclick="demo.stay()">Stay</button>
             <button onclick="demo.destroyCurrentAndRun()">Next</button>

@@ -52,6 +52,9 @@
 .demo-div p{
     font-size: 18px;
 }
+code{
+    font-size: 1.1vw;
+}
 .demoImg{
 }
 .onto{

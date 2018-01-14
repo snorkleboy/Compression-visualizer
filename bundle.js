@@ -1544,20 +1544,36 @@ const fadeOut = function (el, next) {
 /* unused harmony export fadeOut */
 
 
+const fadeOutStop = function (el, next) {
+    __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["c" /* clickStopBlockChop */]();
+    __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["d" /* clickStopQuad */]();
+    const parent = document.getElementById('canvasHolder');
+    el.style.opacity = '1';
+    el.style.transition = '.3s all';
+    setTimeout(() => { el.style.opacity = '0'; }, 0);
+    setTimeout(() => {
+        parent.removeChild(el);
+        next();
+    }, 400);
+};
+/* unused harmony export fadeOutStop */
+
+
 
 const demo = [
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["l" /* intro */], fromRightFade, fadeOut, 3500, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["g" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["f" /* ensureQTvar */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["m" /* introExplain */], fadeIn, fadeOut, 13000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["g" /* QuadTreeRun */], fadeIn, fadeOut, 12000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["f" /* QuadTreeExplain */], fadeIn, fadeOut, 6000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["h" /* stay */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["b" /* BlockChopIntro */], fadeIn, fadeOut, 6000,__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["d" /* ensureBlockChopmenu */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["a" /* BlockChop */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["a" /* clickBlockChop */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["m" /* intro */], fromRightFade, fadeOut, 3500, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["h" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["g" /* ensureQTvar */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["n" /* introExplain */], fadeIn, fadeOut, 13000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["h" /* QuadTreeRun */], fadeIn, fadeOut, 12000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["g" /* QuadTreeExplain */], fadeIn, fadeOut, 6000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["i" /* stay */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["b" /* BlockChopIntro */], fadeIn, fadeOut, 6000,__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["e" /* ensureBlockChopmenu */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["a" /* BlockChop */], fadeIn, fadeOutStop, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["a" /* clickBlockChop */]),
     new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["c" /* BlockChopOptions */], fadeIn, fadeOut,5000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["d" /* QuadRec */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["g" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["e" /* ensureQTrec */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["c" /* clickStopQuad */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["d" /* QuadRec */], fadeIn, fadeOutStop, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["h" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["f" /* ensureQTrec */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["d" /* clickStopQuad */]),
     new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["e" /* QuadRecRun */], fadeIn, fadeOut, 6000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["j" /* Quadvar */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["g" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["f" /* ensureQTvar */],__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["k" /* QuadvarGetHighest */], fadeIn, fadeOut, 10000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["h" /* QuadVarexp */], fadeIn, fadeOut, 10000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["f" /* QuadRecRun2 */], fadeIn, fadeOut, 6000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["k" /* Quadvar */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["h" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["g" /* ensureQTvar */],__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["l" /* QuadvarGetHighest */], fadeIn, fadeOut, 10000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["i" /* QuadVarexp */], fadeIn, fadeOut, 10000),
     new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["QuadVarparams"], fadeIn, fadeOut, 10000),
 
 ];
@@ -1680,7 +1696,7 @@ const intro = () => `
     <img class='demoImg' src='http://res.cloudinary.com/flyakite/image/upload/v1515907377/download_1_fl6gow_kltvt8.png'></img>
 </div>
 `
-/* harmony export (immutable) */ __webpack_exports__["l"] = intro;
+/* harmony export (immutable) */ __webpack_exports__["m"] = intro;
 
 const introExplain = () => `
 <div class='demo-div'>
@@ -1703,7 +1719,7 @@ using HTML5 canvas and Javascripts setTimeout.
             <button onClick="demo.endRun()">End Demo</button>
 </div>
 `;
-/* harmony export (immutable) */ __webpack_exports__["m"] = introExplain;
+/* harmony export (immutable) */ __webpack_exports__["n"] = introExplain;
 
 const QuadTreeRun = () => `
 <div class='demo-div'>
@@ -1721,7 +1737,7 @@ the name. The process then repeats constantly spliting the Node with the highest
             <button onClick="demo.endRun()">End Demo</button>
 </div>
 `;
-/* harmony export (immutable) */ __webpack_exports__["g"] = QuadTreeRun;
+/* harmony export (immutable) */ __webpack_exports__["h"] = QuadTreeRun;
 
 const QuadTreeExplain = () => `
 <div class='demo-div'>
@@ -1736,7 +1752,7 @@ const QuadTreeExplain = () => `
             <button onClick="demo.endRun()">End Demo</button>
 </div>
 `;
-/* harmony export (immutable) */ __webpack_exports__["f"] = QuadTreeExplain;
+/* harmony export (immutable) */ __webpack_exports__["g"] = QuadTreeExplain;
 
 const BlockChopIntro = () => {
     return `
@@ -1822,8 +1838,8 @@ const BlockChopOptions = () => {
 const QuadRec = () => {
   return `
             <div class='demo-div'>
-            <h2>Naive Quadtree (1/2)</h2>
-            <h3>The QuadTree version</h3>
+            <h2>The Simple Quadtree (1/3)</h2>
+            <h3>The Simple QuadTree version</h3>
             <p>
               The naive version of QuadTree compression doesn't calculate the average color nor the color variance.
 It is similar to Blockchop in that it will give an equal pixel depth to all areas on the image,
@@ -1843,8 +1859,8 @@ the only difference is that it accomplishes this recursively using QuadTrees
 const QuadRecRun = () => {
   return `
             <div class='demo-div'>
-            <h2>Naive Quadtree (2/2)</h2>
-            <h3>The QuadTree version</h3>
+            <h2>The Simple Quadtree (2/3)</h2>
+            <h3> Recusive Split</h3>
             <p> the code for this is straight forward. A node is split into four, if thats successful the same process called on its children.</p>
             <pre><code>
     recusiveSplit(QuadNode) {
@@ -1855,7 +1871,20 @@ const QuadRecRun = () => {
       }
     }
             </code></pre>
+            <button onclick="demo.stay()">Stay</button>
+            <button onclick="demo.destroyCurrentAndRun()">Next</button>
+            <button onclick="demo.goBack()">Go Back</button>
+            <button onClick="demo.endRun()">End Demo</button>
+            </div>
+            `
+};
+/* harmony export (immutable) */ __webpack_exports__["e"] = QuadRecRun;
 
+const QuadRecRun2 = () => {
+  return `
+            <div class='demo-div'>
+            <h2>The Simple Quadtree(3/3)</h2>
+            <h3> Animating Each Step</h3>
             <p> The process is animated by putting the calls to recursiveSplit into setTimeoutes and saving the ID of the timeouts in an array so that they can be cancelled by a button press using clearTimeout</p>
             <pre>
               <code>
@@ -1873,7 +1902,12 @@ const QuadRecRun = () => {
             </div>
             `
 };
-/* harmony export (immutable) */ __webpack_exports__["e"] = QuadRecRun;
+/* harmony export (immutable) */ __webpack_exports__["f"] = QuadRecRun2;
+
+
+
+
+
 
 const Quadvar = () => {
   return `
@@ -1891,7 +1925,7 @@ const Quadvar = () => {
             </div>
             `
 };
-/* harmony export (immutable) */ __webpack_exports__["j"] = Quadvar;
+/* harmony export (immutable) */ __webpack_exports__["k"] = Quadvar;
 
 
 const QuadvarGetHighest = () => {
@@ -1932,7 +1966,7 @@ const QuadvarGetHighest = () => {
             </div>
             `
 };
-/* harmony export (immutable) */ __webpack_exports__["k"] = QuadvarGetHighest;
+/* harmony export (immutable) */ __webpack_exports__["l"] = QuadvarGetHighest;
 
 const QuadVarexp = () => {
   return `
@@ -1941,7 +1975,7 @@ const QuadVarexp = () => {
             <h3>Spliting by color Variance</h3>
             <p>
               With nodes that calculate color and variance on initialization, and a helper function
-              to find nodes with the highest variance, all we need to do is call it repeatedly in a way that can be animated
+              to find nodes with the highest variance, all we need to do is call it repeatedly in a way that can be animated.
             </p>
               <pre>
                 <code>
@@ -1957,6 +1991,7 @@ const QuadVarexp = () => {
               </pre>
               <p>
                   splitByVar works by getting the highest variance node and calling for it to be split. It is done within a set interval so that the process can be animated and cancelled. 
+                  The default escape conditions are that the highest variance node has a score of 0. 
               </p>
             <button onclick="demo.stay()">Stay</button>
             <button onclick="demo.destroyCurrentAndRun()">Next</button>
@@ -1965,7 +2000,7 @@ const QuadVarexp = () => {
             </div>
             `
 };
-/* harmony export (immutable) */ __webpack_exports__["h"] = QuadVarexp;
+/* harmony export (immutable) */ __webpack_exports__["i"] = QuadVarexp;
 
 const Quadvarparams = () => {
   return `
@@ -2028,7 +2063,7 @@ const Quadvarparams = () => {
 const stay = function (runner) {
     runner.stay();
 };
-/* harmony export (immutable) */ __webpack_exports__["h"] = stay;
+/* harmony export (immutable) */ __webpack_exports__["i"] = stay;
 
 
 const clickQuadTree = function(){
@@ -2046,10 +2081,10 @@ const clickReset = function(){
 
 const clickStopQuad = function(){
     const stopButton = document.getElementById('stopQuads');
-    setTimeout(() => stopButton.click(), 5000)
+    setTimeout(() => stopButton.click(), 3000)
     
 }
-/* harmony export (immutable) */ __webpack_exports__["c"] = clickStopQuad;
+/* harmony export (immutable) */ __webpack_exports__["d"] = clickStopQuad;
 
 const clickBlockChop = function(){
     const blockChop = document.getElementById('niave');
@@ -2057,17 +2092,23 @@ const clickBlockChop = function(){
 };
 /* harmony export (immutable) */ __webpack_exports__["a"] = clickBlockChop;
 
+const clickStopBlockChop = function () {
+    const blockChopbutton = document.getElementById('stopNiave');
+    setTimeout(() => blockChopbutton.click(), 100);
+};
+/* harmony export (immutable) */ __webpack_exports__["c"] = clickStopBlockChop;
+
 const ensureQTrec = function(){
     const variance = document.getElementById('quadTreeVariance');
     variance.checked = false;
 }
-/* harmony export (immutable) */ __webpack_exports__["e"] = ensureQTrec;
+/* harmony export (immutable) */ __webpack_exports__["f"] = ensureQTrec;
 
 const ensureQTvar = function () {
     const variance = document.getElementById('quadTreeVariance');
     variance.checked = true;
 }
-/* harmony export (immutable) */ __webpack_exports__["f"] = ensureQTvar;
+/* harmony export (immutable) */ __webpack_exports__["g"] = ensureQTvar;
 
 const ensureQuadMenu = function () {
     const otherContainer = document.getElementById('bc');
@@ -2076,7 +2117,7 @@ const ensureQuadMenu = function () {
     if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
 
 };
-/* harmony export (immutable) */ __webpack_exports__["g"] = ensureQuadMenu;
+/* harmony export (immutable) */ __webpack_exports__["h"] = ensureQuadMenu;
 
 
 const ensureBlockChopmenu = function () {
@@ -2085,7 +2126,7 @@ const ensureBlockChopmenu = function () {
     container.classList.contains('collapse') ? container.classList.remove('collapse') : null;
     if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
 };
-/* harmony export (immutable) */ __webpack_exports__["d"] = ensureBlockChopmenu;
+/* harmony export (immutable) */ __webpack_exports__["e"] = ensureBlockChopmenu;
 
 
 
