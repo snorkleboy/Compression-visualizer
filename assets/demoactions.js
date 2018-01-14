@@ -16,7 +16,7 @@ export const clickReset = function(){
 
 export const clickBlockChop = function(){
     const blockChop = document.getElementById('niave');
-    setTimeout(()=>blockChop.click(),0);
+    setTimeout(()=>blockChop.click(),100);
 };
 export const ensureQTrec = function(){
     const variance = document.getElementById('quadTreeVariance');

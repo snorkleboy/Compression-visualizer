@@ -2032,7 +2032,7 @@ const clickReset = function(){
 
 const clickBlockChop = function(){
     const blockChop = document.getElementById('niave');
-    setTimeout(()=>blockChop.click(),0);
+    setTimeout(()=>blockChop.click(),100);
 };
 /* harmony export (immutable) */ __webpack_exports__["a"] = clickBlockChop;
 
