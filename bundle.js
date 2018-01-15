@@ -60,240 +60,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__quadtree_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__blockCompress_js__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__demo__ = __webpack_require__(8);
-
-
-
-const urls = [
-    // 'https://i.imgur.com/drGvplW.jpg',
-    // 'https://i.imgur.com/zkc1tq7.jpg',
-    'https://i.imgur.com/cMMwsek.jpg',
-    // 'https://i.imgur.com/5BMFvAC.jpg'
-];
-document.addEventListener("DOMContentLoaded", function () {
-    
-    // console.log(QuadtreeMaker);
-    const imagereader = new ImageReader();
-    let img = new Image();
-    const time = new Date().getTime();
-    img.src = urls[time % urls.length]  + time;
-    img.crossOrigin = "Anonymous";
-    img.onload = () => {
-        imagereader.receiveImage(img);
-    };
-
-    const imgForm = document.getElementById('imageUrlSubmit');
-    // console.log(imgForm);
-    imgForm.addEventListener('click', function (event) {
-        event.preventDefault();
-        const imgURl = document.getElementById('imageUrlInput').value;
-        
-        img.src = imgURl+ '?' + new Date().getTime();
-        // console.log('img', imgURl, img);
-        img.crossOrigin = "Anonymous";
-        img.onload = () => imagereader.receiveImage(img);
-    });
-});
-
-
-class ImageReader{
-    constructor(){
-        // console.log(that, that());
-    }
-    //initiates a new canvas and starts event handlers on buttons
-    receiveImage(img){
-
-        // console.log("image recieved", img);
-        this.img=img;
-
-        // make new canvas to clean event handlers
-        this.resultCanvas = document.getElementById('result');
-        const canvasClone =  this.resultCanvas.cloneNode(true);
-        this.resultCanvas.parentNode.replaceChild(canvasClone, this.resultCanvas);
-        this.resultCanvas = canvasClone;
-        
-        //stop any running quad trees
-        const stopButton = document.getElementById('stopQuads');
-        stopButton.click();
-        const divisionsNumberEl = document.getElementById('divisionsNumber');
-        divisionsNumberEl.innerText = '';
-
-
-        //turn off anti aliasing to set canvas size
-        this.resultCtx = this.resultCanvas.getContext('2d');
-        this.resultCtx.imageSmoothingEnabled = false;
-        const htmlWidth = 1024;
-        this.resultCanvas.width = htmlWidth;
-        const ratio = htmlWidth/img.width;
-        this.resultCanvas.height = img.height * ratio;
-        
-        this.resultCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height);  
-        this.imageData = this.resultCtx.getImageData(0, 0, this.resultCanvas.width, this.resultCanvas.height);
-
-        //setup reset button
-        this.resetButton = document.getElementById('reset');
-        this.resetButton.addEventListener('click', e => {
-            stopButton.click();
-            this.resultCtx.drawImage(this.img, 0, 0, this.img.width, this.img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height)
-            this.imageData = this.resultCtx.getImageData(0, 0, this.resultCanvas.width, this.resultCanvas.height);
-        });
-
-        //setup color picker
-        this.menuColor = document.getElementById('menu-color');
-        this.resultCanvas.addEventListener('mousemove', handleMouseMove(this.resultCtx, this.menuColor));
-
-        
-        //setup clearbutton
-        this.clearButton = document.getElementById('clear');
-        this.clearButton.addEventListener('click', e => this.resultCtx.clearRect(0, 0, this.resultCanvas.width, this.resultCanvas.height));
-
-        //setup niaveCommression button and handler
-        this.niaveButton = document.getElementById('niave');
-        const newNiaveButton = this.niaveButton.cloneNode(true);
-        this.niaveButton.parentNode.replaceChild(newNiaveButton, this.niaveButton);
-        this.niaveButton = newNiaveButton;
-        this.niaveButton.addEventListener('click', niaveCompressClick.bind(this));
-        
-        //quad button
-        this.quadtreeMaker = new __WEBPACK_IMPORTED_MODULE_0__quadtree_js__["a" /* default */]();
-        const quadTreeSimpleButton = document.getElementById('quadtree');
-        const newquadTreeSimpleButton = quadTreeSimpleButton.cloneNode(true);
-        quadTreeSimpleButton.parentNode.replaceChild(newquadTreeSimpleButton, quadTreeSimpleButton);
-        newquadTreeSimpleButton.addEventListener('click', handleQuadTreeClick(this.imageData, this.resultCtx, this.quadtreeMaker));
-
-
-
-
-
-    }
-
-}
-
-const stopButton = document.getElementById('stopQuads');
-///ui buttons
-const blockChopButton = document.getElementById('blockChopToggle');
-blockChopButton.addEventListener('click', function (e) {
-    const otherContainer = document.getElementById('qt');
-    const container = document.getElementById('bc');
-    container.classList.contains('collapse') ? container.classList.remove('collapse') : container.classList.add('collapse');
-    if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
-});
-
-const quadTreeButton = document.getElementById('quadTreeToggle');
-quadTreeButton.addEventListener('click', function (e) {
-    const otherContainer = document.getElementById('bc');
-    const container = document.getElementById('qt');
-    container.classList.contains('collapse') ? container.classList.remove('collapse') : container.classList.add('collapse');
-    if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
-});
-
-//grey out traversetype on SplitByColorVar
-const varCheckbox = document.getElementById('quadTreeVariance');
-const traverseTypeSelect = document.getElementById('QuadTreeTraverse');
-if (varCheckbox.checked) {
-    traverseTypeSelect.classList.add('greyed');
-    traverseTypeSelect.disabled = true;
-}
-
-varCheckbox.addEventListener('click', function (e){
-    // const traverseTypeSelect = document.getElementById('QuadTreeTraverse');
-    if (varCheckbox.checked){
-        traverseTypeSelect.classList.add('greyed');
-        traverseTypeSelect.disabled=true;
-    }else{
-        traverseTypeSelect.classList.remove('greyed');
-        traverseTypeSelect.disabled=false;
-    }
-});
-//grey out expand by unless its option 3 or 4
-const expandTypeSelect = document.getElementById('niaveInputExpand');
-expandTypeSelect.addEventListener('change', function(e){
-    const exapandAmountInput = document.getElementById('niaveInputExpandval');
-     if (expandTypeSelect.value <= 2){
-         exapandAmountInput.classList.add('greyed');
-         exapandAmountInput.disabled = true;
-     } else if (expandTypeSelect.value >= 3){
-         exapandAmountInput.classList.remove('greyed');
-         exapandAmountInput.disabled = false;
-     }
-    
-});
-
-
-
-function handleMouseMove(ctx, element){
-    return ((event) => {
-        // console.log('mouseoverevent', event);
-        const x = event.layerX;
-        const y = event.layerY;
-        // console.log('here', ctx , element,x,y)
-        const pixel = ctx.getImageData(x, y, 1, 1);
-        const data = pixel.data;
-        const rgba = 'color: rgba(' + data[0] + ', ' + data[1] +
-            ', ' + data[2] + ', ' + (data[3] / 255) + ')';
-        element.style.background = rgba;
-        element.textContent = rgba;
-    });
-}
-
-
-
-function niaveCompressClick(e) {
-    stopButton.click();
-    ///
-    //get inputs
-    let inX = parseInt(document.getElementById('niaveInputX').value);
-    let inY = parseInt(document.getElementById('niaveInputY').value);
-    let expand = parseInt(document.getElementById('niaveInputExpand').value);
-    let exval = parseFloat(document.getElementById('niaveInputExpandval').value);
-    //
-    //validations           
-    if (expand > 5 || expand < 1) {
-        expand = 1;
-    }
-    if (inY < 1) inY = 1;
-    if (inX < 1) inY = 1;
-    ///
-    //call compression
-    // console.log("x,y,e", inY, inX, { x: inX || 10, y: inY || 10 }, expand);
-
-    Object(__WEBPACK_IMPORTED_MODULE_1__blockCompress_js__["a" /* default */])(this.imageData, this.resultCtx, { x: inX || 10, y: inY || 10 }, expand || 1, exval || 1);
-}
-function handleQuadTreeClick(imageData, context, quadtreeMaker){
-    return (e) => {
-        stopButton.click();
-        e.preventDefault();
-        let ratio = parseFloat(document.getElementById('quadTreeSize').value);
-        let blockSize = parseInt(document.getElementById('quadTreeBlockSize').value);
-        const circleBool = document.getElementById('quadTreeCircle').checked;
-        const traverseType = document.getElementById('QuadTreeTraverse').value;
-        const splitbyVariance = document.getElementById('quadTreeVariance').checked;
-
-        blockSize = blockSize >= 1 ? blockSize : 1;
-        ratio = ratio > .001 ? ratio : 1;
-
-        quadtreeMaker.makeQuadTree(imageData, context, blockSize, circleBool, traverseType, splitbyVariance, ratio);
-        //  new QuadtreeMaker(imageData, context, blockSize, circleBool, traverseType);
-    };
-}
-const demoButton = document.getElementById('demoButton');
-demoButton.addEventListener('click',function(){
-    __WEBPACK_IMPORTED_MODULE_2__demo__["a" /* default */].toggle();
-});
-
-/***/ }),
-/* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -554,6 +325,235 @@ demoButton.addEventListener('click',function(){
 
 
 /* harmony default export */ __webpack_exports__["a"] = (QuadtreeMaker);
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__quadtree_js__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__blockCompress_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__demo__ = __webpack_require__(8);
+
+
+
+const urls = [
+    // 'https://i.imgur.com/drGvplW.jpg',
+    // 'https://i.imgur.com/zkc1tq7.jpg',
+    'https://i.imgur.com/cMMwsek.jpg',
+    // 'https://i.imgur.com/5BMFvAC.jpg'
+];
+document.addEventListener("DOMContentLoaded", function () {
+    
+    // console.log(QuadtreeMaker);
+    const imagereader = new ImageReader();
+    let img = new Image();
+    const time = new Date().getTime();
+    img.src = urls[time % urls.length]  + time;
+    img.crossOrigin = "Anonymous";
+    img.onload = () => {
+        imagereader.receiveImage(img);
+    };
+
+    const imgForm = document.getElementById('imageUrlSubmit');
+    // console.log(imgForm);
+    imgForm.addEventListener('click', function (event) {
+        event.preventDefault();
+        const imgURl = document.getElementById('imageUrlInput').value;
+        
+        img.src = imgURl+ '?' + new Date().getTime();
+        // console.log('img', imgURl, img);
+        img.crossOrigin = "Anonymous";
+        img.onload = () => imagereader.receiveImage(img);
+    });
+});
+
+
+class ImageReader{
+    constructor(){
+        // console.log(that, that());
+    }
+    //initiates a new canvas and starts event handlers on buttons
+    receiveImage(img){
+
+        // console.log("image recieved", img);
+        this.img=img;
+
+        // make new canvas to clean event handlers
+        this.resultCanvas = document.getElementById('result');
+        const canvasClone =  this.resultCanvas.cloneNode(true);
+        this.resultCanvas.parentNode.replaceChild(canvasClone, this.resultCanvas);
+        this.resultCanvas = canvasClone;
+        
+        //stop any running quad trees
+        const stopButton = document.getElementById('stopQuads');
+        stopButton.click();
+        const divisionsNumberEl = document.getElementById('divisionsNumber');
+        divisionsNumberEl.innerText = '';
+
+
+        //turn off anti aliasing to set canvas size
+        this.resultCtx = this.resultCanvas.getContext('2d');
+        this.resultCtx.imageSmoothingEnabled = false;
+        const htmlWidth = 1024;
+        this.resultCanvas.width = htmlWidth;
+        const ratio = htmlWidth/img.width;
+        this.resultCanvas.height = img.height * ratio;
+        
+        this.resultCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height);  
+        this.imageData = this.resultCtx.getImageData(0, 0, this.resultCanvas.width, this.resultCanvas.height);
+
+        //setup reset button
+        this.resetButton = document.getElementById('reset');
+        this.resetButton.addEventListener('click', e => {
+            stopButton.click();
+            this.resultCtx.drawImage(this.img, 0, 0, this.img.width, this.img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height)
+            this.imageData = this.resultCtx.getImageData(0, 0, this.resultCanvas.width, this.resultCanvas.height);
+        });
+
+        //setup color picker
+        this.menuColor = document.getElementById('menu-color');
+        this.resultCanvas.addEventListener('mousemove', handleMouseMove(this.resultCtx, this.menuColor));
+
+        
+        //setup clearbutton
+        this.clearButton = document.getElementById('clear');
+        this.clearButton.addEventListener('click', e => this.resultCtx.clearRect(0, 0, this.resultCanvas.width, this.resultCanvas.height));
+
+        //setup niaveCommression button and handler
+        this.niaveButton = document.getElementById('niave');
+        const newNiaveButton = this.niaveButton.cloneNode(true);
+        this.niaveButton.parentNode.replaceChild(newNiaveButton, this.niaveButton);
+        this.niaveButton = newNiaveButton;
+        this.niaveButton.addEventListener('click', niaveCompressClick.bind(this));
+        
+        //quad button
+        this.quadtreeMaker = new __WEBPACK_IMPORTED_MODULE_0__quadtree_js__["a" /* default */]();
+        const quadTreeSimpleButton = document.getElementById('quadtree');
+        const newquadTreeSimpleButton = quadTreeSimpleButton.cloneNode(true);
+        quadTreeSimpleButton.parentNode.replaceChild(newquadTreeSimpleButton, quadTreeSimpleButton);
+        newquadTreeSimpleButton.addEventListener('click', handleQuadTreeClick(this.imageData, this.resultCtx, this.quadtreeMaker));
+
+
+
+
+
+    }
+
+}
+
+const stopButton = document.getElementById('stopQuads');
+///ui buttons
+const blockChopButton = document.getElementById('blockChopToggle');
+blockChopButton.addEventListener('click', function (e) {
+    const otherContainer = document.getElementById('qt');
+    const container = document.getElementById('bc');
+    container.classList.contains('collapse') ? container.classList.remove('collapse') : container.classList.add('collapse');
+    if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
+});
+
+const quadTreeButton = document.getElementById('quadTreeToggle');
+quadTreeButton.addEventListener('click', function (e) {
+    const otherContainer = document.getElementById('bc');
+    const container = document.getElementById('qt');
+    container.classList.contains('collapse') ? container.classList.remove('collapse') : container.classList.add('collapse');
+    if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
+});
+
+//grey out traversetype on SplitByColorVar
+const varCheckbox = document.getElementById('quadTreeVariance');
+const traverseTypeSelect = document.getElementById('QuadTreeTraverse');
+if (varCheckbox.checked) {
+    traverseTypeSelect.classList.add('greyed');
+    traverseTypeSelect.disabled = true;
+}
+
+varCheckbox.addEventListener('click', function (e){
+    // const traverseTypeSelect = document.getElementById('QuadTreeTraverse');
+    if (varCheckbox.checked){
+        traverseTypeSelect.classList.add('greyed');
+        traverseTypeSelect.disabled=true;
+    }else{
+        traverseTypeSelect.classList.remove('greyed');
+        traverseTypeSelect.disabled=false;
+    }
+});
+//grey out expand by unless its option 3 or 4
+const expandTypeSelect = document.getElementById('niaveInputExpand');
+expandTypeSelect.addEventListener('change', function(e){
+    const exapandAmountInput = document.getElementById('niaveInputExpandval');
+     if (expandTypeSelect.value <= 2){
+         exapandAmountInput.classList.add('greyed');
+         exapandAmountInput.disabled = true;
+     } else if (expandTypeSelect.value >= 3){
+         exapandAmountInput.classList.remove('greyed');
+         exapandAmountInput.disabled = false;
+     }
+    
+});
+
+
+
+function handleMouseMove(ctx, element){
+    return ((event) => {
+        // console.log('mouseoverevent', event);
+        const x = event.layerX;
+        const y = event.layerY;
+        // console.log('here', ctx , element,x,y)
+        const pixel = ctx.getImageData(x, y, 1, 1);
+        const data = pixel.data;
+        const rgba = 'color: rgba(' + data[0] + ', ' + data[1] +
+            ', ' + data[2] + ', ' + (data[3] / 255) + ')';
+        element.style.background = rgba;
+        element.textContent = rgba;
+    });
+}
+
+
+
+function niaveCompressClick(e) {
+    stopButton.click();
+    ///
+    //get inputs
+    let inX = parseInt(document.getElementById('niaveInputX').value);
+    let inY = parseInt(document.getElementById('niaveInputY').value);
+    let expand = parseInt(document.getElementById('niaveInputExpand').value);
+    let exval = parseFloat(document.getElementById('niaveInputExpandval').value);
+    //
+    //validations           
+    if (expand > 5 || expand < 1) {
+        expand = 1;
+    }
+    if (inY < 1) inY = 1;
+    if (inX < 1) inY = 1;
+    ///
+    //call compression
+    // console.log("x,y,e", inY, inX, { x: inX || 10, y: inY || 10 }, expand);
+
+    Object(__WEBPACK_IMPORTED_MODULE_1__blockCompress_js__["a" /* default */])(this.imageData, this.resultCtx, { x: inX || 10, y: inY || 10 }, expand || 1, exval || 1);
+}
+function handleQuadTreeClick(imageData, context, quadtreeMaker){
+    return (e) => {
+        stopButton.click();
+        e.preventDefault();
+        let ratio = parseFloat(document.getElementById('quadTreeSize').value);
+        let blockSize = parseInt(document.getElementById('quadTreeBlockSize').value);
+        const circleBool = document.getElementById('quadTreeCircle').checked;
+        const traverseType = document.getElementById('QuadTreeTraverse').value;
+        const splitbyVariance = document.getElementById('quadTreeVariance').checked;
+
+        blockSize = blockSize >= 1 ? blockSize : 1;
+        ratio = ratio > .001 ? ratio : 1;
+
+        quadtreeMaker.makeQuadTree(imageData, context, blockSize, circleBool, traverseType, splitbyVariance, ratio);
+        //  new QuadtreeMaker(imageData, context, blockSize, circleBool, traverseType);
+    };
+}
+const demoButton = document.getElementById('demoButton');
+demoButton.addEventListener('click',function(){
+    __WEBPACK_IMPORTED_MODULE_2__demo__["a" /* default */].toggle();
+});
 
 /***/ }),
 /* 2 */
@@ -1499,6 +1499,7 @@ function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__assets_demo__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__assets_demo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__assets_demo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__assets_demopages__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__ = __webpack_require__(11);
 
@@ -1561,24 +1562,24 @@ const fadeOutStop = function (el, next) {
 
 
 const demo = [
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["m" /* intro */], fromRightFade, fadeOut, 3500, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["h" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["g" /* ensureQTvar */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["n" /* introExplain */], fadeIn, fadeOut, 13000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["h" /* QuadTreeRun */], fadeIn, fadeOut, 12000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["g" /* QuadTreeExplain */], fadeIn, fadeOut, 6000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["i" /* stay */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["b" /* BlockChopIntro */], fadeIn, fadeOut, 6000,__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["e" /* ensureBlockChopmenu */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["a" /* BlockChop */], fadeIn, fadeOutStop, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["a" /* clickBlockChop */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["c" /* BlockChopOptions */], fadeIn, fadeOut,5000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["d" /* QuadRec */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["h" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["f" /* ensureQTrec */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["d" /* clickStopQuad */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["e" /* QuadRecRun */], fadeIn, fadeOutStop, 6000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["f" /* QuadRecRun2 */], fadeIn, fadeOut, 6000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["j" /* Quadvar */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["h" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["g" /* ensureQTvar */],__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["k" /* QuadvarGetHighest */], fadeIn, fadeOut, 10000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["i" /* QuadVarexp */], fadeIn, fadeOut, 10000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["a" /* DemoObj */](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["l" /* Quadvarparams */], fadeIn, fadeOut, 10000,__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["i" /* stay */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["m" /* intro */], fromRightFade, fadeOut, 3500, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["h" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["g" /* ensureQTvar */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["n" /* introExplain */], fadeIn, fadeOut, 13000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["h" /* QuadTreeRun */], fadeIn, fadeOut, 12000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["g" /* QuadTreeExplain */], fadeIn, fadeOut, 6000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["i" /* stay */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["b" /* BlockChopIntro */], fadeIn, fadeOut, 6000,__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["e" /* ensureBlockChopmenu */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["a" /* BlockChop */], fadeIn, fadeOutStop, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["a" /* clickBlockChop */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["c" /* BlockChopOptions */], fadeIn, fadeOut,5000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["d" /* QuadRec */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["h" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["f" /* ensureQTrec */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["d" /* clickStopQuad */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["e" /* QuadRecRun */], fadeIn, fadeOutStop, 6000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["f" /* QuadRecRun2 */], fadeIn, fadeOut, 6000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["j" /* Quadvar */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["h" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["g" /* ensureQTvar */],__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["k" /* QuadvarGetHighest */], fadeIn, fadeOut, 10000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["i" /* QuadVarexp */], fadeIn, fadeOut, 10000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["l" /* Quadvarparams */], fadeIn, fadeOut, 10000,__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["i" /* stay */]),
 
 ];
 
-/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["b" /* DemoRunner */](demo));
+/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoRunner"](demo));
 
     
 
@@ -1586,10 +1587,9 @@ const demo = [
 
 /***/ }),
 /* 9 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-const DemoObj = class DemoObj {
+class DemoObj {
   constructor(HTMLStringFunction, add, remove, time, ...cbScripts) {
     this.el = null;
     this.htmlMaker = HTMLStringFunction;
@@ -1623,9 +1623,7 @@ const DemoObj = class DemoObj {
     this.remove(this.el, next);
   }
 };
-/* harmony export (immutable) */ __webpack_exports__["a"] = DemoObj;
-
-const DemoRunner = class DemoRunner {
+class DemoRunner {
   constructor(elobjs, destroyCB) {
     this.destroyCB = destroyCB;
     this.elements = elobjs;
@@ -1693,8 +1691,10 @@ const DemoRunner = class DemoRunner {
     
   }
 };
-/* harmony export (immutable) */ __webpack_exports__["b"] = DemoRunner;
 
+
+exports.DemoObj = DemoObj;
+exports.DemoRunner = DemoRunner;
 
 /***/ }),
 /* 10 */
@@ -2070,7 +2070,7 @@ const Quadvarparams = () => {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_quadtree__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_quadtree__ = __webpack_require__(0);
 
 
 const stay = function (runner) {

@@ -1,4 +1,4 @@
-export const DemoObj = class DemoObj {
+class DemoObj {
   constructor(HTMLStringFunction, add, remove, time, ...cbScripts) {
     this.el = null;
     this.htmlMaker = HTMLStringFunction;
@@ -32,7 +32,7 @@ export const DemoObj = class DemoObj {
     this.remove(this.el, next);
   }
 };
-export const DemoRunner = class DemoRunner {
+class DemoRunner {
   constructor(elobjs, destroyCB) {
     this.destroyCB = destroyCB;
     this.elements = elobjs;
@@ -100,3 +100,7 @@ export const DemoRunner = class DemoRunner {
     
   }
 };
+
+
+exports.DemoObj = DemoObj;
+exports.DemoRunner = DemoRunner;
