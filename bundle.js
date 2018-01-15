@@ -1498,8 +1498,8 @@ function NiaveCompress(imagedata, ctx, blockSize, expand, exval) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__assets_demo__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__assets_demo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__assets_demo__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__assets_modules_demo__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__assets_modules_demo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__assets_modules_demo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__assets_demopages__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__ = __webpack_require__(11);
 
@@ -1562,24 +1562,24 @@ const fadeOutStop = function (el, next) {
 
 
 const demo = [
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["m" /* intro */], fromRightFade, fadeOut, 3500, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["h" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["g" /* ensureQTvar */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["n" /* introExplain */], fadeIn, fadeOut, 13000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["h" /* QuadTreeRun */], fadeIn, fadeOut, 12000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["g" /* QuadTreeExplain */], fadeIn, fadeOut, 6000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["i" /* stay */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["b" /* BlockChopIntro */], fadeIn, fadeOut, 6000,__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["e" /* ensureBlockChopmenu */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["a" /* BlockChop */], fadeIn, fadeOutStop, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["a" /* clickBlockChop */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["c" /* BlockChopOptions */], fadeIn, fadeOut,5000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["d" /* QuadRec */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["h" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["f" /* ensureQTrec */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["d" /* clickStopQuad */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["e" /* QuadRecRun */], fadeIn, fadeOutStop, 6000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["f" /* QuadRecRun2 */], fadeIn, fadeOut, 6000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["j" /* Quadvar */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["h" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["g" /* ensureQTvar */],__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */]),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["k" /* QuadvarGetHighest */], fadeIn, fadeOut, 10000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["i" /* QuadVarexp */], fadeIn, fadeOut, 10000),
-    new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["l" /* Quadvarparams */], fadeIn, fadeOut, 10000,__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["i" /* stay */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_modules_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["m" /* intro */], fromRightFade, fadeOut, 3500, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["h" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["g" /* ensureQTvar */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_modules_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["n" /* introExplain */], fadeIn, fadeOut, 13000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_modules_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["h" /* QuadTreeRun */], fadeIn, fadeOut, 12000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_modules_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["g" /* QuadTreeExplain */], fadeIn, fadeOut, 6000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["i" /* stay */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_modules_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["b" /* BlockChopIntro */], fadeIn, fadeOut, 6000,__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["e" /* ensureBlockChopmenu */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_modules_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["a" /* BlockChop */], fadeIn, fadeOutStop, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["a" /* clickBlockChop */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_modules_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["c" /* BlockChopOptions */], fadeIn, fadeOut,5000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_modules_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["d" /* QuadRec */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["h" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["f" /* ensureQTrec */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["d" /* clickStopQuad */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_modules_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["e" /* QuadRecRun */], fadeIn, fadeOutStop, 6000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_modules_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["f" /* QuadRecRun2 */], fadeIn, fadeOut, 6000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_modules_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["j" /* Quadvar */], fadeIn, fadeOut, 10000, __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["h" /* ensureQuadMenu */], __WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["g" /* ensureQTvar */],__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["b" /* clickQuadTree */]),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_modules_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["k" /* QuadvarGetHighest */], fadeIn, fadeOut, 10000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_modules_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["i" /* QuadVarexp */], fadeIn, fadeOut, 10000),
+    new __WEBPACK_IMPORTED_MODULE_0__assets_modules_demo__["DemoObj"](__WEBPACK_IMPORTED_MODULE_1__assets_demopages__["l" /* Quadvarparams */], fadeIn, fadeOut, 10000,__WEBPACK_IMPORTED_MODULE_2__assets_demoactions__["i" /* stay */]),
 
 ];
 
-/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0__assets_demo__["DemoRunner"](demo));
+/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0__assets_modules_demo__["DemoRunner"](demo));
 
     
 

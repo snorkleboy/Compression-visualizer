@@ -1,4 +1,4 @@
-import { DemoObj,DemoRunner} from '../assets/demo';
+import { DemoObj,DemoRunner} from '../assets/modules/demo';
 import * as DemoPages from '../assets/demopages';
 import * as DemoAction from '../assets/demoactions';
 
