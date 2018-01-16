@@ -44,25 +44,27 @@ class DemoRunner {
   }
   toggle(){
     if(!this.switch){
-      this.run();
       this.switch = true;
+      this.run();
     } else{
       this.endRun();
     }
     
   }
   run(message) {
-    if (this.index > this.elements.length - 1) return this.endRun();
-    const obj = this.elements[this.index];
-    this.current = obj;
-    this.bindMethods();
-    obj.build(message);
-    ++this.index;
-    this.to = setTimeout(this.destroyCurrentAndRun.bind(this), obj.time);
-    const that = this;
-    obj.cbScripts.forEach(function(cbScript){
-      if (typeof cbScript === 'function') cbScript(that);
-    });
+    if(this.switch){
+      if (this.index > this.elements.length - 1) return this.endRun();
+      const obj = this.elements[this.index];
+      this.current = obj;
+      this.bindMethods();
+      obj.build(message);
+      ++this.index;
+      this.to = setTimeout(this.destroyCurrentAndRun.bind(this), obj.time);
+      const that = this;
+      obj.cbScripts.forEach(function(cbScript){
+        if (typeof cbScript === 'function') cbScript(that);
+      });
+    }
   }
   bindMethods() {
     window.demo = {};

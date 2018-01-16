@@ -50,8 +50,8 @@ export const fadeOutStop = function (el, next) {
 
 
 const demo = [
-    new DemoObj(DemoPages.intro, fromRightFade, fadeOut, 3500, DemoAction.ensureQuadMenu, DemoAction.ensureQTvar),
-    new DemoObj(DemoPages.introExplain, fadeIn, fadeOut, 13000),
+    new DemoObj(DemoPages.intro, fromRightFade, fadeOut, 3000, DemoAction.ensureQuadMenu, DemoAction.ensureQTvar),
+    new DemoObj(DemoPages.introExplain, fadeIn, fadeOut, 10000),
     new DemoObj(DemoPages.QuadTreeRun, fadeIn, fadeOut, 12000, DemoAction.clickQuadTree),
     new DemoObj(DemoPages.QuadTreeExplain, fadeIn, fadeOut, 6000, DemoAction.stay),
     new DemoObj(DemoPages.BlockChopIntro, fadeIn, fadeOut, 6000,DemoAction.ensureBlockChopmenu),
