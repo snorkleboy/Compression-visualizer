@@ -8,63 +8,58 @@ const urls = [
     // 'https://i.imgur.com/5BMFvAC.jpg'
 ];
 document.addEventListener("DOMContentLoaded", function () {
-    
     // console.log(QuadtreeMaker);
     const imagereader = new ImageReader();
     let img = new Image();
     const time = new Date().getTime();
-    img.src = urls[time % urls.length]  + time;
+    img.src = urls[time % urls.length] + time;
     img.crossOrigin = "Anonymous";
     img.onload = () => {
         imagereader.receiveImage(img);
     };
-
     const imgForm = document.getElementById('imageUrlSubmit');
     // console.log(imgForm);
     imgForm.addEventListener('click', function (event) {
         event.preventDefault();
         const imgURl = document.getElementById('imageUrlInput').value;
-        
-        img.src = imgURl+ '?' + new Date().getTime();
+
+        img.src = imgURl + '?' + new Date().getTime();
         // console.log('img', imgURl, img);
         img.crossOrigin = "Anonymous";
         img.onload = () => imagereader.receiveImage(img);
     });
 });
-
-
-class ImageReader{
-    constructor(){
+class ImageReader {
+    constructor() {
         // console.log(that, that());
     }
     //initiates a new canvas and starts event handlers on buttons
-    receiveImage(img){
+    receiveImage(img) {
 
         // console.log("image recieved", img);
-        this.img=img;
+        this.img = img;
 
         // make new canvas to clean event handlers
         this.resultCanvas = document.getElementById('result');
-        const canvasClone =  this.resultCanvas.cloneNode(true);
+        const canvasClone = this.resultCanvas.cloneNode(true);
         this.resultCanvas.parentNode.replaceChild(canvasClone, this.resultCanvas);
         this.resultCanvas = canvasClone;
-        
+
         //stop any running quad trees
         const stopButton = document.getElementById('stopQuads');
         stopButton.click();
         const divisionsNumberEl = document.getElementById('divisionsNumber');
         divisionsNumberEl.innerText = '';
 
-
         //turn off anti aliasing to set canvas size
         this.resultCtx = this.resultCanvas.getContext('2d');
         this.resultCtx.imageSmoothingEnabled = false;
         const htmlWidth = 1024;
         this.resultCanvas.width = htmlWidth;
-        const ratio = htmlWidth/img.width;
+        const ratio = htmlWidth / img.width;
         this.resultCanvas.height = img.height * ratio;
-        
-        this.resultCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height);  
+
+        this.resultCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height);
         this.imageData = this.resultCtx.getImageData(0, 0, this.resultCanvas.width, this.resultCanvas.height);
 
         //setup reset button
@@ -79,7 +74,6 @@ class ImageReader{
         this.menuColor = document.getElementById('menu-color');
         this.resultCanvas.addEventListener('mousemove', handleMouseMove(this.resultCtx, this.menuColor));
 
-        
         //setup clearbutton
         this.clearButton = document.getElementById('clear');
         this.clearButton.addEventListener('click', e => this.resultCtx.clearRect(0, 0, this.resultCanvas.width, this.resultCanvas.height));
@@ -90,20 +84,14 @@ class ImageReader{
         this.niaveButton.parentNode.replaceChild(newNiaveButton, this.niaveButton);
         this.niaveButton = newNiaveButton;
         this.niaveButton.addEventListener('click', niaveCompressClick.bind(this));
-        
+
         //quad button
         this.quadtreeMaker = new QuadtreeMaker();
         const quadTreeSimpleButton = document.getElementById('quadtree');
         const newquadTreeSimpleButton = quadTreeSimpleButton.cloneNode(true);
         quadTreeSimpleButton.parentNode.replaceChild(newquadTreeSimpleButton, quadTreeSimpleButton);
         newquadTreeSimpleButton.addEventListener('click', handleQuadTreeClick(this.imageData, this.resultCtx, this.quadtreeMaker));
-
-
-
-
-
     }
-
 }
 
 const stopButton = document.getElementById('stopQuads');
@@ -132,33 +120,31 @@ if (varCheckbox.checked) {
     traverseTypeSelect.disabled = true;
 }
 
-varCheckbox.addEventListener('click', function (e){
+varCheckbox.addEventListener('click', function (e) {
     // const traverseTypeSelect = document.getElementById('QuadTreeTraverse');
-    if (varCheckbox.checked){
+    if (varCheckbox.checked) {
         traverseTypeSelect.classList.add('greyed');
-        traverseTypeSelect.disabled=true;
-    }else{
+        traverseTypeSelect.disabled = true;
+    } else {
         traverseTypeSelect.classList.remove('greyed');
-        traverseTypeSelect.disabled=false;
+        traverseTypeSelect.disabled = false;
     }
 });
 //grey out expand by unless its option 3 or 4
 const expandTypeSelect = document.getElementById('niaveInputExpand');
-expandTypeSelect.addEventListener('change', function(e){
+expandTypeSelect.addEventListener('change', function (e) {
     const exapandAmountInput = document.getElementById('niaveInputExpandval');
-     if (expandTypeSelect.value <= 2){
-         exapandAmountInput.classList.add('greyed');
-         exapandAmountInput.disabled = true;
-     } else if (expandTypeSelect.value >= 3){
-         exapandAmountInput.classList.remove('greyed');
-         exapandAmountInput.disabled = false;
-     }
-    
+    if (expandTypeSelect.value <= 2) {
+        exapandAmountInput.classList.add('greyed');
+        exapandAmountInput.disabled = true;
+    } else if (expandTypeSelect.value >= 3) {
+        exapandAmountInput.classList.remove('greyed');
+        exapandAmountInput.disabled = false;
+    }
+
 });
 
-
-
-function handleMouseMove(ctx, element){
+function handleMouseMove(ctx, element) {
     return ((event) => {
         // console.log('mouseoverevent', event);
         const x = event.layerX;
@@ -172,8 +158,6 @@ function handleMouseMove(ctx, element){
         element.textContent = rgba;
     });
 }
-
-
 
 function niaveCompressClick(e) {
     stopButton.click();
@@ -194,9 +178,13 @@ function niaveCompressClick(e) {
     //call compression
     // console.log("x,y,e", inY, inX, { x: inX || 10, y: inY || 10 }, expand);
 
-    NiaveCompress(this.imageData, this.resultCtx, { x: inX || 10, y: inY || 10 }, expand || 1, exval || 1);
+    NiaveCompress(this.imageData, this.resultCtx, {
+        x: inX || 10,
+        y: inY || 10
+    }, expand || 1, exval || 1);
 }
-function handleQuadTreeClick(imageData, context, quadtreeMaker){
+
+function handleQuadTreeClick(imageData, context, quadtreeMaker) {
     return (e) => {
         stopButton.click();
         e.preventDefault();
@@ -214,6 +202,6 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker){
     };
 }
 const demoButton = document.getElementById('demoButton');
-demoButton.addEventListener('click',function(){
+demoButton.addEventListener('click', function () {
     Demo.toggle();
 });
