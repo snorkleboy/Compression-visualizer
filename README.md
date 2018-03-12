@@ -25,9 +25,9 @@ Here is a resursive solution for that task, where split() returns false once a c
 ![recursive split](http://res.cloudinary.com/flyakite/video/upload/v1514588416/recsplit_fuhmre.gif)
 ```
 recusiveSplit(QuadNode) {
-    if(QuadNode.split()){
+    if (QuadNode.split()) {
         QuadNode.nodes.forEach(function (node) {
-                node.recusiveSplit(node)                                
+            node.recusiveSplit(node)
         });
     }
 }
@@ -40,9 +40,9 @@ for (let x = this.bounds.x; x < this.bounds.x + this.bounds.width; x++) {
     for (let y = this.bounds.y; y < this.bounds.y + this.bounds.height; y++) {
         const i4 = ((y * imageData.width) + x) * 4;
         r += pixelArray[i4];
-        g += pixelArray[i4+1];
-        b += pixelArray[i4+2];
-        a += pixelArray[i4+3]; 
+        g += pixelArray[i4 + 1];
+        b += pixelArray[i4 + 2];
+        a += pixelArray[i4 + 3];
     }
 }
 ```
@@ -65,15 +65,18 @@ once every node has a variance score, you can search for the node with the highe
 
 ```
 getHighestVarNode() {
-    let highestVar = {node:null, var:0};
+    let highestVar = {
+        node: null,
+        var: 0
+    };
     const finder = (Pnode) => {
         if (Pnode.nodes[0] === undefined) {
-            if (highestVar.var < Pnode.variance){
+            if (highestVar.var < Pnode.variance) {
                 highestVar.node = Pnode;
                 highestVar.var = Pnode.variance;
-        }
-        }else{
-            Pnode.nodes.forEach( (node)=>{
+            }
+        } else {
+            Pnode.nodes.forEach((node) => {
                 recIter(node);
             });
         }
@@ -87,12 +90,12 @@ getHighestVarNode() {
 and then using that you can build the compression algorithm, where its inside of a set Interval so that I can cancel it (more on that in the next section)
 
 ```
-    splitByVar(tree){
-        const a = setInterval(()=>{
+    splitByVar(tree) {
+        const a = setInterval(() => {
             let hvn = tree.getHighestVarNode();
             if (hvn.node === null || hvn.var === 0) clearInterval(a);
             hvn.node.split();
-        },10);
+        }, 10);
         intervals.push(a);
     }
 ```
@@ -111,7 +114,7 @@ I made the whole process animated by putting the calls to split(), which call fi
         //...
         //...
         //...
-        timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((devisions) / (index * index * node.level))))   
+        timeOutes.push(setTimeout(() => node.recusiveSplit(node), ((devisions) / (index * index * node.level))))
 ```
 
  I also made it possible for you to click on an spot and split the node at that location.
@@ -123,19 +126,19 @@ I get the position of the mouse relative to the canvas and pass it to getNode(x,
 
  
 ```
-        getNode(x,y){
-            if (this.nodes[0] !== undefined){
-                const idx = this.getIndex(x,y);
-                if (idx !== -1) return this.nodes[idx].getNode(x,y);
+        getNode(x, y) {
+            if (this.nodes[0] !== undefined) {
+                const idx = this.getIndex(x, y);
+                if (idx !== -1) return this.nodes[idx].getNode(x, y);
                 return null;
-            }else{
+            } else {
                 return this;
             }
         }
         ///
-        context.canvas.addEventListener('click', ()=>{
+        context.canvas.addEventListener('click', () => {
             const node = tree.GetNode(e.pageX - context.canvas.offsetLeft, e.pageY - context.canvas.offsetTop);
-            if (node) node.split(true); 
+            if (node) node.split(true);
         });
   ```
   
