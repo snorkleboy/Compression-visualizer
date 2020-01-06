@@ -2,9 +2,9 @@
 var path = require("path");
 module.exports = {
   context: __dirname,
-  entry: './js/imageReading.js',
+  entry: './src/index.js',
   output: {
     path: path.resolve(__dirname),
-    filename: "bundle.js"
+    filename: "./public/js/bundle.js"
   }
 };

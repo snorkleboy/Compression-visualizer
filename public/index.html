@@ -1,0 +1,99 @@
+<html>
+
+  <head>
+    <script src="https://use.fontawesome.com/5b61570599.js"></script>
+
+    <title >Compression Visualizer</title>
+    <link rel="stylesheet" href="./css/application.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/demo.css">
+    <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <div class='container'>           
+      <div class="options-container">       
+        <div>          
+          <div class='options'>
+            <div  class='imageOptions inneroptions'>
+              <h1 class='title'>Quadtree Compression Visualizer</h1>
+              <div class='github'>
+              
+                <a href='https://github.com/snorkleboy/Compression-visualizer'>github readme</a>
+              </div>
+              <button id='demoButton' class='aboutButton onto'> Demo
+              </button>
+              <label > load an image
+                <input name='imageUrl' id='imageUrlInput' type="text" value='https://i.imgur.com/AIgar9n.jpg' />
+                <button id='imageUrlSubmit' type="submit" value='submit' >Get Image<i class="fa fa-picture-o" aria-hidden="true"></i></button>
+                <button id='clear'>clear <i class="fa fa-minus" aria-hidden="true"></i></button>
+                <button id='reset'>reset <i class="fa fa-refresh" aria-hidden="true"></i></button>
+              </label>  
+                        
+
+              <button id='blockChopToggle'>BlockChop <i class="fa fa-bars" aria-hidden="true"></i></button>
+              <button id='quadTreeToggle'>QuadTree <i class="fa fa-bars" aria-hidden="true"></i>  </button>
+            
+            </div>
+            <div id='bc' class='inneroptions bc collapse'>
+              
+                            <button class='start' id='niave'>start BlockChop</button>
+                            <button class='stop' id='stopNiave'>Stop BlockChop</button>
+              <label>blocksize x<input id='niaveInputX' type="text" value='10'></input></label>
+              <label>blocksize y<input id='niaveInputY' type="text" value='10'></input></label>
+              <label>expandType
+                <select id='niaveInputExpand'>
+                 <option value="1">by Block</option>
+                 <option value="2">real size</option>
+                 <option value="3">Pins</option>
+                  <option value="4">Circles</option>
+                </select>
+                </label>
+              <label>how much to expand by<input id='niaveInputExpandval' class='greyed' type="text"></input></label>
+
+            
+            </div>
+            <div id='qt' class='inneroptions qt collapse'>              
+                            <button class='start' id='quadtree'>Start QuadTree</button>                            
+                            <button class='stop' id='stopQuads'>Stop QuadTree</button>
+              <div class='checkboxes'>
+                <label>Circles
+                  <input id='quadTreeCircle' type="checkbox"></input>
+                </label>
+                <label>Split by Color Variance
+                  <input id='quadTreeVariance' checked type="checkbox"></input>
+                </label>
+              </div>
+              <label>size ratio<input id='quadTreeSize' value='1' type="text"></input> </label>
+              <label>Size Limit<input id='quadTreeBlockSize' value='1' type="text"></input> </label>
+              <label>traverseType
+                <select id='QuadTreeTraverse' >
+                  <option value="1">In Order</option>
+                  <option value="3">Patchwork</option>
+                  <option value="2">Depth and breadth</option>
+                  <option value="4">Diagonal</option>
+                </select>
+              </label>
+              
+          </div>
+          </div>        
+      </div> 
+      
+    </div>
+  <div>
+<span id='canvasHolder' class='canvas-holder'>
+    <canvas id="result" width="1024" height="680"></canvas>
+</span>
+  <h1 class='header'>A Quadtree based compression algorithm that splits nodes by finding the node with the highest statistical variance of color.
+            
+</h1>
+            <div class='colors display-off'>
+              <div id="menu-color" style="width:200px;height:50pxwidth:200px;height:50px;"></div>
+              <div id='divisionsNumber'></div>
+            </div>
+  </div>
+    <script type="application/javascript" src="bundle.js"></script>
+</div>
+
+  </body>
+
+</html>
