@@ -1,4 +1,4 @@
-# [Compression-visualizer](https://imagereader.herokuapp.com/) 
+# [Compression-visualizer](https://snorkleboy.github.io/Compression-visualizer/) 
 ![](http://res.cloudinary.com/flyakite/image/upload/v1512363891/download_1_fl6gow.png)
 ### Background and Overview
 
