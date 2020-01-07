@@ -8,184 +8,173 @@ const urls = [
     // 'https://i.imgur.com/5BMFvAC.jpg'
 ];
 document.addEventListener("DOMContentLoaded", function () {
-    // console.log(QuadtreeMaker);
-    const imagereader = new ImageReader();
-    let img = new Image();
+    const imageReaderController = new ImageReaderController();
     const time = new Date().getTime();
-    img.src = urls[time % urls.length] + time;
-    img.crossOrigin = "Anonymous";
-    img.onload = () => {
-        imagereader.receiveImage(img);
-    };
+    imageReaderController.getImage(urls[time % urls.length] + `?${time}`);
+    
     const imgForm = document.getElementById('imageUrlSubmit');
-    // console.log(imgForm);
     imgForm.addEventListener('click', function (event) {
         event.preventDefault();
         const imgURl = document.getElementById('imageUrlInput').value;
+        imageReaderController.getImage(imgURl + `?${new Date().getTime()}`);
+    });
 
-        img.src = imgURl + '?' + new Date().getTime();
-        // console.log('img', imgURl, img);
-        img.crossOrigin = "Anonymous";
-        img.onload = () => imagereader.receiveImage(img);
+    const demoButton = document.getElementById('demoButton');
+    demoButton.addEventListener('click', function () {
+        Demo.toggle();
     });
 });
-class ImageReader {
+
+class ImageReaderController {
     constructor() {
-        // console.log(that, that());
+        this.setup();
     }
-    //initiates a new canvas and starts event handlers on buttons
-    receiveImage(img) {
+    getImage(url){
+        let img = new Image();
+        img.src = url
+        img.crossOrigin = "Anonymous";
+        img.onload = () => {
+            this.receiveImage(img);
+        };
+    }
+    setup() {
 
-        // console.log("image recieved", img);
-        this.img = img;
+        this.stopButton = document.getElementById('stopQuads');
 
-        // make new canvas to clean event handlers
-        this.resultCanvas = document.getElementById('result');
-        const canvasClone = this.resultCanvas.cloneNode(true);
-        this.resultCanvas.parentNode.replaceChild(canvasClone, this.resultCanvas);
-        this.resultCanvas = canvasClone;
-
-        //stop any running quad trees
-        const stopButton = document.getElementById('stopQuads');
-        stopButton.click();
-        const divisionsNumberEl = document.getElementById('divisionsNumber');
-        divisionsNumberEl.innerText = '';
-
-        //turn off anti aliasing to set canvas size
-        this.resultCtx = this.resultCanvas.getContext('2d');
-        this.resultCtx.imageSmoothingEnabled = false;
-        const htmlWidth = 1024;
-        this.resultCanvas.width = htmlWidth;
-        const ratio = htmlWidth / img.width;
-        this.resultCanvas.height = img.height * ratio;
-
-        this.resultCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height);
-        this.imageData = this.resultCtx.getImageData(0, 0, this.resultCanvas.width, this.resultCanvas.height);
-
-        //setup reset button
-        this.resetButton = document.getElementById('reset');
+        this.resetButton = document.getElementById('reset');   
         this.resetButton.addEventListener('click', e => {
-            stopButton.click();
+            this.stopButton.click();
             this.resultCtx.drawImage(this.img, 0, 0, this.img.width, this.img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height)
             this.imageData = this.resultCtx.getImageData(0, 0, this.resultCanvas.width, this.resultCanvas.height);
         });
 
-        //setup color picker
-        this.menuColor = document.getElementById('menu-color');
-        this.resultCanvas.addEventListener('mousemove', handleMouseMove(this.resultCtx, this.menuColor));
+        this.resultCanvas = document.getElementById('result');
+        this.resultCanvas.addEventListener('mousemove', this.handleMouseMove(this.resultCtx, this.menuColor));
 
-        //setup clearbutton
+        this.menuColor = document.getElementById('menu-color');
+
         this.clearButton = document.getElementById('clear');
         this.clearButton.addEventListener('click', e => this.resultCtx.clearRect(0, 0, this.resultCanvas.width, this.resultCanvas.height));
 
-        //setup niaveCommression button and handler
+        this.resultCtx = this.resultCanvas.getContext('2d');
+        this.resultCtx.imageSmoothingEnabled = false;
+        
+        this.quadTreeSimpleButton = document.getElementById('quadtree');
+        this.quadTreeSimpleButton.addEventListener('click', this.handleQuadTreeClick);
+
+        this.divisionsNumberEl = document.getElementById('divisionsNumber');
+
+        this.blockChopButton = document.getElementById('blockChopToggle');
+        this.blockChopButton.addEventListener('click', this.blockChopMenuClick);
         this.niaveButton = document.getElementById('niave');
-        const newNiaveButton = this.niaveButton.cloneNode(true);
-        this.niaveButton.parentNode.replaceChild(newNiaveButton, this.niaveButton);
-        this.niaveButton = newNiaveButton;
-        this.niaveButton.addEventListener('click', niaveCompressClick.bind(this));
+        this.niaveButton.addEventListener('click', this.niaveCompressClick);
 
-        //quad button
-        this.quadtreeMaker = new QuadtreeMaker();
-        const quadTreeSimpleButton = document.getElementById('quadtree');
-        const newquadTreeSimpleButton = quadTreeSimpleButton.cloneNode(true);
-        quadTreeSimpleButton.parentNode.replaceChild(newquadTreeSimpleButton, quadTreeSimpleButton);
-        newquadTreeSimpleButton.addEventListener('click', handleQuadTreeClick(this.imageData, this.resultCtx, this.quadtreeMaker));
+
+        this.quadTreeButton = document.getElementById('quadTreeToggle');
+        this.quadTreeButton.addEventListener('click', this.quadTreeMenuClick);
+
+        //grey out traversetype on SplitByColorVar
+        this.varCheckbox = document.getElementById('quadTreeVariance');
+        this.traverseTypeSelect = document.getElementById('QuadTreeTraverse');
+        if (this.varCheckbox.checked) {
+            this.traverseTypeSelect.classList.add('greyed');
+            this.traverseTypeSelect.disabled = true;
+        }
+        this.varCheckbox.addEventListener('click', this.changeTraverseType);
+
+        this.expandTypeSelect = document.getElementById('niaveInputExpand');
+        this.expandTypeSelect.addEventListener('change', this.changeExpandType);
+
+        this.quadtreeMaker = new QuadtreeMaker(this.resultCtx);
+
     }
-}
-
-const stopButton = document.getElementById('stopQuads');
-///ui buttons
-const blockChopButton = document.getElementById('blockChopToggle');
-blockChopButton.addEventListener('click', function (e) {
-    const otherContainer = document.getElementById('qt');
-    const container = document.getElementById('bc');
-    container.classList.contains('collapse') ? container.classList.remove('collapse') : container.classList.add('collapse');
-    if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
-});
-
-const quadTreeButton = document.getElementById('quadTreeToggle');
-quadTreeButton.addEventListener('click', function (e) {
-    const otherContainer = document.getElementById('bc');
-    const container = document.getElementById('qt');
-    container.classList.contains('collapse') ? container.classList.remove('collapse') : container.classList.add('collapse');
-    if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
-});
-
-//grey out traversetype on SplitByColorVar
-const varCheckbox = document.getElementById('quadTreeVariance');
-const traverseTypeSelect = document.getElementById('QuadTreeTraverse');
-if (varCheckbox.checked) {
-    traverseTypeSelect.classList.add('greyed');
-    traverseTypeSelect.disabled = true;
-}
-
-varCheckbox.addEventListener('click', function (e) {
-    // const traverseTypeSelect = document.getElementById('QuadTreeTraverse');
-    if (varCheckbox.checked) {
-        traverseTypeSelect.classList.add('greyed');
-        traverseTypeSelect.disabled = true;
-    } else {
-        traverseTypeSelect.classList.remove('greyed');
-        traverseTypeSelect.disabled = false;
+    blockChopMenuClick() {
+        const otherContainer = document.getElementById('qt');
+        const container = document.getElementById('bc');
+        container.classList.contains('collapse') ? container.classList.remove('collapse') : container.classList.add('collapse');
+        if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
     }
-});
-//grey out expand by unless its option 3 or 4
-const expandTypeSelect = document.getElementById('niaveInputExpand');
-expandTypeSelect.addEventListener('change', function (e) {
-    const exapandAmountInput = document.getElementById('niaveInputExpandval');
-    if (expandTypeSelect.value <= 2) {
-        exapandAmountInput.classList.add('greyed');
-        exapandAmountInput.disabled = true;
-    } else if (expandTypeSelect.value >= 3) {
-        exapandAmountInput.classList.remove('greyed');
-        exapandAmountInput.disabled = false;
+    quadTreeMenuClick() {
+        const otherContainer = document.getElementById('bc');
+        const container = document.getElementById('qt');
+        container.classList.contains('collapse') ? container.classList.remove('collapse') : container.classList.add('collapse');
+        if (!otherContainer.classList.contains('collapse')) otherContainer.classList.add('collapse');
+    }
+    changeTraverseType() {
+        // const traverseTypeSelect = document.getElementById('QuadTreeTraverse');
+        if (this.varCheckbox.checked) {
+            this.traverseTypeSelect.classList.add('greyed');
+            this.traverseTypeSelect.disabled = true;
+        } else {
+            this.traverseTypeSelect.classList.remove('greyed');
+            this.traverseTypeSelect.disabled = false;
+        }
+    }
+    changeExpandType() {
+        const exapandAmountInput = document.getElementById('niaveInputExpandval');
+        if (this.expandTypeSelect.value <= 2) {
+            exapandAmountInput.classList.add('greyed');
+            exapandAmountInput.disabled = true;
+        } else if (this.expandTypeSelect.value >= 3) {
+            exapandAmountInput.classList.remove('greyed');
+            exapandAmountInput.disabled = false;
+        }
+    }
+    handleMouseMove(ctx, element) {
+        return ((event) => {
+            // console.log('mouseoverevent', event);
+            const x = event.layerX;
+            const y = event.layerY;
+            // console.log('here', ctx , element,x,y)
+            const pixel = ctx.getImageData(x, y, 1, 1);
+            const data = pixel.data;
+            const rgba = 'color: rgba(' + data[0] + ', ' + data[1] +
+                ', ' + data[2] + ', ' + (data[3] / 255) + ')';
+            element.style.background = rgba;
+            element.textContent = rgba;
+        });
+    }
+    receiveImage(img) {
+        this.img = img;
+        this.stopButton.click();
+        this.divisionsNumberEl.innerText = '';
+        const htmlWidth = 1024;
+        this.resultCanvas.width = htmlWidth;
+        const ratio = htmlWidth / img.width;
+        this.resultCanvas.height = img.height * ratio;
+        this.resultCtx.drawImage(img, 0, 0, img.width, img.height, 0, 0, this.resultCanvas.width, this.resultCanvas.height);
+        this.imageData = this.resultCtx.getImageData(0, 0, this.resultCanvas.width, this.resultCanvas.height);
+    }
+    niaveCompressClick(e) {
+        stopButton.click();
+        ///
+        //get inputs
+        let inX = parseInt(document.getElementById('niaveInputX').value);
+        let inY = parseInt(document.getElementById('niaveInputY').value);
+        let expand = parseInt(document.getElementById('niaveInputExpand').value);
+        let exval = parseFloat(document.getElementById('niaveInputExpandval').value);
+        //
+        //validations           
+        if (expand > 5 || expand < 1) {
+            expand = 1;
+        }
+        if (inY < 1) inY = 1;
+        if (inX < 1) inY = 1;
+        ///
+        //call compression
+        // console.log("x,y,e", inY, inX, { x: inX || 10, y: inY || 10 }, expand);
+
+        NiaveCompress(this.imageData, this.resultCtx, {
+            x: inX || 10,
+            y: inY || 10
+        }, expand || 1, exval || 1);
     }
 
-});
-
-function handleMouseMove(ctx, element) {
-    return ((event) => {
-        // console.log('mouseoverevent', event);
-        const x = event.layerX;
-        const y = event.layerY;
-        // console.log('here', ctx , element,x,y)
-        const pixel = ctx.getImageData(x, y, 1, 1);
-        const data = pixel.data;
-        const rgba = 'color: rgba(' + data[0] + ', ' + data[1] +
-            ', ' + data[2] + ', ' + (data[3] / 255) + ')';
-        element.style.background = rgba;
-        element.textContent = rgba;
-    });
-}
-
-function niaveCompressClick(e) {
-    stopButton.click();
-    ///
-    //get inputs
-    let inX = parseInt(document.getElementById('niaveInputX').value);
-    let inY = parseInt(document.getElementById('niaveInputY').value);
-    let expand = parseInt(document.getElementById('niaveInputExpand').value);
-    let exval = parseFloat(document.getElementById('niaveInputExpandval').value);
-    //
-    //validations           
-    if (expand > 5 || expand < 1) {
-        expand = 1;
-    }
-    if (inY < 1) inY = 1;
-    if (inX < 1) inY = 1;
-    ///
-    //call compression
-    // console.log("x,y,e", inY, inX, { x: inX || 10, y: inY || 10 }, expand);
-
-    NiaveCompress(this.imageData, this.resultCtx, {
-        x: inX || 10,
-        y: inY || 10
-    }, expand || 1, exval || 1);
-}
-
-function handleQuadTreeClick(imageData, context, quadtreeMaker) {
-    return (e) => {
+    handleQuadTreeClick() {
+        const imageData = this.imageData,
+            context = this.resultCtx, 
+            quadtreeMaker=this.quadtreeMaker
+        
         stopButton.click();
         e.preventDefault();
         let ratio = parseFloat(document.getElementById('quadTreeSize').value);
@@ -197,11 +186,19 @@ function handleQuadTreeClick(imageData, context, quadtreeMaker) {
         blockSize = blockSize >= 1 ? blockSize : 1;
         ratio = ratio > .001 ? ratio : 1;
 
-        quadtreeMaker.makeQuadTree(imageData, context, blockSize, circleBool, traverseType, splitbyVariance, ratio);
+        quadtreeMaker.makeQuadTree(imageData, blockSize, circleBool, traverseType, splitbyVariance, ratio);
         //  new QuadtreeMaker(imageData, context, blockSize, circleBool, traverseType);
-    };
+    }
+
 }
-const demoButton = document.getElementById('demoButton');
-demoButton.addEventListener('click', function () {
-    Demo.toggle();
-});
+
+
+
+
+
+
+
+
+
+
+

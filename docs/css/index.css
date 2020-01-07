@@ -164,6 +164,7 @@ label{
 .collapse{
     height: 0%;
     opacity: 0;
+    display: none;
 }
 .about{
     height: fit-content;
@@ -244,7 +245,7 @@ transition: 1s background-color, 1s color, 1s opacity;
 .qt{
 
     position: relative;
-    top: -60px;
+    top: -32px;
 }
 
 
